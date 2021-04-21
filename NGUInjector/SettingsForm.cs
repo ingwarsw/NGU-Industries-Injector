@@ -1116,7 +1116,6 @@ namespace NGUInjector
         {
             if (_initializing) return;
             Main.Settings.AllocationFile = AllocationProfileFile.SelectedItem.ToString();
-            Main.LoadAllocation();
         }
 
         private void TitanGoldTargets_ItemChecked(object sender, ItemCheckedEventArgs e)

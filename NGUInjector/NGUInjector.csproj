@@ -7,9 +7,9 @@
     <ProjectGuid>{2F930638-EA52-446D-AD62-4EBEC6A03556}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NGUInjector</RootNamespace>
-    <AssemblyName>NGUInjector</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>NGUIndustriesInjector</RootNamespace>
+    <AssemblyName>NGUIndustriesInjector</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
     <TargetFrameworkProfile />
@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -295,7 +300,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -317,7 +321,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="defaultZoneStats.json" />
     <None Include="inject.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -330,17 +333,15 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AllocationProfiles\" />
-    <Folder Include="Managers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>rmdir /S /Q dist
+    <PostBuildEvent>
+rmdir /S /Q dist
 md dist
 xcopy /E /I inject dist\injector
-copy NGUInjector.dll dist\injector
-copy inject.bat dist\
-xcopy /E /I $(ProjectDir)SampleProfiles dist\sampleprofiles</PostBuildEvent>
+copy NGUIndustriesInjector.dll dist\injector
+copy inject.bat dist
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

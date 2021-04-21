@@ -8,24 +8,21 @@ namespace NGUInjector
 {
     internal class Main : MonoBehaviour
     {
+        private const float MAIN_DELAY = 60;
         internal static StreamWriter OutputWriter;
         internal static StreamWriter LootWriter;
         internal static StreamWriter CombatWriter;
         internal static StreamWriter AllocationWriter;
         internal static StreamWriter PitSpinWriter;
         internal static Main reference;
-        private float _timeLeft = 60.0f;
+        private float _timeLeft = MAIN_DELAY;
         internal static SettingsForm settingsForm;
-        internal const string Version = "3.1.0";
+        internal const string Version = "1.0.6";
 
         private static string _dir;
         private static string _profilesDir;
 
-        private static bool _tempSwapped = false;
-
         internal static FileSystemWatcher ConfigWatcher;
-        internal static FileSystemWatcher AllocationWatcher;
-        internal static FileSystemWatcher ZoneWatcher;
 
         internal static bool IgnoreNextChange { get; set; }
 
@@ -61,6 +58,7 @@ namespace NGUInjector
         {
             try
             {
+                Log("Unloading injector");
                 CancelInvoke("AutomationRoutine");
                 CancelInvoke("SnipeZone");
                 CancelInvoke("MonitorLog");
@@ -77,8 +75,6 @@ namespace NGUInjector
                 settingsForm.Dispose();
 
                 ConfigWatcher.Dispose();
-                AllocationWatcher.Dispose();
-                ZoneWatcher.Dispose();
             }
             catch (Exception e)
             {
@@ -89,10 +85,9 @@ namespace NGUInjector
 
         public void Start()
         {
-            //System.Windows.Forms.MessageBox.Show("Main Start");
             try
             {
-                _dir = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%/Desktop"), "NGUInjector");
+                _dir = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%/Desktop"), "NGUIndustriesInjector");
                 if (!Directory.Exists(_dir))
                 {
                     Directory.CreateDirectory(_dir);
@@ -134,149 +129,19 @@ namespace NGUInjector
 
             try
             {
-                //Character = FindObjectOfType<Character>();
-
                 Log("Injected");
                 LogLoot("Starting Loot Writer");
                 LogCombat("Starting Combat Writer");
-                //Controller = Character.inventoryController;
-                //PlayerController = FindObjectOfType<PlayerController>();
-                //_invManager = new InventoryManager();
-                //_yggManager = new YggdrasilManager();
-                //_questManager = new QuestManager();
-                //_combManager = new CombatManager();
-                //LoadoutManager.ReleaseLock();
-                //DiggerManager.ReleaseLock();
 
                 Settings = new SavedSettings(_dir);
 
                 if (!Settings.LoadSettings())
                 {
-                    var temp = new SavedSettings(null)
-                    {
-                        PriorityBoosts = new int[] { },
-                        YggdrasilLoadout = new int[] { },
-                        SwapYggdrasilLoadouts = false,
-                        HighestAKZone = 0,
-                        SwapTitanLoadouts = false,
-                        TitanLoadout = new int[] { },
-                        ManageDiggers = true,
-                        ManageYggdrasil = true,
-                        ManageEnergy = true,
-                        ManageMagic = true,
-                        ManageInventory = true,
-                        ManageGear = true,
-                        AutoConvertBoosts = true,
-                        SnipeZone = 0,
-                        FastCombat = false,
-                        PrecastBuffs = true,
-                        AutoFight = false,
-                        AutoQuest = false,
-                        AutoQuestITOPOD = false,
-                        AllowMajorQuests = false,
-                        GoldDropLoadout = new int[] { },
-                        AutoMoneyPit = false,
-                        AutoSpin = false,
-                        MoneyPitLoadout = new int[] { },
-                        AutoRebirth = false,
-                        ManageWandoos = false,
-                        MoneyPitThreshold = 1e5,
-                        DoGoldSwap = false,
-                        BoostBlacklist = new int[] { },
-                        CombatMode = 0,
-                        RecoverHealth = false,
-                        SnipeBossOnly = true,
-                        AllowZoneFallback = false,
-                        QuestFastCombat = true,
-                        AbandonMinors = false,
-                        MinorAbandonThreshold = 30,
-                        QuestCombatMode = 0,
-                        AutoBuyEM = false,
-                        AutoSpellSwap = false,
-                        CounterfeitThreshold = 400,
-                        SpaghettiThreshold = 30,
-                        BloodNumberThreshold = 1e10,
-                        CastBloodSpells = false,
-                        IronPillThreshold = 1e5,
-                        BloodMacGuffinAThreshold = 6,
-                        BloodMacGuffinBThreshold = 6,
-                        CubePriority = 0,
-                        CombatEnabled = false,
-                        GlobalEnabled = false,
-                        QuickDiggers = new int[] { },
-                        QuickLoadout = new int[] { },
-                        UseButterMajor = false,
-                        ManualMinors = false,
-                        UseButterMinor = false,
-                        ActivateFruits = false,
-                        ManageR3 = true,
-                        WishPriorities = new int[] { },
-                        BeastMode = true,
-                        ManageNGUDiff = true,
-                        AllocationFile = "default",
-                        //TitanGoldTargets = new bool[ZoneHelpers.TitanZones.Length],
-                        //ManageGoldLoadouts = false,
-                        //ResnipeTime = 3600,
-                        //TitanMoneyDone = new bool[ZoneHelpers.TitanZones.Length],
-                        //TitanSwapTargets = new bool[ZoneHelpers.TitanZones.Length],
-                        GoldCBlockMode = false,
-                        DebugAllocation = false,
-                        AdventureTargetITOPOD = false
-                    };
-
-                    Settings.MassUpdate(temp);
-
+                    //Settings.CreateDefault();
                     Log($"Created default settings");
                 }
 
                 settingsForm = new SettingsForm();
-
-                if (string.IsNullOrEmpty(Settings.AllocationFile))
-                {
-                    Settings.SetSaveDisabled(true);
-                    Settings.AllocationFile = "default";
-                    Settings.SetSaveDisabled(false);
-                }
-
-                if (Settings.TitanGoldTargets == null || Settings.TitanGoldTargets.Length == 0)
-                {
-                    Settings.SetSaveDisabled(true);
-                    //Settings.TitanGoldTargets = new bool[ZoneHelpers.TitanZones.Length];
-                    //Settings.TitanMoneyDone = new bool[ZoneHelpers.TitanZones.Length];
-                    Settings.SetSaveDisabled(false);
-                }
-
-                if (Settings.TitanMoneyDone == null || Settings.TitanMoneyDone.Length == 0)
-                {
-                    Settings.SetSaveDisabled(true);
-                    //Settings.TitanGoldTargets = new bool[ZoneHelpers.TitanZones.Length];
-                    //Settings.TitanMoneyDone = new bool[ZoneHelpers.TitanZones.Length];
-                    Settings.SetSaveDisabled(false);
-                }
-
-                if (Settings.TitanSwapTargets == null || Settings.TitanSwapTargets.Length == 0)
-                {
-                    Settings.SetSaveDisabled(true);
-                    //Settings.TitanSwapTargets = new bool[ZoneHelpers.TitanZones.Length];
-                    Settings.SetSaveDisabled(false);
-                }
-
-                LoadAllocation();
-                LoadAllocationProfiles();
-
-                ZoneWatcher = new FileSystemWatcher
-                {
-                    Path = _dir,
-                    Filter = "zoneOverride.json",
-                    NotifyFilter = NotifyFilters.LastWrite,
-                    EnableRaisingEvents = true
-                };
-
-                ZoneWatcher.Changed += (sender, args) =>
-                {
-                    Log(_dir);
-                    //ZoneStatHelper.CreateOverrides(_dir);
-                };
 
                 ConfigWatcher = new FileSystemWatcher
                 {
@@ -295,33 +160,15 @@ namespace NGUInjector
                     }
                     Settings.LoadSettings();
                     settingsForm.UpdateFromSettings(Settings);
-                    LoadAllocation();
                 };
-
-                AllocationWatcher = new FileSystemWatcher
-                {
-                    Path = _profilesDir,
-                    Filter = "*.json",
-                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName,
-                    EnableRaisingEvents = true
-                };
-
-                AllocationWatcher.Changed += (sender, args) => { LoadAllocation(); };
-                AllocationWatcher.Created += (sender, args) => { LoadAllocationProfiles(); };
-                AllocationWatcher.Deleted += (sender, args) => { LoadAllocationProfiles(); };
-                AllocationWatcher.Renamed += (sender, args) => { LoadAllocationProfiles(); };
 
                 Settings.SaveSettings();
                 Settings.LoadSettings();
 
-                LogAllocation("Started Allocation Writer");
-
-                //ZoneStatHelper.CreateOverrides(_dir);
-
                 settingsForm.UpdateFromSettings(Settings);
                 settingsForm.Show();
 
-                InvokeRepeating("AutomationRoutine", 0.0f, 60.0f);
+                InvokeRepeating("AutomationRoutine", 0.0f, MAIN_DELAY);
                 InvokeRepeating("SnipeZone", 0.0f, .1f);
                 InvokeRepeating("MonitorLog", 0.0f, 1f);
                 InvokeRepeating("QuickStuff", 0.0f, .5f);
@@ -347,7 +194,7 @@ namespace NGUInjector
         {
             _timeLeft -= Time.deltaTime;
 
-            settingsForm.UpdateProgressBar((int)Math.Floor(_timeLeft / 10 * 100));
+            settingsForm.UpdateProgressBar((int)Math.Floor(_timeLeft / MAIN_DELAY * 100));
 
             if (Input.GetKeyDown(KeyCode.F1))
             {
@@ -372,57 +219,6 @@ namespace NGUInjector
             {
                 QuickLoad();
             }
-
-            if (Input.GetKeyDown(KeyCode.F4))
-            {
-                Settings.AutoQuestITOPOD = !Settings.AutoQuestITOPOD;
-            }
-
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                DumpEquipped();
-            }
-
-            if (Input.GetKeyDown(KeyCode.F8))
-            {
-                if (Settings.QuickLoadout.Length > 0)
-                {
-                    if (_tempSwapped)
-                    {
-                        Log("Restoring Previous Loadout");
-                        //LoadoutManager.RestoreTempLoadout();
-                    }
-                    else
-                    {
-                        Log("Equipping Quick Loadout");
-                        //LoadoutManager.SaveTempLoadout();
-                        //LoadoutManager.ChangeGear(Settings.QuickLoadout);
-                    }
-                }
-
-                if (Settings.QuickDiggers.Length > 0)
-                {
-                    if (_tempSwapped)
-                    {
-                        Log("Equipping Previous Diggers");
-                        //DiggerManager.RestoreTempDiggers();
-                    }
-                    else
-                    {
-                        Log("Equipping Quick Diggers");
-                        //DiggerManager.SaveTempDiggers();
-                        //DiggerManager.EquipDiggers(Settings.QuickDiggers);
-                    }
-                }
-
-                _tempSwapped = !_tempSwapped;
-            }
-
-            // F11 reserved for testing
-            //if (Input.GetKeyDown(KeyCode.F11))
-            //{
-            //    Character.realExp += 10000;
-            //}
         }
 
         private void QuickSave()
@@ -510,67 +306,6 @@ namespace NGUInjector
         {
             if (!Settings.GlobalEnabled)
                 return;
-
-            //Turn on autoattack if we're in ITOPOD and its not on
-            //if (Settings.AutoQuestITOPOD && Character.adventureController.zone >= 1000 && !Character.adventure.autoattacking && !Settings.CombatEnabled)
-            //{
-            //    //Character.adventureController.idleAttackMove.setToggle();
-            //}
-
-            if (Settings.AutoFight)
-            {
-                //var needsAllocation = false;
-                //var bc = Character.bossController;
-                //if (!bc.isFighting && !bc.nukeBoss)
-                //{
-                //    if (Character.bossID == 0)
-                //        needsAllocation = true;
-
-                //    if (bc.character.attack / 5.0 > bc.character.bossDefense && bc.character.defense / 5.0 > bc.character.bossAttack)
-                //        bc.startNuke();
-                //    else
-                //    {
-                //        if (bc.character.attack > (bc.character.bossDefense * 1.4) && bc.character.defense > bc.character.bossAttack * 1.4)
-                //        {
-                //            bc.beginFight();
-                //            bc.stopButton.gameObject.SetActive(true);
-                //        }
-                //    }
-                //}
-
-                //if (needsAllocation)
-                //{
-                //    //_profile.DoAllocations();
-                //}
-            }
-
-            if (Settings.AutoMoneyPit)
-            {
-                //MoneyPitManager.CheckMoneyPit();
-            }
-
-            if (Settings.AutoSpin)
-            {
-                //MoneyPitManager.DoDailySpin();
-            }
-
-            if (Settings.AutoQuestITOPOD)
-            {
-                MoveToITOPOD();
-            }
-
-            if (Settings.AutoSpellSwap)
-            {
-                //var spaghetti = (Character.bloodMagicController.lootBonus() - 1) * 100;
-                //var counterfeit = ((Character.bloodMagicController.goldBonus() - 1)) * 100;
-                //var number = Character.bloodMagic.rebirthPower;
-                //Character.bloodMagic.rebirthAutoSpell = Settings.BloodNumberThreshold > 0 && Settings.BloodNumberThreshold >= number;
-                //Character.bloodMagic.goldAutoSpell = Settings.CounterfeitThreshold > 0 && Settings.CounterfeitThreshold >= counterfeit;
-                //Character.bloodMagic.lootAutoSpell = Settings.SpaghettiThreshold > 0 && Settings.SpaghettiThreshold >= spaghetti;
-                //Character.bloodSpells.updateGoldToggleState();
-                //Character.bloodSpells.updateLootToggleState();
-                //Character.bloodSpells.updateRebirthToggleState();
-            }
         }
 
         String buildingName(BuildingType id)
@@ -578,198 +313,27 @@ namespace NGUInjector
             return Enum.GetName(typeof(BuildingType), id);
         }
 
-        // Runs every 10 seconds, our main loop
+        // Runs every MAIN_DELAY seconds, our main loop
         void AutomationRoutine()
         {
             try
             {
+                if (!Settings.GlobalEnabled)
+                    return;
+                
                 var player = FindObjectOfType<Player>();
                 ManageFactories(player);
                 ManageWorkOrders(player);
-
-
-
-                //    if (!Settings.GlobalEnabled)
-                //    {
-                //        _timeLeft = 10f;
-                //        return;
-                //    }
-
-                //    //ZoneHelpers.OptimizeITOPOD();
-
-                //    if (Settings.ManageInventory && !Controller.midDrag)
-                //    {
-                //        //var converted = Character.inventory.GetConvertedInventory().ToArray();
-                //        //var boostSlots = _invManager.GetBoostSlots(converted);
-                //        //_invManager.EnsureFiltered(converted);
-                //        //_invManager.ManageConvertibles(converted);
-                //        //_invManager.MergeEquipped(converted);
-                //        //_invManager.MergeInventory(converted);
-                //        //_invManager.MergeBoosts(converted);
-                //        //_invManager.MergeGuffs(converted);
-                //        //_invManager.BoostInventory(boostSlots);
-                //        //_invManager.BoostInfinityCube();
-                //        //_invManager.ManageBoostConversion(boostSlots);
-                //    }
-
-                //    //if (Settings.ManageInventory && !Controller.midDrag)
-                //    //{
-                //    //    var watch = Stopwatch.StartNew();
-                //    //    var converted = Character.inventory.GetConvertedInventory().ToArray();
-                //    //    Log($"Creating CI: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    var boostSlots = _invManager.GetBoostSlots(converted);
-                //    //    Log($"Get Boost Slots: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.EnsureFiltered(converted);
-                //    //    Log($"Filtering: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.ManageConvertibles(converted);
-                //    //    Log($"Convertibles: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.MergeEquipped(converted);
-                //    //    Log($"Merge Equipped: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.MergeInventory(converted);
-                //    //    Log($"Merge Inventory: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.MergeBoosts(converted);
-                //    //    Log($"Merge Boosts: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.MergeGuffs(converted);
-                //    //    Log($"Merge Guffs: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.BoostInventory(boostSlots);
-                //    //    Log($"Boost Inventory: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.BoostInfinityCube();
-                //    //    Log($"Boost Cube: {watch.ElapsedMilliseconds}");
-                //    //    watch = Stopwatch.StartNew();
-                //    //    _invManager.ManageBoostConversion(boostSlots);
-                //    //    Log($"Boost Conversion: {watch.ElapsedMilliseconds}");
-                //    //    watch.Stop();
-                //    //}
-
-                //    if (Settings.SwapTitanLoadouts)
-                //    {
-                //        //LoadoutManager.TryTitanSwap();
-                //        //DiggerManager.TryTitanSwap();
-                //    }
-
-                //    //if (Settings.ManageYggdrasil && Character.buttons.yggdrasil.interactable)
-                //    //{
-                //    //    //_yggManager.ManageYggHarvest();
-                //    //    //_yggManager.CheckFruits();
-                //    //}
-
-                //    if (Settings.AutoBuyEM)
-                //    {
-                //        //We haven't unlocked custom purchases yet
-                //        if (Character.highestBoss < 17) return;
-
-                //        var ePurchase = Character.energyPurchases;
-                //        var mPurchase = Character.magicPurchases;
-                //        var r3Purchase = Character.res3Purchases;
-
-                //        var energy = ePurchase.customAllCost() > 0;
-                //        var r3 = Character.res3.res3On && r3Purchase.customAllCost() > 0;
-                //        var magic = Character.highestBoss >= 37 && mPurchase.customAllCost() > 0;
-
-                //        long total = 0;
-
-                //        if (energy)
-                //        {
-                //            total += ePurchase.customAllCost();
-                //        }
-
-                //        if (magic)
-                //        {
-                //            total += mPurchase.customAllCost();
-                //        }
-
-                //        if (r3)
-                //        {
-                //            total += r3Purchase.customAllCost();
-                //        }
-
-                //        var numPurchases = Math.Floor((double)(Character.realExp / total));
-
-                //        if (numPurchases > 0)
-                //        {
-                //            var t = string.Empty;
-                //            if (energy)
-                //            {
-                //                t += "/exp";
-                //            }
-
-                //            if (magic)
-                //            {
-                //                t += "/magic";
-                //            }
-
-                //            if (r3)
-                //            {
-                //                t += "/res3";
-                //            }
-
-                //            t = t.Substring(1);
-
-                //            Log($"Buying {numPurchases} {t} purchases");
-                //            for (var i = 0; i < numPurchases; i++)
-                //            {
-                //                if (energy)
-                //                {
-                //                    var ePurchaseMethod = ePurchase.GetType().GetMethod("buyCustomAll",
-                //                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                //                    ePurchaseMethod?.Invoke(ePurchase, null);
-                //                }
-
-                //                if (magic)
-                //                {
-                //                    var mPurchaseMethod = mPurchase.GetType().GetMethod("buyCustomAll",
-                //                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                //                    mPurchaseMethod?.Invoke(mPurchase, null);
-                //                }
-
-                //                if (r3)
-                //                {
-                //                    var r3PurchaseMethod = r3Purchase.GetType().GetMethod("buyCustomAll",
-                //                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                //                    r3PurchaseMethod?.Invoke(r3Purchase, null);
-                //                }
-                //            }
-                //        }
-                //    }
-
-                //    //_profile.DoAllocations();
-
-                //    if (Settings.AutoQuest && Character.buttons.beast.interactable)
-                //    {
-                //        //var converted = Character.inventory.GetConvertedInventory().ToArray();
-                //        //if (!Character.inventoryController.midDrag)
-                //        //    _invManager.ManageQuestItems(converted);
-                //        //_questManager.CheckQuestTurnin();
-                //        //_questManager.ManageQuests();
-                //    }
-
-                //    if (Settings.AutoRebirth)
-                //    {
-                //        if (!Character.bossController.isFighting && !Character.bossController.nukeBoss)
-                //        {
-                //            //_profile.DoRebirth();
-                //        }
-                //        else
-                //        {
-                //            Log("Delaying rebirth while boss fight is in progress");
-                //        }
-                //    }
             }
             catch (Exception e)
             {
                 Log(e.Message);
                 Log(e.StackTrace);
             }
-            _timeLeft = 60f;
+            finally
+            {
+                _timeLeft = MAIN_DELAY;
+            }
         }
 
         private void ManagePit(Player player)
@@ -788,7 +352,7 @@ namespace NGUInjector
         {
             var wo = player.workOrdersController;
             var buildings = wo.getValidBuildingsList();
-            if (buildings.Count() > 0)
+            if (buildings.Count() == 0)
             {
                 Log($"Getting new order");
                 wo.newWorkOrderButtonClick();
@@ -930,146 +494,6 @@ namespace NGUInjector
             }
         }
 
-        internal static void LoadAllocation()
-        {
-            //_profile = new CustomAllocation(_profilesDir, Settings.AllocationFile);
-            //_profile.ReloadAllocation();
-        }
-
-        private static void LoadAllocationProfiles()
-        {
-            var files = Directory.GetFiles(_profilesDir);
-            settingsForm.UpdateProfileList(files.Select(Path.GetFileNameWithoutExtension).ToArray(), Settings.AllocationFile);
-        }
-
-        private void SnipeZone()
-        {
-            if (!Settings.GlobalEnabled)
-                return;
-
-            ////If tm ever drops to 0, reset our gold loadout stuff
-            //if (Character.machine.realBaseGold == 0.0 && !Settings.DoGoldSwap)
-            //{
-            //    Log("Time Machine Gold is 0. Lets reset gold snipe zone.");
-            //    Settings.DoGoldSwap = true;
-            //    Settings.TitanMoneyDone = new bool[ZoneHelpers.TitanZones.Length];
-            //}
-
-            ////This logic should trigger only if Time Machine is ready
-            //if (Character.buttons.brokenTimeMachine.interactable)
-            //{
-            //    if (Character.machine.realBaseGold == 0.0)
-            //    {
-            //        _combManager.ManualZone(0, false, false, false, true, false);
-            //        return;
-            //    }
-            //    //Go to our gold loadout zone next to get a high gold drop
-            //    if (Settings.ManageGoldLoadouts && Settings.DoGoldSwap)
-            //    {
-            //        if (LoadoutManager.TryGoldDropSwap())
-            //        {
-            //            var bestZone = ZoneStatHelper.GetBestZone();
-            //            _furthestZone = ZoneHelpers.GetMaxReachableZone(false);
-
-            //            _combManager.ManualZone(bestZone.Zone, true, bestZone.FightType == 1, false, bestZone.FightType == 2, false);
-            //            return;
-            //        }
-            //    }
-            //}
-
-            //var questZone = _questManager.IsQuesting();
-            //if (questZone > 0)
-            //{
-            //    if (Settings.QuestCombatMode == 0)
-            //    {
-            //        _combManager.ManualZone(questZone, false, false, false, Settings.QuestFastCombat, Settings.BeastMode);
-            //    }
-            //    else
-            //    {
-            //        _combManager.IdleZone(questZone, false, false);
-            //    }
-
-            //    return;
-            //}
-
-            //if (!Settings.CombatEnabled)
-            //    return;
-
-            //if (Settings.SnipeZone < 0)
-            //    return;
-
-            //var tempZone = Settings.AdventureTargetITOPOD ? 1000 : Settings.SnipeZone;
-            //if (tempZone < 1000)
-            //{
-            //    if (!CombatManager.IsZoneUnlocked(Settings.SnipeZone))
-            //    {
-            //        tempZone = Settings.AllowZoneFallback ? ZoneHelpers.GetMaxReachableZone(false) : 1000;
-            //    }
-            //    else
-            //    {
-            //        if (ZoneHelpers.ZoneIsTitan(Settings.SnipeZone) && !ZoneHelpers.TitanSpawningSoon(Array.IndexOf(ZoneHelpers.TitanZones, Settings.SnipeZone)))
-            //        {
-            //            tempZone = 1000;
-            //        }
-            //    }
-            //}
-
-            //if (Settings.CombatMode == 0)
-            //{
-            //    _combManager.ManualZone(tempZone, Settings.SnipeBossOnly, Settings.RecoverHealth, Settings.PrecastBuffs, Settings.FastCombat, Settings.BeastMode);
-            //}
-            //else
-            //{
-            //    _combManager.IdleZone(tempZone, Settings.SnipeBossOnly, Settings.RecoverHealth);
-            //}
-        }
-
-        private void MoveToITOPOD()
-        {
-            if (!Settings.GlobalEnabled)
-                return;
-
-            //if (_questManager.IsQuesting() >= 0)
-            //    return;
-
-            if (Settings.CombatEnabled)
-                return;
-
-            if (Settings.DoGoldSwap)
-                return;
-
-            //If we're not in ITOPOD, move there if its set
-            //if (Character.adventureController.zone >= 1000 || !Settings.AutoQuestITOPOD) return;
-            Log($"Moving to ITOPOD to idle.");
-            //_combManager.MoveToZone(1000);
-        }
-
-        private void DumpEquipped()
-        {
-            //var list = new List<int>
-            //{
-            //    Character.inventory.head.id,
-            //    Character.inventory.chest.id,
-            //    Character.inventory.legs.id,
-            //    Character.inventory.boots.id,
-            //    Character.inventory.weapon.id
-            //};
-
-            //if (Character.inventoryController.weapon2Unlocked())
-            //{
-            //    list.Add(Character.inventory.weapon2.id);
-            //}
-
-            //foreach (var acc in Character.inventory.accs)
-            //{
-            //    list.Add(acc.id);
-            //}
-
-            //list.RemoveAll(x => x == 0);
-
-            //Log($"Equipped Items: [{string.Join(", ", list.Select(x => x.ToString()).ToArray())}]");
-        }
-
         public void OnGUI()
         {
             GUI.Label(new Rect(10, 10, 200, 40), $"Automation - {(Settings.GlobalEnabled ? "Active" : "Inactive")}");
@@ -1113,42 +537,6 @@ namespace NGUInjector
             //}
         }
 
-        public void SetResnipe()
-        {
-            if (Settings.ResnipeTime == 0 && !Settings.GoldCBlockMode) return;
-
-            if (Settings.GoldCBlockMode)
-            {
-                //var furthest = ZoneHelpers.GetMaxReachableZone(false);
-                //if (furthest > _furthestZone)
-                //{
-                //    Settings.DoGoldSwap = true;
-                //    _furthestZone = furthest;
-                //}
-
-                return;
-            }
-
-            //if (Math.Abs(Character.rebirthTime.totalseconds - Settings.ResnipeTime) <= 1)
-            //{
-            //    Settings.DoGoldSwap = true;
-            //}
-        }
-
-        public void ShowBoostProgress()
-        {
-            //var boostSlots = _invManager.GetBoostSlots(Character.inventory.GetConvertedInventory().ToArray());
-            //try
-            //{
-            //    _invManager.ShowBoostProgress(boostSlots);
-            //}
-            //catch (Exception e)
-            //{
-            //    Log(e.Message);
-            //    Log(e.StackTrace);
-            //}
-
-        }
 
         public void OnApplicationQuit()
         {
