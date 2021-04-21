@@ -7,8 +7,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using NGUInjector.AllocationProfiles;
-using NGUInjector.Managers;
+//using NGUInjector.AllocationProfiles;
+//using NGUInjector.Managers;
 
 namespace NGUInjector
 {
@@ -144,25 +144,25 @@ namespace NGUInjector
         internal void SetTitanGoldBox(SavedSettings newSettings)
         {
             TitanGoldTargets.Items.Clear();
-            for (var i = 0; i < ZoneHelpers.TitanZones.Length; i++)
-            {
-                var text =
-                    $"{ZoneList[ZoneHelpers.TitanZones[i]]}";
-                if (newSettings.TitanGoldTargets[i])
-                {
-                    text = $"{text} ({(newSettings.TitanMoneyDone[i] ? "Done" : "Waiting")})";
-                }
-                var item = new ListViewItem
-                {
-                    Tag = i,
-                    Checked = newSettings.TitanGoldTargets[i],
-                    Text = text,
-                    BackColor = newSettings.TitanGoldTargets[i]
-                        ? newSettings.TitanMoneyDone[i] ? Color.LightGreen : Color.Yellow
-                        : Color.White
-                };
-                TitanGoldTargets.Items.Add(item);
-            }
+            //for (var i = 0; i < ZoneHelpers.TitanZones.Length; i++)
+            //{
+            //    var text =
+            //        $"{ZoneList[ZoneHelpers.TitanZones[i]]}";
+            //    if (newSettings.TitanGoldTargets[i])
+            //    {
+            //        text = $"{text} ({(newSettings.TitanMoneyDone[i] ? "Done" : "Waiting")})";
+            //    }
+            //    var item = new ListViewItem
+            //    {
+            //        Tag = i,
+            //        Checked = newSettings.TitanGoldTargets[i],
+            //        Text = text,
+            //        BackColor = newSettings.TitanGoldTargets[i]
+            //            ? newSettings.TitanMoneyDone[i] ? Color.LightGreen : Color.Yellow
+            //            : Color.White
+            //    };
+            //    TitanGoldTargets.Items.Add(item);
+            //}
 
             TitanGoldTargets.Columns[0].Width = -1;
         }
@@ -170,18 +170,18 @@ namespace NGUInjector
         internal void SetTitanSwapBox(SavedSettings newSettings)
         {
             TitanSwapTargets.Items.Clear();
-            for (var i = 0; i < ZoneHelpers.TitanZones.Length; i++)
-            {
-                var text =
-                    $"{ZoneList[ZoneHelpers.TitanZones[i]]}";
-                var item = new ListViewItem
-                {
-                    Tag = i,
-                    Checked = newSettings.TitanSwapTargets[i],
-                    Text = text,
-                };
-                TitanSwapTargets.Items.Add(item);
-            }
+            //for (var i = 0; i < ZoneHelpers.TitanZones.Length; i++)
+            //{
+            //    var text =
+            //        $"{ZoneList[ZoneHelpers.TitanZones[i]]}";
+            //    var item = new ListViewItem
+            //    {
+            //        Tag = i,
+            //        Checked = newSettings.TitanSwapTargets[i],
+            //        Text = text,
+            //    };
+            //    TitanSwapTargets.Items.Add(item);
+            //}
 
             TitanSwapTargets.Columns[0].Width = -1;
         }
@@ -249,89 +249,89 @@ namespace NGUInjector
             SetTitanGoldBox(newSettings);
             SetTitanSwapBox(newSettings);
 
-            var temp = newSettings.YggdrasilLoadout.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
-            if (temp.Count > 0)
-            {
-                yggdrasilLoadoutBox.DataSource = null;
-                yggdrasilLoadoutBox.DataSource = new BindingSource(temp, null);
-                yggdrasilLoadoutBox.ValueMember = "Key";
-                yggdrasilLoadoutBox.DisplayMember = "Value";
-            }
-            else
-            {
-                yggdrasilLoadoutBox.Items.Clear();
-            }
+            //var temp = newSettings.YggdrasilLoadout.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
+            //if (temp.Count > 0)
+            //{
+            //    yggdrasilLoadoutBox.DataSource = null;
+            //    yggdrasilLoadoutBox.DataSource = new BindingSource(temp, null);
+            //    yggdrasilLoadoutBox.ValueMember = "Key";
+            //    yggdrasilLoadoutBox.DisplayMember = "Value";
+            //}
+            //else
+            //{
+            //    yggdrasilLoadoutBox.Items.Clear();
+            //}
             
 
-            temp = newSettings.PriorityBoosts.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
-            if (temp.Count > 0)
-            {
-                priorityBoostBox.DataSource = null;
-                priorityBoostBox.DataSource = new BindingSource(temp, null);
-                priorityBoostBox.ValueMember = "Key";
-                priorityBoostBox.DisplayMember = "Value";
-            }
-            else
-            {
-                priorityBoostBox.Items.Clear();
-            }
+            //temp = newSettings.PriorityBoosts.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
+            //if (temp.Count > 0)
+            //{
+            //    priorityBoostBox.DataSource = null;
+            //    priorityBoostBox.DataSource = new BindingSource(temp, null);
+            //    priorityBoostBox.ValueMember = "Key";
+            //    priorityBoostBox.DisplayMember = "Value";
+            //}
+            //else
+            //{
+            //    priorityBoostBox.Items.Clear();
+            //}
             
-            temp = newSettings.BoostBlacklist.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
-            if (temp.Count > 0)
-            {
-                blacklistBox.DataSource = null;
-                blacklistBox.DataSource = new BindingSource(temp, null);
-                blacklistBox.ValueMember = "Key";
-                blacklistBox.DisplayMember = "Value";
-            }
-            else
-            {
-                blacklistBox.Items.Clear();
-            }
-            
-
-            
-            temp = newSettings.TitanLoadout.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
-            if (temp.Count > 0)
-            {
-                titanLoadout.DataSource = null;
-                titanLoadout.DataSource = new BindingSource(temp, null);
-                titanLoadout.ValueMember = "Key";
-                titanLoadout.DisplayMember = "Value";
-            }
-            else
-            {
-                titanLoadout.Items.Clear();
-            }
+            //temp = newSettings.BoostBlacklist.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
+            //if (temp.Count > 0)
+            //{
+            //    blacklistBox.DataSource = null;
+            //    blacklistBox.DataSource = new BindingSource(temp, null);
+            //    blacklistBox.ValueMember = "Key";
+            //    blacklistBox.DisplayMember = "Value";
+            //}
+            //else
+            //{
+            //    blacklistBox.Items.Clear();
+            //}
             
 
             
-            temp = newSettings.GoldDropLoadout.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
-            if (temp.Count > 0)
-            {
-                GoldLoadout.DataSource = null;
-                GoldLoadout.DataSource = new BindingSource(temp, null);
-                GoldLoadout.ValueMember = "Key";
-                GoldLoadout.DisplayMember = "Value";
-            }
-            else
-            {
-                GoldLoadout.Items.Clear();
-            }
+            //temp = newSettings.TitanLoadout.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
+            //if (temp.Count > 0)
+            //{
+            //    titanLoadout.DataSource = null;
+            //    titanLoadout.DataSource = new BindingSource(temp, null);
+            //    titanLoadout.ValueMember = "Key";
+            //    titanLoadout.DisplayMember = "Value";
+            //}
+            //else
+            //{
+            //    titanLoadout.Items.Clear();
+            //}
+            
+
+            
+            //temp = newSettings.GoldDropLoadout.ToDictionary(x => x, x => Main.Character.itemInfo.itemName[x]);
+            //if (temp.Count > 0)
+            //{
+            //    GoldLoadout.DataSource = null;
+            //    GoldLoadout.DataSource = new BindingSource(temp, null);
+            //    GoldLoadout.ValueMember = "Key";
+            //    GoldLoadout.DisplayMember = "Value";
+            //}
+            //else
+            //{
+            //    GoldLoadout.Items.Clear();
+            //}
             
             
-            temp = newSettings.WishPriorities.ToDictionary(x => x, x => Main.Character.wishesController.properties[x].wishName);
-            if (temp.Count > 0)
-            {
-                WishPriority.DataSource = null;
-                WishPriority.DataSource = new BindingSource(temp, null);
-                WishPriority.ValueMember = "Key";
-                WishPriority.DisplayMember = "Value";
-            }
-            else
-            {
-                WishPriority.Items.Clear();
-            }
+            //temp = newSettings.WishPriorities.ToDictionary(x => x, x => Main.Character.wishesController.properties[x].wishName);
+            //if (temp.Count > 0)
+            //{
+            //    WishPriority.DataSource = null;
+            //    WishPriority.DataSource = new BindingSource(temp, null);
+            //    WishPriority.ValueMember = "Key";
+            //    WishPriority.DisplayMember = "Value";
+            //}
+            //else
+            //{
+            //    WishPriority.Items.Clear();
+            //}
 
             Refresh();
             _initializing = false;
@@ -458,8 +458,8 @@ namespace NGUInjector
             var val = decimal.ToInt32(yggLoadoutItem.Value);
             if (val < 40 || val > 505)
                 return;
-            var itemName = Main.Character.itemInfo.itemName[val];
-            yggItemLabel.Text = itemName;
+            //var itemName = Main.Character.itemInfo.itemName[val];
+            //yggItemLabel.Text = itemName;
         }
 
         private void yggAddButton_Click(object sender, EventArgs e)
@@ -617,8 +617,8 @@ namespace NGUInjector
             var val = decimal.ToInt32(titanAddItem.Value);
             if (val < 40 || val > 505)
                 return;
-            var itemName = Main.Character.itemInfo.itemName[val];
-            titanLabel.Text = itemName;
+            //var itemName = Main.Character.itemInfo.itemName[val];
+            //titanLabel.Text = itemName;
         }
 
         private void titanAdd_Click(object sender, EventArgs e)
@@ -714,8 +714,8 @@ namespace NGUInjector
             var val = decimal.ToInt32(GoldItemBox.Value);
             if (val < 40 || val > 505)
                 return;
-            var itemName = Main.Character.itemInfo.itemName[val];
-            GoldItemLabel.Text = itemName;
+            //var itemName = Main.Character.itemInfo.itemName[val];
+            //GoldItemLabel.Text = itemName;
         }
 
         private void GoldLoadoutAdd_Click(object sender, EventArgs e)
@@ -790,8 +790,8 @@ namespace NGUInjector
             var val = decimal.ToInt32(priorityBoostItemAdd.Value);
             if (val < 40 || val > 505)
                 return;
-            var itemName = Main.Character.itemInfo.itemName[val];
-            priorityBoostLabel.Text = itemName;
+            //var itemName = Main.Character.itemInfo.itemName[val];
+            //priorityBoostLabel.Text = itemName;
         }
 
         private void priorityBoostItemAdd_KeyDown(object sender, KeyEventArgs e)
@@ -844,8 +844,8 @@ namespace NGUInjector
             var val = decimal.ToInt32(blacklistAddItem.Value);
             if (val < 40 || val > 505)
                 return;
-            var itemName = Main.Character.itemInfo.itemName[val];
-            blacklistLabel.Text = itemName;
+            //var itemName = Main.Character.itemInfo.itemName[val];
+            //blacklistLabel.Text = itemName;
         }
 
         private void yggLoadoutItem_KeyDown(object sender, KeyEventArgs e)
@@ -1002,9 +1002,9 @@ namespace NGUInjector
             Main.Settings.WishPriorities = temp.ToArray();
             WishPriority.SelectedIndex = index - 1;
 
-            Main.Character.removeAllRes3();
-            Main.Character.removeMostEnergy();
-            Main.Character.removeMostMagic();
+            //Main.Character.removeAllRes3();
+            //Main.Character.removeMostEnergy();
+            //Main.Character.removeMostMagic();
         }
 
         private void WishDownButton_Click(object sender, EventArgs e)
@@ -1023,9 +1023,9 @@ namespace NGUInjector
             temp.Insert(index + 1, item);
             Main.Settings.WishPriorities = temp.ToArray();
             WishPriority.SelectedIndex = index + 1;
-            Main.Character.removeAllRes3();
-            Main.Character.removeMostEnergy();
-            Main.Character.removeMostMagic();
+            //Main.Character.removeAllRes3();
+            //Main.Character.removeMostEnergy();
+            //Main.Character.removeMostMagic();
         }
 
         private void AddWishButton_Click(object sender, EventArgs e)
@@ -1042,9 +1042,9 @@ namespace NGUInjector
             var temp = Main.Settings.WishPriorities.ToList();
             temp.Add(val);
             Main.Settings.WishPriorities = temp.ToArray();
-            Main.Character.removeAllRes3();
-            Main.Character.removeMostEnergy();
-            Main.Character.removeMostMagic();
+            //Main.Character.removeAllRes3();
+            //Main.Character.removeMostEnergy();
+            //Main.Character.removeMostMagic();
         }
 
         private void RemoveWishButton_Click(object sender, EventArgs e)
@@ -1060,9 +1060,9 @@ namespace NGUInjector
             var temp = Main.Settings.WishPriorities.ToList();
             temp.RemoveAll(x => x == id.Key);
             Main.Settings.WishPriorities = temp.ToArray();
-            Main.Character.removeAllRes3();
-            Main.Character.removeMostEnergy();
-            Main.Character.removeMostMagic();
+            //Main.Character.removeAllRes3();
+            //Main.Character.removeMostEnergy();
+            //Main.Character.removeMostMagic();
         }
 
         private void WishAddInput_TextChanged(object sender, EventArgs e)
@@ -1071,8 +1071,8 @@ namespace NGUInjector
             var val = decimal.ToInt32(WishAddInput.Value);
             if (val < 0 || val > 224)
                 return;
-            var wishName = Main.Character.wishesController.properties[val].wishName;
-            AddWishLabel.Text = wishName;
+            //var wishName = Main.Character.wishesController.properties[val].wishName;
+            //AddWishLabel.Text = wishName;
         }
 
         private void WishAddInput_KeyDown(object sender, KeyEventArgs e)
@@ -1130,8 +1130,8 @@ namespace NGUInjector
         private void ResetTitanStatus_Click(object sender, EventArgs e)
         {
             if (_initializing) return;
-            var temp = new bool[ZoneHelpers.TitanZones.Length];
-            Main.Settings.TitanMoneyDone = temp;
+            //var temp = new bool[ZoneHelpers.TitanZones.Length];
+            //Main.Settings.TitanMoneyDone = temp;
         }
 
         private void ManageGoldLoadouts_CheckedChanged(object sender, EventArgs e)
@@ -1158,20 +1158,20 @@ namespace NGUInjector
 
         private void HarvestAllButton_Click(object sender, EventArgs e)
         {
-            if (Main.Settings.SwapYggdrasilLoadouts && Main.Settings.YggdrasilLoadout.Length > 0 && YggdrasilManager.AnyHarvestable())
-            {
-                if (!LoadoutManager.TryYggdrasilSwap() || !DiggerManager.TryYggSwap())
-                {
-                    Main.Log("Unable to harvest now");
-                    return;
-                }
+            //if (Main.Settings.SwapYggdrasilLoadouts && Main.Settings.YggdrasilLoadout.Length > 0 && YggdrasilManager.AnyHarvestable())
+            //{
+            //    if (!LoadoutManager.TryYggdrasilSwap() || !DiggerManager.TryYggSwap())
+            //    {
+            //        Main.Log("Unable to harvest now");
+            //        return;
+            //    }
 
-                YggdrasilManager.HarvestAll();
-                LoadoutManager.RestoreGear();
-                LoadoutManager.ReleaseLock();
-                DiggerManager.RestoreDiggers();
-                DiggerManager.ReleaseLock();
-            }
+            //    YggdrasilManager.HarvestAll();
+            //    LoadoutManager.RestoreGear();
+            //    LoadoutManager.ReleaseLock();
+            //    DiggerManager.RestoreDiggers();
+            //    DiggerManager.ReleaseLock();
+            //}
         }
 
         private void OptimizeITOPOD_CheckedChanged(object sender, EventArgs e)
