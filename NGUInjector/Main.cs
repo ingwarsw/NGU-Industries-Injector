@@ -12,7 +12,6 @@ namespace NGUInjector
         internal static StreamWriter OutputWriter;
         internal static StreamWriter LootWriter;
         internal static StreamWriter CombatWriter;
-        internal static StreamWriter AllocationWriter;
         internal static StreamWriter PitSpinWriter;
         internal static Main reference;
         private float _timeLeft = MAIN_DELAY;
@@ -30,28 +29,22 @@ namespace NGUInjector
 
         internal static void Log(string msg)
         {
-            OutputWriter.WriteLine($"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()} (s): {msg}");
+            OutputWriter.WriteLine($"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}");
         }
 
         internal static void LogLoot(string msg)
         {
-            LootWriter.WriteLine($"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()} (s): {msg}");
+            LootWriter.WriteLine($"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}");
         }
 
         internal static void LogCombat(string msg)
         {
-            //CombatWriter.WriteLine($"{DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()} ({Math.Floor(Character.rebirthTime.totalseconds)}s): {msg}");
+            CombatWriter.WriteLine($"{DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}");
         }
 
         internal static void LogPitSpin(string msg)
         {
-            //PitSpinWriter.WriteLine($"{DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()} ({Math.Floor(Character.rebirthTime.totalseconds)}s): {msg}");
-        }
-
-        internal static void LogAllocation(string msg)
-        {
-            if (!Settings.DebugAllocation) return;
-            //AllocationWriter.WriteLine($"{DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()} ({Math.Floor(Character.rebirthTime.totalseconds)}s): {msg}");
+            PitSpinWriter.WriteLine($"{DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}");
         }
 
         internal void Unload()
@@ -69,7 +62,6 @@ namespace NGUInjector
 
                 LootWriter.Close();
                 CombatWriter.Close();
-                AllocationWriter.Close();
                 PitSpinWriter.Close();
                 settingsForm.Close();
                 settingsForm.Dispose();
@@ -102,7 +94,6 @@ namespace NGUInjector
                 OutputWriter = new StreamWriter(Path.Combine(logDir, "inject.log")) { AutoFlush = true };
                 LootWriter = new StreamWriter(Path.Combine(logDir, "loot.log")) { AutoFlush = true };
                 CombatWriter = new StreamWriter(Path.Combine(logDir, "combat.log")) { AutoFlush = true };
-                AllocationWriter = new StreamWriter(Path.Combine(logDir, "allocation.log")) { AutoFlush = true };
                 PitSpinWriter = new StreamWriter(Path.Combine(logDir, "pitspin.log"), true) { AutoFlush = true };
 
                 _profilesDir = Path.Combine(_dir, "profiles");
@@ -324,6 +315,7 @@ namespace NGUInjector
                 var player = FindObjectOfType<Player>();
                 ManageFactories(player);
                 ManageWorkOrders(player);
+                ManageSpin(player);
             }
             catch (Exception e)
             {
@@ -333,6 +325,27 @@ namespace NGUInjector
             finally
             {
                 _timeLeft = MAIN_DELAY;
+            }
+        }
+
+        private void ManageSpin(Player player)
+        {
+            if (!Settings.AutoSpin)
+                return;
+
+            if (player.dailySpinController.getCurSpinCount() > 0)
+            {
+                Log($"SPINNING!! Spin count {player.dailySpinController.getCurSpinCount()} time: {player.spin.bankedSpinTime}");
+                player.dailySpinController.Startspin();
+                StartCoroutine(waiter());
+            }
+
+            System.Collections.IEnumerator waiter()
+            {
+                yield return new WaitForSeconds(20);
+                var prize = player.dailySpinController.curPrizeText.text;
+                Log($"SPINNING!! Spin prize {prize}");
+                LogPitSpin($"Spin prize {prize}");
             }
         }
 
@@ -352,12 +365,13 @@ namespace NGUInjector
         {
             var wo = player.workOrdersController;
             var buildings = wo.getValidBuildingsList();
-            if (buildings.Count() == 0)
+            if (wo.getWorkOrderButton.interactable)
             {
                 Log($"Getting new order");
                 wo.newWorkOrderButtonClick();
             }
-            Log($"Handing out all Work Order materials");
+            Log($"Handing out all Work Order materials {buildings.Count()}");
+            
             buildings.ForEach(building => wo.tryHandInMaterial(building));
         }
 
@@ -387,7 +401,8 @@ namespace NGUInjector
                         shouldHave *= 100;
                     }
                     var havePercent = material.amount / shouldHave * 100;
-                    Log($"Output {material.largestProduction} time {properties.baseTime} per second {perSecond} have % {havePercent}");
+                    var score = 0;// player.workOrdersController.getBuildingBaseScore(buildingType);
+                    Log($"Output {material.largestProduction} time {properties.baseTime} per second {perSecond} have % {havePercent} score? {score}");
 
                     if (havePercent < 10 && gain < 0)
                     {
