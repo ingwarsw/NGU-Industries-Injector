@@ -1,4 +1,4 @@
-﻿namespace NGUInjector
+﻿namespace NGUIndustriesInjector
 {
     partial class SettingsForm
     {
@@ -32,21 +32,21 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SettingsForm));
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.AutoITOPOD = new System.Windows.Forms.CheckBox();
-            this.AutoDailySpin = new System.Windows.Forms.CheckBox();
-            this.AutoMoneyPit = new System.Windows.Forms.CheckBox();
-            this.MasterEnable = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.MoneyPitThreshold = new System.Windows.Forms.TextBox();
-            this.MoneyPitThresholdSave = new System.Windows.Forms.Button();
-            this.VersionLabel = new System.Windows.Forms.Label();
-            this.UnloadButton = new System.Windows.Forms.Button();
-            this.UnloadSafety = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.UnloadSafety = new System.Windows.Forms.CheckBox();
+            this.UnloadButton = new System.Windows.Forms.Button();
+            this.VersionLabel = new System.Windows.Forms.Label();
+            this.MoneyPitThresholdSave = new System.Windows.Forms.Button();
+            this.MoneyPitThreshold = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.MasterEnable = new System.Windows.Forms.CheckBox();
+            this.AutoMoneyPit = new System.Windows.Forms.CheckBox();
+            this.AutoDailySpin = new System.Windows.Forms.CheckBox();
+            this.AutoITOPOD = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -60,6 +60,13 @@
             this.flowLayoutPanel1.Controls.Add(this.tabControl1);
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            resources.ApplyResources(this.tabControl1, "tabControl1");
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
             // 
             // tabPage1
             // 
@@ -77,56 +84,12 @@
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // AutoITOPOD
+            // UnloadSafety
             // 
-            resources.ApplyResources(this.AutoITOPOD, "AutoITOPOD");
-            this.AutoITOPOD.Name = "AutoITOPOD";
-            this.AutoITOPOD.UseVisualStyleBackColor = true;
-            this.AutoITOPOD.CheckedChanged += new System.EventHandler(this.AutoITOPOD_CheckedChanged);
-            // 
-            // AutoDailySpin
-            // 
-            resources.ApplyResources(this.AutoDailySpin, "AutoDailySpin");
-            this.AutoDailySpin.Name = "AutoDailySpin";
-            this.AutoDailySpin.UseVisualStyleBackColor = true;
-            this.AutoDailySpin.CheckedChanged += new System.EventHandler(this.AutoDailySpin_CheckedChanged);
-            // 
-            // AutoMoneyPit
-            // 
-            resources.ApplyResources(this.AutoMoneyPit, "AutoMoneyPit");
-            this.AutoMoneyPit.Name = "AutoMoneyPit";
-            this.AutoMoneyPit.UseVisualStyleBackColor = true;
-            this.AutoMoneyPit.CheckedChanged += new System.EventHandler(this.AutoMoneyPit_CheckedChanged);
-            // 
-            // MasterEnable
-            // 
-            resources.ApplyResources(this.MasterEnable, "MasterEnable");
-            this.MasterEnable.Name = "MasterEnable";
-            this.MasterEnable.UseVisualStyleBackColor = true;
-            this.MasterEnable.CheckedChanged += new System.EventHandler(this.MasterEnable_CheckedChanged);
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // MoneyPitThreshold
-            // 
-            resources.ApplyResources(this.MoneyPitThreshold, "MoneyPitThreshold");
-            this.MoneyPitThreshold.Name = "MoneyPitThreshold";
-            this.MoneyPitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
-            // 
-            // MoneyPitThresholdSave
-            // 
-            resources.ApplyResources(this.MoneyPitThresholdSave, "MoneyPitThresholdSave");
-            this.MoneyPitThresholdSave.Name = "MoneyPitThresholdSave";
-            this.MoneyPitThresholdSave.UseVisualStyleBackColor = true;
-            this.MoneyPitThresholdSave.Click += new System.EventHandler(this.MoneyPitThresholdSave_Click);
-            // 
-            // VersionLabel
-            // 
-            resources.ApplyResources(this.VersionLabel, "VersionLabel");
-            this.VersionLabel.Name = "VersionLabel";
+            resources.ApplyResources(this.UnloadSafety, "UnloadSafety");
+            this.UnloadSafety.Name = "UnloadSafety";
+            this.UnloadSafety.UseVisualStyleBackColor = true;
+            this.UnloadSafety.CheckedChanged += new System.EventHandler(this.UnloadSafety_CheckedChanged);
             // 
             // UnloadButton
             // 
@@ -135,19 +98,56 @@
             this.UnloadButton.UseVisualStyleBackColor = true;
             this.UnloadButton.Click += new System.EventHandler(this.UnloadButton_Click);
             // 
-            // UnloadSafety
+            // VersionLabel
             // 
-            resources.ApplyResources(this.UnloadSafety, "UnloadSafety");
-            this.UnloadSafety.Name = "UnloadSafety";
-            this.UnloadSafety.UseVisualStyleBackColor = true;
-            this.UnloadSafety.CheckedChanged += new System.EventHandler(this.UnloadSafety_CheckedChanged);
+            resources.ApplyResources(this.VersionLabel, "VersionLabel");
+            this.VersionLabel.Name = "VersionLabel";
             // 
-            // tabControl1
+            // MoneyPitThresholdSave
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
+            resources.ApplyResources(this.MoneyPitThresholdSave, "MoneyPitThresholdSave");
+            this.MoneyPitThresholdSave.Name = "MoneyPitThresholdSave";
+            this.MoneyPitThresholdSave.UseVisualStyleBackColor = true;
+            this.MoneyPitThresholdSave.Click += new System.EventHandler(this.MoneyPitThresholdSave_Click);
+            // 
+            // MoneyPitThreshold
+            // 
+            resources.ApplyResources(this.MoneyPitThreshold, "MoneyPitThreshold");
+            this.MoneyPitThreshold.Name = "MoneyPitThreshold";
+            this.MoneyPitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // MasterEnable
+            // 
+            resources.ApplyResources(this.MasterEnable, "MasterEnable");
+            this.MasterEnable.Name = "MasterEnable";
+            this.MasterEnable.UseVisualStyleBackColor = true;
+            this.MasterEnable.CheckedChanged += new System.EventHandler(this.MasterEnable_CheckedChanged);
+            // 
+            // AutoMoneyPit
+            // 
+            resources.ApplyResources(this.AutoMoneyPit, "AutoMoneyPit");
+            this.AutoMoneyPit.Name = "AutoMoneyPit";
+            this.AutoMoneyPit.UseVisualStyleBackColor = true;
+            this.AutoMoneyPit.CheckedChanged += new System.EventHandler(this.AutoMoneyPit_CheckedChanged);
+            // 
+            // AutoDailySpin
+            // 
+            resources.ApplyResources(this.AutoDailySpin, "AutoDailySpin");
+            this.AutoDailySpin.Name = "AutoDailySpin";
+            this.AutoDailySpin.UseVisualStyleBackColor = true;
+            this.AutoDailySpin.CheckedChanged += new System.EventHandler(this.AutoDailySpin_CheckedChanged);
+            // 
+            // AutoITOPOD
+            // 
+            resources.ApplyResources(this.AutoITOPOD, "AutoITOPOD");
+            this.AutoITOPOD.Name = "AutoITOPOD";
+            this.AutoITOPOD.UseVisualStyleBackColor = true;
+            this.AutoITOPOD.CheckedChanged += new System.EventHandler(this.AutoITOPOD_CheckedChanged);
             // 
             // SettingsForm
             // 
@@ -157,9 +157,9 @@
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

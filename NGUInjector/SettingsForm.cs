@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace NGUInjector
+namespace NGUIndustriesInjector
 {
     public partial class SettingsForm : Form
     {
@@ -12,7 +12,7 @@ namespace NGUInjector
             InitializeComponent();
             VersionLabel.Text = $"Version: {Main.Version}";
         }
-        
+
         internal void UpdateFromSettings(SavedSettings newSettings)
         {
             _initializing = true;
@@ -21,7 +21,7 @@ namespace NGUInjector
             AutoDailySpin.Checked = newSettings.AutoSpin;
             AutoITOPOD.Checked = newSettings.AutoQuestITOPOD;
             AutoMoneyPit.Checked = newSettings.AutoMoneyPit;
-            MoneyPitThreshold.Text = $"{newSettings.MoneyPitThreshold:#.##E+00}"; 
+            MoneyPitThreshold.Text = $"{newSettings.MoneyPitThreshold:#.##E+00}";
 
             Refresh();
             _initializing = false;
@@ -78,7 +78,7 @@ namespace NGUInjector
 
         private void MoneyPitThreshold_TextChanged_1(object sender, EventArgs e)
         {
-           // moneyPitError.SetError(MoneyPitThreshold, "");
+            // moneyPitError.SetError(MoneyPitThreshold, "");
         }
 
         private void UnloadSafety_CheckedChanged(object sender, EventArgs e)

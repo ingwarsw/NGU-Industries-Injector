@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NGUInjector
+namespace NGUIndustriesInjector
 {
     public class Loader
     {

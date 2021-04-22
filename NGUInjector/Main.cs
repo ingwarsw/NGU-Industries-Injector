@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace NGUInjector
+namespace NGUIndustriesInjector
 {
     internal class Main : MonoBehaviour
     {
@@ -16,7 +16,7 @@ namespace NGUInjector
         internal static Main reference;
         private float _timeLeft = MAIN_DELAY;
         internal static SettingsForm settingsForm;
-        internal const string Version = "1.0.6";
+        internal const string Version = "1.0.7";
 
         private static string _dir;
         private static string _profilesDir;
@@ -191,6 +191,7 @@ namespace NGUInjector
             {
                 if (!settingsForm.Visible)
                 {
+                    
                     settingsForm.Show();
                 }
                 settingsForm.BringToFront();

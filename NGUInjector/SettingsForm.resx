@@ -426,6 +426,9 @@
   <data name="AutoITOPOD.Text" xml:space="preserve">
     <value>Auto Move to ITOPOD</value>
   </data>
+  <data name="AutoITOPOD.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;AutoITOPOD.Name" xml:space="preserve">
     <value>AutoITOPOD</value>
   </data>
@@ -526,7 +529,7 @@
     <value>605, 387</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Injector Settings</value>
+    <value>NGU INDUSTRIES Injector Settings</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SettingsForm</value>

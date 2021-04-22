@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace NGUInjector
+namespace NGUIndustriesInjector
 {
     [Serializable]
     public class SavedSettings

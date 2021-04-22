@@ -38,15 +38,21 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Gry\Steam\steamapps\common\NGU INDUSTRIES\NGU INDUSTRIES_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
     <Reference Include="Unity.TextMeshPro">
       <HintPath>..\..\..\Gry\Steam\steamapps\common\NGU INDUSTRIES\NGU INDUSTRIES_Data\Managed\Unity.TextMeshPro.dll</HintPath>
@@ -298,6 +304,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Gry\Steam\steamapps\common\NGU INDUSTRIES\NGU INDUSTRIES_Data\Managed\UnityEngine.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Loader.cs" />
@@ -333,7 +340,6 @@
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
