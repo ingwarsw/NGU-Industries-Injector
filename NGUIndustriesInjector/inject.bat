@@ -8,5 +8,4 @@ IF DEFINED I_ADDR (
 )
 ELSE (echo Not unloading)
 
-%0\..\injector\smi.exe inject -p "NGU INDUSTRIES" -a %0\..\injector\NGUIndustriesInjector.dll -n NGUIndustriesInjector -c Loader -m Init > %userprofile%\Desktop\NGUIndustriesInjector\addr.data
-
+%0\..\injector\smi.exe inject -p "NGU INDUSTRIES" -a %0\..\injector\NGUIndustriesInjector.dll -n NGUIndustriesInjector -c Loader -m Init 
