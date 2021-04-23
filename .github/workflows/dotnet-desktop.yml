@@ -56,7 +56,7 @@ jobs:
         Appx_Package_Build_Mode: StoreUpload
         Configuration: ${{ matrix.configuration }}
 
-- name: Upload build artifacts
+    - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: MSIX Package
