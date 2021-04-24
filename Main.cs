@@ -16,7 +16,7 @@ namespace NGUIndustriesInjector
         internal static Main reference;
         private float _timeLeft = MAIN_DELAY;
         internal static SettingsForm settingsForm;
-        internal const string Version = "1.0.7";
+        internal static string Version = typeof(Main).Assembly.GetName().Version.ToString();
 
         private static string _dir;
         private static string _profilesDir;

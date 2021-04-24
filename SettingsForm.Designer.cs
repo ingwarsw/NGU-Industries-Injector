@@ -51,10 +51,9 @@
             // progressBar1
             // 
             this.progressBar1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.progressBar1.Location = new System.Drawing.Point(4, 3);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.progressBar1.Location = new System.Drawing.Point(3, 3);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(698, 15);
+            this.progressBar1.Size = new System.Drawing.Size(598, 13);
             this.progressBar1.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -64,20 +63,18 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(706, 447);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(605, 387);
             this.flowLayoutPanel1.TabIndex = 2;
             this.flowLayoutPanel1.WrapContents = false;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Location = new System.Drawing.Point(4, 24);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabControl1.Location = new System.Drawing.Point(3, 22);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(698, 415);
+            this.tabControl1.Size = new System.Drawing.Size(598, 360);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -92,11 +89,10 @@
             this.tabPage1.Controls.Add(this.AutoMoneyPit);
             this.tabPage1.Controls.Add(this.AutoDailySpin);
             this.tabPage1.Controls.Add(this.AutoITOPOD);
-            this.tabPage1.Location = new System.Drawing.Point(4, 24);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.tabPage1.Size = new System.Drawing.Size(690, 387);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Size = new System.Drawing.Size(590, 334);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -105,8 +101,7 @@
             // 
             this.UnloadSafety.AutoSize = true;
             this.UnloadSafety.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.UnloadSafety.Location = new System.Drawing.Point(478, 355);
-            this.UnloadSafety.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.UnloadSafety.Location = new System.Drawing.Point(396, 308);
             this.UnloadSafety.Name = "UnloadSafety";
             this.UnloadSafety.Size = new System.Drawing.Size(15, 14);
             this.UnloadSafety.TabIndex = 17;
@@ -117,10 +112,9 @@
             // 
             this.UnloadButton.Enabled = false;
             this.UnloadButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.UnloadButton.Location = new System.Drawing.Point(503, 350);
-            this.UnloadButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.UnloadButton.Location = new System.Drawing.Point(417, 303);
             this.UnloadButton.Name = "UnloadButton";
-            this.UnloadButton.Size = new System.Drawing.Size(88, 27);
+            this.UnloadButton.Size = new System.Drawing.Size(75, 23);
             this.UnloadButton.TabIndex = 16;
             this.UnloadButton.Text = "Unload";
             this.UnloadButton.UseVisualStyleBackColor = true;
@@ -130,20 +124,18 @@
             // 
             this.VersionLabel.AutoSize = true;
             this.VersionLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.VersionLabel.Location = new System.Drawing.Point(597, 355);
-            this.VersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.VersionLabel.Location = new System.Drawing.Point(498, 308);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(75, 15);
+            this.VersionLabel.Size = new System.Drawing.Size(72, 13);
             this.VersionLabel.TabIndex = 15;
-            this.VersionLabel.Text = "Version: 2.2.0";
+            this.VersionLabel.Text = "Version: 2.2.0.0";
             // 
             // MoneyPitThresholdSave
             // 
             this.MoneyPitThresholdSave.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoneyPitThresholdSave.Location = new System.Drawing.Point(284, 170);
-            this.MoneyPitThresholdSave.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.MoneyPitThresholdSave.Location = new System.Drawing.Point(243, 147);
             this.MoneyPitThresholdSave.Name = "MoneyPitThresholdSave";
-            this.MoneyPitThresholdSave.Size = new System.Drawing.Size(89, 23);
+            this.MoneyPitThresholdSave.Size = new System.Drawing.Size(76, 20);
             this.MoneyPitThresholdSave.TabIndex = 12;
             this.MoneyPitThresholdSave.Text = "Save";
             this.MoneyPitThresholdSave.UseVisualStyleBackColor = true;
@@ -152,10 +144,9 @@
             // 
             // MoneyPitThreshold
             // 
-            this.MoneyPitThreshold.Location = new System.Drawing.Point(132, 170);
-            this.MoneyPitThreshold.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.MoneyPitThreshold.Location = new System.Drawing.Point(113, 147);
             this.MoneyPitThreshold.Name = "MoneyPitThreshold";
-            this.MoneyPitThreshold.Size = new System.Drawing.Size(144, 23);
+            this.MoneyPitThreshold.Size = new System.Drawing.Size(124, 20);
             this.MoneyPitThreshold.TabIndex = 11;
             this.MoneyPitThreshold.Visible = false;
             this.MoneyPitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
@@ -164,10 +155,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(4, 173);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Location = new System.Drawing.Point(3, 150);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(116, 15);
+            this.label7.Size = new System.Drawing.Size(104, 13);
             this.label7.TabIndex = 10;
             this.label7.Text = "Money Pit Threshold";
             this.label7.Visible = false;
@@ -176,10 +166,9 @@
             // 
             this.MasterEnable.AutoSize = true;
             this.MasterEnable.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MasterEnable.Location = new System.Drawing.Point(7, 7);
-            this.MasterEnable.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.MasterEnable.Location = new System.Drawing.Point(6, 6);
             this.MasterEnable.Name = "MasterEnable";
-            this.MasterEnable.Size = new System.Drawing.Size(100, 19);
+            this.MasterEnable.Size = new System.Drawing.Size(93, 17);
             this.MasterEnable.TabIndex = 4;
             this.MasterEnable.Text = "Master Switch";
             this.MasterEnable.UseVisualStyleBackColor = true;
@@ -189,10 +178,9 @@
             // 
             this.AutoMoneyPit.AutoSize = true;
             this.AutoMoneyPit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoMoneyPit.Location = new System.Drawing.Point(6, 60);
-            this.AutoMoneyPit.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.AutoMoneyPit.Location = new System.Drawing.Point(5, 52);
             this.AutoMoneyPit.Name = "AutoMoneyPit";
-            this.AutoMoneyPit.Size = new System.Drawing.Size(109, 19);
+            this.AutoMoneyPit.Size = new System.Drawing.Size(98, 17);
             this.AutoMoneyPit.TabIndex = 6;
             this.AutoMoneyPit.Text = "Auto Money Pit";
             this.AutoMoneyPit.UseVisualStyleBackColor = true;
@@ -202,10 +190,9 @@
             // AutoDailySpin
             // 
             this.AutoDailySpin.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoDailySpin.Location = new System.Drawing.Point(7, 33);
-            this.AutoDailySpin.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.AutoDailySpin.Location = new System.Drawing.Point(6, 29);
             this.AutoDailySpin.Name = "AutoDailySpin";
-            this.AutoDailySpin.Size = new System.Drawing.Size(114, 20);
+            this.AutoDailySpin.Size = new System.Drawing.Size(98, 17);
             this.AutoDailySpin.TabIndex = 5;
             this.AutoDailySpin.Text = "Auto Daily Spin";
             this.AutoDailySpin.UseVisualStyleBackColor = true;
@@ -215,10 +202,9 @@
             // 
             this.AutoITOPOD.AutoSize = true;
             this.AutoITOPOD.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoITOPOD.Location = new System.Drawing.Point(7, 87);
-            this.AutoITOPOD.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.AutoITOPOD.Location = new System.Drawing.Point(6, 75);
             this.AutoITOPOD.Name = "AutoITOPOD";
-            this.AutoITOPOD.Size = new System.Drawing.Size(143, 19);
+            this.AutoITOPOD.Size = new System.Drawing.Size(134, 17);
             this.AutoITOPOD.TabIndex = 8;
             this.AutoITOPOD.Text = "Auto Move to ITOPOD";
             this.AutoITOPOD.UseVisualStyleBackColor = true;
@@ -227,11 +213,10 @@
             // 
             // SettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 447);
+            this.ClientSize = new System.Drawing.Size(605, 387);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.Text = "NGU INDUSTRIES Injector Settings";

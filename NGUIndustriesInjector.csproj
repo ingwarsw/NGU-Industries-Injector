@@ -6,6 +6,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<RootNamespace>NGUIndustriesInjector</RootNamespace>
 		<AssemblyName>NGUIndustriesInjector</AssemblyName>
+		<Version>0.0.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
@@ -215,6 +216,7 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
+	
 	<ItemGroup>
 		<None Include="inject.bat">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
