@@ -17,11 +17,13 @@ jobs:
       with:
         dotnet-version: 5.0.x
         
-    - name: Create tag
-      id: create_tag
-      run: |
-        tag=$(basename "${{ github.ref }}")
-        echo "::set-output name=tag::$tag"
+    - name: Extract tag name
+      id: tag
+      uses: actions/github-script@0.2.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          return context.payload.ref.replace(/\/refs\/tags\//, '');
         
     - name: Build
       run: dotnet build --configuration Release
@@ -37,8 +39,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.create_tag.outputs.tag }}
-        release_name: ${{ steps.create_tag.outputs.tag }}
+        tag_name: ${{ steps.tag.outputs.result }}
+        release_name: ${{ steps.tag.outputs.result }}
         draft: true
         prerelease: false
 
