@@ -25,7 +25,7 @@ namespace NGUIndustriesInjector
 
         internal static bool IgnoreNextChange { get; set; }
 
-        internal static SavedSettings Settings;
+        internal static SavedSettings Settings { get; set; }
 
         internal static void Log(string msg)
         {
@@ -124,16 +124,6 @@ namespace NGUIndustriesInjector
                 LogLoot("Starting Loot Writer");
                 LogCombat("Starting Combat Writer");
 
-                Settings = new SavedSettings(_dir);
-
-                if (!Settings.LoadSettings())
-                {
-                    //Settings.CreateDefault();
-                    Log($"Created default settings");
-                }
-
-                settingsForm = new SettingsForm();
-
                 ConfigWatcher = new FileSystemWatcher
                 {
                     Path = _dir,
@@ -149,13 +139,12 @@ namespace NGUIndustriesInjector
                         IgnoreNextChange = false;
                         return;
                     }
-                    Settings.LoadSettings();
+                    Settings = SavedSettings.LoadSettings(_dir);
                     settingsForm.UpdateFromSettings(Settings);
                 };
 
-                Settings.SaveSettings();
-                Settings.LoadSettings();
-
+                Settings = SavedSettings.LoadSettings(_dir);
+                settingsForm = new SettingsForm();
                 settingsForm.UpdateFromSettings(Settings);
                 settingsForm.Show();
 
@@ -191,7 +180,7 @@ namespace NGUIndustriesInjector
             {
                 if (!settingsForm.Visible)
                 {
-                    
+
                     settingsForm.Show();
                 }
                 settingsForm.BringToFront();
@@ -312,7 +301,7 @@ namespace NGUIndustriesInjector
             {
                 if (!Settings.GlobalEnabled)
                     return;
-                
+
                 var player = FindObjectOfType<Player>();
                 ManageFactories(player);
                 ManageWorkOrders(player);
@@ -372,7 +361,7 @@ namespace NGUIndustriesInjector
                 wo.newWorkOrderButtonClick();
             }
             Log($"Handing out all Work Order materials {buildings.Count()}");
-            
+
             buildings.ForEach(building => wo.tryHandInMaterial(building));
         }
 
@@ -470,13 +459,13 @@ namespace NGUIndustriesInjector
                     player.factoryController.setNewMapID(currentMap);
 
                     var empty = player.factoryController.getAllEmptyTileIndexes(currentMap);
-                    
+
                     empty.ForEach(index => IsBetter(BuildingType.None, index));
-                   
+
                     foreach (var building in map.buildings)
                     {
                         var buildingType = building.building;
-                        
+
                         if (toDelete.ContainsKey(buildingType))
                         {
                             IsBetter(buildingType, building.index);
