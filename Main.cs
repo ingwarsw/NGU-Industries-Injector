@@ -436,14 +436,22 @@ namespace NGUIndustriesInjector
             void IsBetter(BuildingType buildingType, int index)
             {
                 var production = player.factoryController.totalTileProductionMultiplier(currentMap, index, newBuilding.BuildingType);
-                var labSpeed = player.factoryController.totalTileSpeed(currentMap, index, BuildingType.Lab1);
+                var testSpeed = player.factoryController.totalTileSpeed(currentMap, index, BuildingType.CandyJuice4);
                 var speed = player.factoryController.totalTileSpeed(currentMap, index, newBuilding.BuildingType);
                 var efficency = production * speed;
+                var realTime = newBuilding.BaseTime / speed;
+
+                // we preffer empty places
                 if (buildingType == BuildingType.None)
                     efficency *= 100;
+
+                // We are not properly using speed beacon, lets penalize it
+                if (testSpeed > 1 && realTime == newBuilding.MinTime)
+                    efficency *= 100;
+
                 if (efficency > maxEfficency)
                 {
-                    Log($"Building?: {buildingType} {index} ===> {production}*{speed} = {efficency} (lab speed {labSpeed})");
+                    Log($"Building?: {buildingType} {index} ===> {production}*{speed} (real time: {realTime} == min time: {newBuilding.MinTime})= {efficency} (test speed {testSpeed})");
                     maxEfficency = efficency;
                     bestMap = currentMap;
                     bestIndex = index;

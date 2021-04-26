@@ -43,9 +43,12 @@
             this.AutoPit = new System.Windows.Forms.CheckBox();
             this.AutoDailySpin = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
+            this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -200,6 +203,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.FactoryBuildStandard);
+            this.tabPage2.Controls.Add(this.FactoryDontStarve);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -207,6 +212,28 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Factories";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // FactoryBuildStandard
+            // 
+            this.FactoryBuildStandard.AutoSize = true;
+            this.FactoryBuildStandard.Location = new System.Drawing.Point(7, 30);
+            this.FactoryBuildStandard.Name = "FactoryBuildStandard";
+            this.FactoryBuildStandard.Size = new System.Drawing.Size(322, 17);
+            this.FactoryBuildStandard.TabIndex = 1;
+            this.FactoryBuildStandard.Text = "Build \"standard\" number of all resources (with really low priority)";
+            this.FactoryBuildStandard.UseVisualStyleBackColor = true;
+            this.FactoryBuildStandard.CheckedChanged += new System.EventHandler(this.FactoryBuildStandard_CheckedChanged);
+            // 
+            // FactoryDontStarve
+            // 
+            this.FactoryDontStarve.AutoSize = true;
+            this.FactoryDontStarve.Location = new System.Drawing.Point(7, 7);
+            this.FactoryDontStarve.Name = "FactoryDontStarve";
+            this.FactoryDontStarve.Size = new System.Drawing.Size(300, 17);
+            this.FactoryDontStarve.TabIndex = 0;
+            this.FactoryDontStarve.Text = "Dont allow starving of factories (never see red color again)";
+            this.FactoryDontStarve.UseVisualStyleBackColor = true;
+            this.FactoryDontStarve.CheckedChanged += new System.EventHandler(this.FactoryDontStarve_CheckedChanged);
             // 
             // SettingsForm
             // 
@@ -221,6 +248,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -240,5 +269,7 @@
         private System.Windows.Forms.CheckBox AutoPit;
         private System.Windows.Forms.CheckBox AutoDailySpin;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox FactoryDontStarve;
+        private System.Windows.Forms.CheckBox FactoryBuildStandard;
     }
 }

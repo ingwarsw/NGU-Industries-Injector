@@ -224,10 +224,6 @@
 		</None>
 	</ItemGroup>
 	
-	<ItemGroup>
-	  <PackageReference Include="fastJSON" Version="2.4.0.0" />
-	</ItemGroup>
-
 	<PropertyGroup>
 		<PostBuildEvent>
 			rmdir /S /Q dist

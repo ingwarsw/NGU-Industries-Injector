@@ -21,6 +21,9 @@ namespace NGUIndustriesInjector
             MasterEnable.Checked = newSettings.GlobalEnabled;
             AutoDailySpin.Checked = newSettings.AutoSpin;
             AutoPit.Checked = newSettings.AutoPit;
+            FactoryDontStarve.Checked = newSettings.FactoryDontStarve;
+            FactoryBuildStandard.Checked = newSettings.FactoryBuildStandard;
+
             PitThreshold.Text = $"{newSettings.PitThreshold:#.##E+00}";
 
             Refresh();
@@ -85,5 +88,16 @@ namespace NGUIndustriesInjector
             Loader.Unload();
         }
 
+        private void FactoryDontStarve_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.FactoryDontStarve = FactoryDontStarve.Checked;
+        }
+
+        private void FactoryBuildStandard_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.FactoryBuildStandard = FactoryBuildStandard.Checked;
+        }
     }
 }
