@@ -14,6 +14,8 @@ namespace NGUIndustriesInjector
         [SerializeField] private bool _factoryBuildStandard = true;
         public List<Vector2> _priorytyBuildings = new List<Vector2>();
 
+        [SerializeField] private bool _manageWorkOrders = false;
+
         [SerializeField] private bool _autoSpin = false;
 
         [SerializeField] private bool _autoPit = false;
@@ -86,6 +88,7 @@ namespace NGUIndustriesInjector
                 SaveSettings();
             }
         }
+
         public bool FactoryDontStarve
         {
             get => _factoryDontStarve;
@@ -114,6 +117,17 @@ namespace NGUIndustriesInjector
             set
             {
                 _priorytyBuildings = value;
+                SaveSettings();
+            }
+        }
+
+        public bool ManageWorkOrders
+        {
+            get => _manageWorkOrders;
+            set
+            {
+                if (value == _manageWorkOrders) return;
+                _manageWorkOrders = value;
                 SaveSettings();
             }
         }

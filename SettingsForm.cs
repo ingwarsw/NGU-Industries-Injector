@@ -23,6 +23,7 @@ namespace NGUIndustriesInjector
             AutoPit.Checked = newSettings.AutoPit;
             FactoryDontStarve.Checked = newSettings.FactoryDontStarve;
             FactoryBuildStandard.Checked = newSettings.FactoryBuildStandard;
+            ManageWorkOrders.Checked = newSettings.ManageWorkOrders;
 
             PitThreshold.Text = $"{newSettings.PitThreshold:#.##E+00}";
 
@@ -98,6 +99,12 @@ namespace NGUIndustriesInjector
         {
             if (_initializing) return;
             Main.Settings.FactoryBuildStandard = FactoryBuildStandard.Checked;
+        }
+
+        private void ManageWorkOrders_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.ManageWorkOrders = ManageWorkOrders.Checked;
         }
     }
 }

@@ -132,7 +132,7 @@ namespace NGUIndustriesInjector
                 BuildNumber = -(int)(Gain / PerSecond / Math.Max(1, HavePercent));
                 BuildNumber = Math.Max(1, Math.Min(BuildNumber, 30));
                 BuildPercent = 5;
-                DeleteFunction = other => other.HavePercent > BuildPercent && other.Gain > 0;
+                DeleteFunction = other => (other.HavePercent > BuildPercent && other.Gain - other.PerSecond > 0) || other.HavePercent > 20;
                 Main.Log($"{this}: Adding DONT STARVE to SET < 10% and gain < 0 to build {BuildNumber}");
                 return;
             }

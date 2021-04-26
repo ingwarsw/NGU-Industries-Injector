@@ -364,16 +364,19 @@ namespace NGUIndustriesInjector
 
         private void ManageWorkOrders(Player player)
         {
-            var wo = player.workOrdersController;
-            var buildings = wo.getValidBuildingsList();
-            if (wo.getWorkOrderButton.interactable)
+            if (Settings.ManageWorkOrders)
             {
-                Log($"Getting new order");
-                wo.newWorkOrderButtonClick();
-            }
-            Log($"Handing out all Work Order materials {buildings.Count()}");
+                var wo = player.workOrdersController;
+                var buildings = wo.getValidBuildingsList();
+                if (wo.getWorkOrderButton.interactable)
+                {
+                    Log($"Getting new order");
+                    wo.newWorkOrderButtonClick();
+                }
+                Log($"Handing out all Work Order materials {buildings.Count()}");
 
-            buildings.ForEach(building => wo.tryHandInMaterial(building));
+                buildings.ForEach(building => wo.tryHandInMaterial(building));
+            }
         }
 
         private void ManageFactories(Player player)
@@ -447,7 +450,7 @@ namespace NGUIndustriesInjector
 
                 // We are not properly using speed beacon, lets penalize it
                 if (testSpeed > 1 && realTime == newBuilding.MinTime)
-                    efficency *= 100;
+                    efficency /= 100;
 
                 if (efficency > maxEfficency)
                 {

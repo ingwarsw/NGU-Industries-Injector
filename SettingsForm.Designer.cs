@@ -52,6 +52,7 @@
             this.ProrityListColumnNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
             this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
+            this.ManageWorkOrders = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -90,6 +91,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.ManageWorkOrders);
             this.tabPage1.Controls.Add(this.UnloadSafety);
             this.tabPage1.Controls.Add(this.UnloadButton);
             this.tabPage1.Controls.Add(this.VersionLabel);
@@ -303,6 +305,17 @@
             this.FactoryDontStarve.UseVisualStyleBackColor = true;
             this.FactoryDontStarve.CheckedChanged += new System.EventHandler(this.FactoryDontStarve_CheckedChanged);
             // 
+            // ManageWorkOrders
+            // 
+            this.ManageWorkOrders.AutoSize = true;
+            this.ManageWorkOrders.Location = new System.Drawing.Point(6, 52);
+            this.ManageWorkOrders.Name = "ManageWorkOrders";
+            this.ManageWorkOrders.Size = new System.Drawing.Size(128, 17);
+            this.ManageWorkOrders.TabIndex = 18;
+            this.ManageWorkOrders.Text = "Manage Work Orders";
+            this.ManageWorkOrders.UseVisualStyleBackColor = true;
+            this.ManageWorkOrders.CheckedChanged += new System.EventHandler(this.ManageWorkOrders_CheckedChanged);
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -346,5 +359,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader ProrityListColumnName;
         private System.Windows.Forms.ColumnHeader ProrityListColumnNumber;
+        private System.Windows.Forms.CheckBox ManageWorkOrders;
     }
 }
