@@ -3,29 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using static NGUIndustriesInjector.SavedSettings;
 
 namespace NGUIndustriesInjector
 {
     internal class Main : MonoBehaviour
     {
         private const float MAIN_DELAY = 60;
+
         internal static StreamWriter OutputWriter;
         internal static StreamWriter LootWriter;
         internal static StreamWriter CombatWriter;
         internal static StreamWriter PitSpinWriter;
-        internal static Main reference;
-        private float _timeLeft = MAIN_DELAY;
-        internal static SettingsForm settingsForm;
-        internal static string Version = typeof(Main).Assembly.GetName().Version.ToString();
-
-        private static string _dir;
-        private static string _profilesDir;
-
-        internal static FileSystemWatcher ConfigWatcher;
-
+        internal static Main Reference { get; set; }
         internal static bool IgnoreNextChange { get; set; }
-
+        internal static SettingsForm SettingsForm { get; set; }
         internal static SavedSettings Settings { get; set; }
+
+        private float _timeLeft = MAIN_DELAY;
+
+        private string _dir { get; set; }
+
+        private FileSystemWatcher ConfigWatcher { get; set; }
+
+        private List<MaterialState> materialState;
+
 
         internal static void Log(string msg)
         {
@@ -63,8 +65,8 @@ namespace NGUIndustriesInjector
                 LootWriter.Close();
                 CombatWriter.Close();
                 PitSpinWriter.Close();
-                settingsForm.Close();
-                settingsForm.Dispose();
+                SettingsForm.Close();
+                SettingsForm.Dispose();
 
                 ConfigWatcher.Dispose();
             }
@@ -96,7 +98,7 @@ namespace NGUIndustriesInjector
                 CombatWriter = new StreamWriter(Path.Combine(logDir, "combat.log")) { AutoFlush = true };
                 PitSpinWriter = new StreamWriter(Path.Combine(logDir, "pitspin.log"), true) { AutoFlush = true };
 
-                _profilesDir = Path.Combine(_dir, "profiles");
+                var _profilesDir = Path.Combine(_dir, "profiles");
                 if (!Directory.Exists(_profilesDir))
                 {
                     Directory.CreateDirectory(_profilesDir);
@@ -124,6 +126,9 @@ namespace NGUIndustriesInjector
                 LogLoot("Starting Loot Writer");
                 LogCombat("Starting Combat Writer");
 
+                Settings = new SavedSettings(_dir);
+                Settings.LoadSettings();
+
                 ConfigWatcher = new FileSystemWatcher
                 {
                     Path = _dir,
@@ -139,14 +144,13 @@ namespace NGUIndustriesInjector
                         IgnoreNextChange = false;
                         return;
                     }
-                    Settings = SavedSettings.LoadSettings(_dir);
-                    settingsForm.UpdateFromSettings(Settings);
+                    Settings.LoadSettings();
+                    SettingsForm.UpdateFromSettings(Settings);
                 };
 
-                Settings = SavedSettings.LoadSettings(_dir);
-                settingsForm = new SettingsForm();
-                settingsForm.UpdateFromSettings(Settings);
-                settingsForm.Show();
+                SettingsForm = new SettingsForm();
+                SettingsForm.UpdateFromSettings(Settings);
+                SettingsForm.Show();
 
                 InvokeRepeating("AutomationRoutine", 0.0f, MAIN_DELAY);
                 InvokeRepeating("SnipeZone", 0.0f, .1f);
@@ -155,7 +159,14 @@ namespace NGUIndustriesInjector
                 InvokeRepeating("ShowBoostProgress", 0.0f, 60.0f);
                 InvokeRepeating("SetResnipe", 0f, 1f);
 
-                reference = this;
+                Reference = this;
+
+                materialState = new List<MaterialState>();
+                MaterialState.SetState(materialState, FindObjectOfType<Player>());
+                foreach (var buildingType in Enum.GetValues(typeof(BuildingType)).Cast<BuildingType>())
+                {
+                    materialState.Add(new MaterialState(buildingType));
+                }
             }
             catch (Exception e)
             {
@@ -167,23 +178,23 @@ namespace NGUIndustriesInjector
 
         internal static void UpdateForm(SavedSettings newSettings)
         {
-            settingsForm.UpdateFromSettings(newSettings);
+            SettingsForm.UpdateFromSettings(newSettings);
         }
 
         public void Update()
         {
             _timeLeft -= Time.deltaTime;
 
-            settingsForm.UpdateProgressBar((int)Math.Floor(_timeLeft / MAIN_DELAY * 100));
+            SettingsForm.UpdateProgressBar((int)Math.Floor(_timeLeft / MAIN_DELAY * 100));
 
             if (Input.GetKeyDown(KeyCode.F1))
             {
-                if (!settingsForm.Visible)
+                if (!SettingsForm.Visible)
                 {
 
-                    settingsForm.Show();
+                    SettingsForm.Show();
                 }
-                settingsForm.BringToFront();
+                SettingsForm.BringToFront();
             }
 
             if (Input.GetKeyDown(KeyCode.F2))
@@ -370,83 +381,23 @@ namespace NGUIndustriesInjector
             Log($"On map: {player.factoryController.mapNameText.text}");
             var tracker = player.factoryController.tracker;
 
-            Dictionary<BuildingType, double> toSet = new Dictionary<BuildingType, double>();
-            Dictionary<BuildingType, double> toDelete = new Dictionary<BuildingType, double>();
+            materialState.ForEach(state => state.CalculateState());
 
-            foreach (var buildingType in Enum.GetValues(typeof(BuildingType)).Cast<BuildingType>())
-            {
-                int building = (int)buildingType;
-                var material = player.materials.materials[building];
-                var properties = tracker.buildingProperties.properties[building];
-                var gain = tracker.theoreticalGainLoss[building];
-                var number = tracker.buildingCounts[building];
-                var name = properties.name;
-                Log($"Building?: {building}: {name} have: {material.amount} gain? {gain}");
-                if (material.largestProduction > 0)
-                {
-                    var perSecond = material.largestProduction / properties.baseTime;
-                    var shouldHave = perSecond * 3600 * 10;
-                    if (buildingName(buildingType).Contains("Juice"))
-                    {
-                        shouldHave *= 100;
-                    }
-                    var havePercent = material.amount / shouldHave * 100;
-                    var score = 0;// player.workOrdersController.getBuildingBaseScore(buildingType);
-                    Log($"Output {material.largestProduction} time {properties.baseTime} per second {perSecond} have % {havePercent} score? {score}");
-
-                    if (havePercent < 10 && gain < 0)
-                    {
-                        var extra = gain / perSecond / Math.Max(1, havePercent) * 100;
-                        Log($"Adding to SET < 10% and gain < 0 extra {extra}");
-                        toSet.Add(buildingType, havePercent + extra);
-                    }
-                    else if (havePercent < 10 && number < 3)
-                    {
-                        Log($"Adding to SET < 10% and less than 3 instances");
-                        toSet.Add(buildingType, havePercent);
-                    }
-                    else if (havePercent < 1)
-                    {
-                        Log($"Adding to SET < 1%");
-                        toSet.Add(buildingType, havePercent);
-                    }
-                    else if (havePercent < 100 && gain <= 0)
-                    {
-                        Log($"Adding to SET < 100% and gain <= 0");
-                        toSet.Add(buildingType, havePercent);
-                    }
-
-                    if (havePercent > 1 && gain > 0 && number > 0)
-                    {
-                        Log($"Adding to DELETE");
-                        toDelete.Add(buildingType, havePercent);
-                    }
-                }
-            }
-            Log($"To SET {string.Join(", ", toSet)}");
-            Log($"To DELETE {string.Join(", ", toDelete)}");
-
-            Dictionary<BuildingType, double> allDelete = Enum.GetValues(typeof(BuildingType)).Cast<BuildingType>().ToList()
-                .FindAll(b => buildingName(b).Contains("Juice") || toDelete.ContainsKey(b))
-                .ToDictionary(b => b, b => 0.0);
-
-            var sorted = from entry in toSet orderby entry.Value select entry;
+            var sorted = from entry in materialState where entry.BuildNumber > 0 orderby entry.BuildPercent select entry;
             foreach (var newBuilding in sorted)
             {
-                var value = Math.Max(newBuilding.Value, -5000);
-                while (value < 100)
+                for (int i = 0; i < newBuilding.BuildNumber; i++)
                 {
-                    Log($"Value {value}");
-                    SetOne(player, value <= 0 ? toDelete : toDelete.Where(b => b.Value > 200).ToDictionary(i => i.Key, i => i.Value), newBuilding.Key);
-                    value += 100;
+                    SetOne(player, newBuilding);
                 }
             }
         }
 
-        private static void SetOne(Player player, Dictionary<BuildingType, double> toDelete, BuildingType newBuilding)
+        private static void SetOne(Player player, MaterialState newBuilding)
         {
             var origMap = player.factoryController.curMapID;
-            Log($"Setting {newBuilding}");
+            var toDelete = newBuilding.ToDelete;
+            Log($"Setting {newBuilding} to delete {string.Join(", ", toDelete)}");
             var currentMap = 0;
             var maxEfficency = 0.0;
             var bestMap = 0;
@@ -466,7 +417,7 @@ namespace NGUIndustriesInjector
                     {
                         var buildingType = building.building;
 
-                        if (toDelete.ContainsKey(buildingType))
+                        if (toDelete.Contains(buildingType))
                         {
                             IsBetter(buildingType, building.index);
                         }
@@ -478,20 +429,21 @@ namespace NGUIndustriesInjector
             {
                 player.factoryController.setNewMapID(bestMap);
                 Log($"DELETE {bestIndex} and setting {newBuilding} value {maxEfficency}");
-                player.factoryController.doSetTile(bestIndex, newBuilding, TileDirection.Up);
+                player.factoryController.doSetTile(bestIndex, newBuilding.BuildingType, TileDirection.Up);
             }
             player.factoryController.setNewMapID(origMap);
 
             void IsBetter(BuildingType buildingType, int index)
             {
-                var production = player.factoryController.totalTileProductionMultiplier(currentMap, index, newBuilding);
-                var speed = player.factoryController.totalTileSpeed(currentMap, index, newBuilding);
+                var production = player.factoryController.totalTileProductionMultiplier(currentMap, index, newBuilding.BuildingType);
+                var labSpeed = player.factoryController.totalTileSpeed(currentMap, index, BuildingType.Lab1);
+                var speed = player.factoryController.totalTileSpeed(currentMap, index, newBuilding.BuildingType);
                 var efficency = production * speed;
                 if (buildingType == BuildingType.None)
                     efficency *= 100;
                 if (efficency > maxEfficency)
                 {
-                    Log($"Building?: {buildingType} {index} ===> {production}*{speed} = {efficency}");
+                    Log($"Building?: {buildingType} {index} ===> {production}*{speed} = {efficency} (lab speed {labSpeed})");
                     maxEfficency = efficency;
                     bestMap = currentMap;
                     bestIndex = index;
@@ -541,7 +493,6 @@ namespace NGUIndustriesInjector
             //    log[i] = $"{line}<b></b>";
             //}
         }
-
 
         public void OnApplicationQuit()
         {

@@ -1,30 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 namespace NGUIndustriesInjector
 {
-     [Serializable]
+    [Serializable]
     public class SavedSettings
     {
-        [SerializeField] private int _highestAkZone;
-        [SerializeField] private bool _autoQuestItopod;
-        [SerializeField] private bool _autoMoneyPit;
-        [SerializeField] private bool _autoSpin;
-        [SerializeField] private double _moneyPitThreshold;
-        [SerializeField] private bool _globalEnabled;
+        [SerializeField] private bool _globalEnabled = false;
+
+        [SerializeField] private bool _factoryDontStarve = true;
+        [SerializeField] private bool _factoryBuildStandard = true;
+        public List<Vector2> _priorytyBuildings = new List<Vector2>();
+
+        [SerializeField] private bool _autoSpin = false;
+
+        [SerializeField] private bool _autoPit = false;
+        [SerializeField] private double _pitThreshold = 10000000000000;
+
+
 
         private bool _disableSave;
-        private string savePath;
-        
-         internal void SaveSettings()
+        private readonly string savePath;
+
+
+        internal SavedSettings(string dir)
+        {
+            savePath = Path.Combine(dir, "settings.json");
+        }
+
+        internal void SaveSettings()
         {
             if (savePath == null) return;
             if (_disableSave) return;
             Main.Log("Saving Settings");
             Main.IgnoreNextChange = true;
             var serialized = JsonUtility.ToJson(this, true);
+            //var serialized = fastJSON.JSON.ToNiceJSON(this);
             using (var writer = new StreamWriter(savePath))
             {
                 writer.Write(serialized);
@@ -38,18 +51,16 @@ namespace NGUIndustriesInjector
             _disableSave = disabled;
         }
 
-        internal static SavedSettings LoadSettings(string dir)
+        internal void LoadSettings()
         {
-            var savePath = Path.Combine(dir, "settings.json");
             if (File.Exists(savePath))
             {
                 try
                 {
-                    var loadedSettings = JsonUtility.FromJson<SavedSettings>(File.ReadAllText(savePath));
+                    var json = File.ReadAllText(savePath);
+                    //fastJSON.JSON.FillObject(this, json);
+                    JsonUtility.FromJsonOverwrite(json, this);
                     Main.Log("Loaded Settings");
-                    Main.Log(JsonUtility.ToJson(loadedSettings, true));
-                    loadedSettings.savePath = savePath;
-                    return loadedSettings;
                 }
                 catch (Exception e)
                 {
@@ -57,42 +68,52 @@ namespace NGUIndustriesInjector
                     Main.Log(e.StackTrace);
                 }
             }
-            Main.Log("Creating new default Settings");
-            var newSettings = new SavedSettings
+            else
             {
-                savePath = savePath
-            };
-            return newSettings;
+                Main.Log("Creating new default Settings");
+            }
+            //Main.Log(fastJSON.JSON.ToNiceJSON(this));
+            Main.Log(JsonUtility.ToJson(this, true));
         }
 
-        public int HighestAKZone
+        public bool GlobalEnabled
         {
-            get => _highestAkZone;
+            get => _globalEnabled;
             set
             {
-                _highestAkZone = value;
+                if (value == _globalEnabled) return;
+                _globalEnabled = value;
+                SaveSettings();
+            }
+        }
+        public bool FactoryDontStarve
+        {
+            get => _factoryDontStarve;
+            set
+            {
+                if (value == _factoryDontStarve) return;
+                _factoryDontStarve = value;
                 SaveSettings();
             }
         }
 
-        public bool AutoQuestITOPOD
+        public bool FactoryBuildStandard
         {
-            get => _autoQuestItopod;
+            get => _factoryBuildStandard;
             set
             {
-                if (value == _autoQuestItopod) return;
-                _autoQuestItopod = value;
+                if (value == _factoryBuildStandard) return;
+                _factoryBuildStandard = value;
                 SaveSettings();
             }
         }
 
-        public bool AutoMoneyPit
+        public List<Vector2> PriorityBuildings
         {
-            get => _autoMoneyPit;
+            get => _priorytyBuildings;
             set
             {
-                if (value == _autoMoneyPit) return;
-                _autoMoneyPit = value;
+                _priorytyBuildings = value;
                 SaveSettings();
             }
         }
@@ -108,27 +129,28 @@ namespace NGUIndustriesInjector
             }
         }
 
-
-        public double MoneyPitThreshold
+        public bool AutoPit
         {
-            get => _moneyPitThreshold;
+            get => _autoPit;
             set
             {
-                _moneyPitThreshold = value;
+                if (value == _autoPit) return;
+                _autoPit = value;
                 SaveSettings();
             }
         }
 
 
-        public bool GlobalEnabled
+        public double PitThreshold
         {
-            get => _globalEnabled;
+            get => _pitThreshold;
             set
             {
-                if (value == _globalEnabled) return;
-                _globalEnabled = value;
+                _pitThreshold = value;
                 SaveSettings();
             }
         }
+
+
     }
 }

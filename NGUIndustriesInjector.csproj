@@ -17,6 +17,7 @@
 		<Reference Include="Assembly-CSharp">
 			<HintPath>libs\Assembly-CSharp.dll</HintPath>
 		</Reference>
+		<Reference Include="System.Data.DataSetExtensions" />
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>libs\Unity.TextMeshPro.dll</HintPath>
 		</Reference>
@@ -221,6 +222,10 @@
 		<None Include="inject.bat">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <PackageReference Include="fastJSON" Version="2.4.0.0" />
 	</ItemGroup>
 
 	<PropertyGroup>

@@ -36,13 +36,13 @@
             this.UnloadSafety = new System.Windows.Forms.CheckBox();
             this.UnloadButton = new System.Windows.Forms.Button();
             this.VersionLabel = new System.Windows.Forms.Label();
-            this.MoneyPitThresholdSave = new System.Windows.Forms.Button();
-            this.MoneyPitThreshold = new System.Windows.Forms.TextBox();
+            this.PitThresholdSave = new System.Windows.Forms.Button();
+            this.PitThreshold = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.MasterEnable = new System.Windows.Forms.CheckBox();
-            this.AutoMoneyPit = new System.Windows.Forms.CheckBox();
+            this.AutoPit = new System.Windows.Forms.CheckBox();
             this.AutoDailySpin = new System.Windows.Forms.CheckBox();
-            this.AutoITOPOD = new System.Windows.Forms.CheckBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -71,6 +71,7 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(3, 22);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -82,16 +83,15 @@
             this.tabPage1.Controls.Add(this.UnloadSafety);
             this.tabPage1.Controls.Add(this.UnloadButton);
             this.tabPage1.Controls.Add(this.VersionLabel);
-            this.tabPage1.Controls.Add(this.MoneyPitThresholdSave);
-            this.tabPage1.Controls.Add(this.MoneyPitThreshold);
+            this.tabPage1.Controls.Add(this.PitThresholdSave);
+            this.tabPage1.Controls.Add(this.PitThreshold);
             this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.MasterEnable);
-            this.tabPage1.Controls.Add(this.AutoMoneyPit);
+            this.tabPage1.Controls.Add(this.AutoPit);
             this.tabPage1.Controls.Add(this.AutoDailySpin);
-            this.tabPage1.Controls.Add(this.AutoITOPOD);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(590, 334);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Settings";
@@ -126,30 +126,30 @@
             this.VersionLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.VersionLabel.Location = new System.Drawing.Point(498, 308);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(72, 13);
+            this.VersionLabel.Size = new System.Drawing.Size(81, 13);
             this.VersionLabel.TabIndex = 15;
             this.VersionLabel.Text = "Version: 2.2.0.0";
             // 
-            // MoneyPitThresholdSave
+            // PitThresholdSave
             // 
-            this.MoneyPitThresholdSave.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MoneyPitThresholdSave.Location = new System.Drawing.Point(243, 147);
-            this.MoneyPitThresholdSave.Name = "MoneyPitThresholdSave";
-            this.MoneyPitThresholdSave.Size = new System.Drawing.Size(76, 20);
-            this.MoneyPitThresholdSave.TabIndex = 12;
-            this.MoneyPitThresholdSave.Text = "Save";
-            this.MoneyPitThresholdSave.UseVisualStyleBackColor = true;
-            this.MoneyPitThresholdSave.Visible = false;
-            this.MoneyPitThresholdSave.Click += new System.EventHandler(this.MoneyPitThresholdSave_Click);
+            this.PitThresholdSave.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.PitThresholdSave.Location = new System.Drawing.Point(243, 147);
+            this.PitThresholdSave.Name = "PitThresholdSave";
+            this.PitThresholdSave.Size = new System.Drawing.Size(76, 20);
+            this.PitThresholdSave.TabIndex = 12;
+            this.PitThresholdSave.Text = "Save";
+            this.PitThresholdSave.UseVisualStyleBackColor = true;
+            this.PitThresholdSave.Visible = false;
+            this.PitThresholdSave.Click += new System.EventHandler(this.MoneyPitThresholdSave_Click);
             // 
-            // MoneyPitThreshold
+            // PitThreshold
             // 
-            this.MoneyPitThreshold.Location = new System.Drawing.Point(113, 147);
-            this.MoneyPitThreshold.Name = "MoneyPitThreshold";
-            this.MoneyPitThreshold.Size = new System.Drawing.Size(124, 20);
-            this.MoneyPitThreshold.TabIndex = 11;
-            this.MoneyPitThreshold.Visible = false;
-            this.MoneyPitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
+            this.PitThreshold.Location = new System.Drawing.Point(113, 147);
+            this.PitThreshold.Name = "PitThreshold";
+            this.PitThreshold.Size = new System.Drawing.Size(124, 20);
+            this.PitThreshold.TabIndex = 11;
+            this.PitThreshold.Visible = false;
+            this.PitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
             // 
             // label7
             // 
@@ -157,9 +157,9 @@
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label7.Location = new System.Drawing.Point(3, 150);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(104, 13);
+            this.label7.Size = new System.Drawing.Size(69, 13);
             this.label7.TabIndex = 10;
-            this.label7.Text = "Money Pit Threshold";
+            this.label7.Text = "Pit Threshold";
             this.label7.Visible = false;
             // 
             // MasterEnable
@@ -174,18 +174,18 @@
             this.MasterEnable.UseVisualStyleBackColor = true;
             this.MasterEnable.CheckedChanged += new System.EventHandler(this.MasterEnable_CheckedChanged);
             // 
-            // AutoMoneyPit
+            // AutoPit
             // 
-            this.AutoMoneyPit.AutoSize = true;
-            this.AutoMoneyPit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoMoneyPit.Location = new System.Drawing.Point(5, 52);
-            this.AutoMoneyPit.Name = "AutoMoneyPit";
-            this.AutoMoneyPit.Size = new System.Drawing.Size(98, 17);
-            this.AutoMoneyPit.TabIndex = 6;
-            this.AutoMoneyPit.Text = "Auto Money Pit";
-            this.AutoMoneyPit.UseVisualStyleBackColor = true;
-            this.AutoMoneyPit.Visible = false;
-            this.AutoMoneyPit.CheckedChanged += new System.EventHandler(this.AutoMoneyPit_CheckedChanged);
+            this.AutoPit.AutoSize = true;
+            this.AutoPit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.AutoPit.Location = new System.Drawing.Point(5, 130);
+            this.AutoPit.Name = "AutoPit";
+            this.AutoPit.Size = new System.Drawing.Size(63, 17);
+            this.AutoPit.TabIndex = 6;
+            this.AutoPit.Text = "Auto Pit";
+            this.AutoPit.UseVisualStyleBackColor = true;
+            this.AutoPit.Visible = false;
+            this.AutoPit.CheckedChanged += new System.EventHandler(this.AutoMoneyPit_CheckedChanged);
             // 
             // AutoDailySpin
             // 
@@ -198,18 +198,15 @@
             this.AutoDailySpin.UseVisualStyleBackColor = true;
             this.AutoDailySpin.CheckedChanged += new System.EventHandler(this.AutoDailySpin_CheckedChanged);
             // 
-            // AutoITOPOD
+            // tabPage2
             // 
-            this.AutoITOPOD.AutoSize = true;
-            this.AutoITOPOD.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoITOPOD.Location = new System.Drawing.Point(6, 75);
-            this.AutoITOPOD.Name = "AutoITOPOD";
-            this.AutoITOPOD.Size = new System.Drawing.Size(134, 17);
-            this.AutoITOPOD.TabIndex = 8;
-            this.AutoITOPOD.Text = "Auto Move to ITOPOD";
-            this.AutoITOPOD.UseVisualStyleBackColor = true;
-            this.AutoITOPOD.Visible = false;
-            this.AutoITOPOD.CheckedChanged += new System.EventHandler(this.AutoITOPOD_CheckedChanged);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(590, 334);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Factories";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
@@ -236,12 +233,12 @@
         private System.Windows.Forms.CheckBox UnloadSafety;
         private System.Windows.Forms.Button UnloadButton;
         private System.Windows.Forms.Label VersionLabel;
-        private System.Windows.Forms.Button MoneyPitThresholdSave;
-        private System.Windows.Forms.TextBox MoneyPitThreshold;
+        private System.Windows.Forms.Button PitThresholdSave;
+        private System.Windows.Forms.TextBox PitThreshold;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox MasterEnable;
-        private System.Windows.Forms.CheckBox AutoMoneyPit;
+        private System.Windows.Forms.CheckBox AutoPit;
         private System.Windows.Forms.CheckBox AutoDailySpin;
-        private System.Windows.Forms.CheckBox AutoITOPOD;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

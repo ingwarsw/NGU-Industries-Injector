@@ -19,7 +19,7 @@ namespace NGUIndustriesInjector
 
         private static void _Unload()
         {
-            Main.reference.Unload();
+            Main.Reference.Unload();
             _load.SetActive(false);
             Object.Destroy(_load);
         }

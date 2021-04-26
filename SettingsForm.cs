@@ -10,7 +10,8 @@ namespace NGUIndustriesInjector
         public SettingsForm()
         {
             InitializeComponent();
-            VersionLabel.Text = $"Version: {Main.Version}";
+            var version = typeof(Main).Assembly.GetName().Version.ToString();
+            VersionLabel.Text = $"Version: {version}";
         }
 
         internal void UpdateFromSettings(SavedSettings newSettings)
@@ -19,9 +20,8 @@ namespace NGUIndustriesInjector
 
             MasterEnable.Checked = newSettings.GlobalEnabled;
             AutoDailySpin.Checked = newSettings.AutoSpin;
-            AutoITOPOD.Checked = newSettings.AutoQuestITOPOD;
-            AutoMoneyPit.Checked = newSettings.AutoMoneyPit;
-            MoneyPitThreshold.Text = $"{newSettings.MoneyPitThreshold:#.##E+00}";
+            AutoPit.Checked = newSettings.AutoPit;
+            PitThreshold.Text = $"{newSettings.PitThreshold:#.##E+00}";
 
             Refresh();
             _initializing = false;
@@ -49,18 +49,12 @@ namespace NGUIndustriesInjector
         private void AutoMoneyPit_CheckedChanged(object sender, EventArgs e)
         {
             if (_initializing) return;
-            Main.Settings.AutoMoneyPit = AutoMoneyPit.Checked;
-        }
-
-        private void AutoITOPOD_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_initializing) return;
-            Main.Settings.AutoQuestITOPOD = AutoITOPOD.Checked;
+            Main.Settings.AutoPit = AutoPit.Checked;
         }
 
         private void MoneyPitThresholdSave_Click(object sender, EventArgs e)
         {
-            var newVal = MoneyPitThreshold.Text;
+            var newVal = PitThreshold.Text;
             if (double.TryParse(newVal, out var saved))
             {
                 if (saved < 0)
@@ -68,7 +62,7 @@ namespace NGUIndustriesInjector
                     //moneyPitError.SetError(MoneyPitThreshold, "Not a valid value");
                     return;
                 }
-                Main.Settings.MoneyPitThreshold = saved;
+                Main.Settings.PitThreshold = saved;
             }
             else
             {
