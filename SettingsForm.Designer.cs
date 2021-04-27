@@ -235,6 +235,7 @@
             this.button2.TabIndex = 16;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
             // 
             // maskedTextBox1
             // 
@@ -242,6 +243,7 @@
             this.maskedTextBox1.Name = "maskedTextBox1";
             this.maskedTextBox1.Size = new System.Drawing.Size(100, 20);
             this.maskedTextBox1.TabIndex = 15;
+            this.maskedTextBox1.Visible = false;
             // 
             // comboBox1
             // 
@@ -250,6 +252,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 14;
+            this.comboBox1.Visible = false;
             // 
             // button1
             // 
@@ -274,6 +277,7 @@
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.Visible = false;
             // 
             // ProrityListColumnName
             // 

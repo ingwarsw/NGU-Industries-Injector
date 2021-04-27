@@ -138,7 +138,7 @@ namespace NGUIndustriesInjector
             }
 
             var prio = Main.Settings.PriorityBuildings.Find(b => (int)b.x == BuildingId);
-            if (prio != null)
+            if (prio != null && (int)prio.x == BuildingId)
             {
                 var needed = prio.y;
                 Main.Log($"{this}: Is on prio list with needed {needed}");
