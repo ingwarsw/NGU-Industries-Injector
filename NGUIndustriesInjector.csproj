@@ -12,10 +12,17 @@
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
 		<TargetFramework>net46-windows</TargetFramework>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="libs\Newtonsoft.Json.dll" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
 			<HintPath>libs\Assembly-CSharp.dll</HintPath>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+		  <HintPath>libs\Newtonsoft.Json.dll</HintPath>
 		</Reference>
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>libs\Unity.TextMeshPro.dll</HintPath>
@@ -218,14 +225,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<EmbeddedResource Include="libs\Newtonsoft.Json.dll" />
 		<EmbeddedResource Include="libs\System.Runtime.Serialization.dll" />
-		<!--<EmbeddedResource Include="bin\Debug\net46-windows\Newtonsoft.Json.dll">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</EmbeddedResource>-->
 		<None Include="inject.bat">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
