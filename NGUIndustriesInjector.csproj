@@ -10,14 +10,20 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-		<TargetFramework>net472-windows</TargetFramework>
+		<TargetFramework>net46-windows</TargetFramework>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="libs\Newtonsoft.Json.dll" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
 			<HintPath>libs\Assembly-CSharp.dll</HintPath>
 		</Reference>
-		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Newtonsoft.Json">
+		  <HintPath>libs\Newtonsoft.Json.dll</HintPath>
+		</Reference>
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>libs\Unity.TextMeshPro.dll</HintPath>
 		</Reference>
@@ -217,11 +223,28 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	
+
 	<ItemGroup>
+		<EmbeddedResource Include="libs\Newtonsoft.Json.dll" />
+		<EmbeddedResource Include="libs\System.Runtime.Serialization.dll" />
 		<None Include="inject.bat">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	
 	<PropertyGroup>
@@ -233,5 +256,7 @@
 			copy inject.bat dist
 		</PostBuildEvent>
 		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+		<OutputType>Library</OutputType>
 	</PropertyGroup>
+	
 </Project>

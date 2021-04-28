@@ -27,7 +27,7 @@ jobs:
    
     - uses: papeloto/action-zip@v1
       with:
-        files: bin/Debug/net472-windows/dist
+        files: bin/Debug/net46-windows/dist
         dest: release-${{ steps.tag.outputs.version }}.zip
     
     - name: Create Draft Release

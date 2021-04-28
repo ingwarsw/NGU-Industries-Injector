@@ -1,33 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
+using Newtonsoft.Json;
 
 namespace NGUIndustriesInjector
 {
-    [Serializable]
+    public class PriorityMaterial
+    {
+        public BuildingType type;
+        public long want;
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
     public class SavedSettings
     {
-        [SerializeField] private bool _globalEnabled = false;
+        [JsonProperty] private bool _globalEnabled = false;
 
-        [SerializeField] private bool _factoryDontStarve = true;
-        [SerializeField] private bool _factoryBuildStandard = true;
-        public List<Vector2> _priorytyBuildings = new List<Vector2>();
+        [JsonProperty] private bool _factoryDontStarve = true;
+        [JsonProperty] private bool _factoryBuildStandard = true;
+        [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
 
-        [SerializeField] private bool _manageWorkOrders = false;
+        [JsonProperty] private bool _manageWorkOrders = false;
 
-        [SerializeField] private bool _autoSpin = false;
+        [JsonProperty] private bool _autoSpin = false;
 
-        [SerializeField] private bool _autoPit = false;
-        [SerializeField] private double _pitThreshold = 10000000000000;
-
-
+        [JsonProperty] private bool _autoPit = false;
+        [JsonProperty] private double _pitThreshold = 10000000000000;
 
         private bool _disableSave;
         private readonly string savePath;
 
-
-        internal SavedSettings(string dir)
+        public SavedSettings(string dir)
         {
             savePath = Path.Combine(dir, "settings.json");
         }
@@ -38,8 +41,8 @@ namespace NGUIndustriesInjector
             if (_disableSave) return;
             Main.Log("Saving Settings");
             Main.IgnoreNextChange = true;
-            var serialized = JsonUtility.ToJson(this, true);
-            //var serialized = fastJSON.JSON.ToNiceJSON(this);
+            //var serialized = JsonUtility.ToJson(this, true);
+            var serialized = JsonConvert.SerializeObject(this, Formatting.Indented);
             using (var writer = new StreamWriter(savePath))
             {
                 writer.Write(serialized);
@@ -60,22 +63,28 @@ namespace NGUIndustriesInjector
                 try
                 {
                     var json = File.ReadAllText(savePath);
-                    //fastJSON.JSON.FillObject(this, json);
-                    JsonUtility.FromJsonOverwrite(json, this);
+                    //JsonUtility.FromJsonOverwrite(json, this);
+                    var jsonSettings = new JsonSerializerSettings
+                    {
+                        ObjectCreationHandling = ObjectCreationHandling.Replace
+                    };
+                    JsonConvert.PopulateObject(json, this, jsonSettings);
                     Main.Log("Loaded Settings");
+                    
                 }
                 catch (Exception e)
                 {
                     Main.Log(e.Message);
                     Main.Log(e.StackTrace);
+                    Main.Log("Creating new default Settings");
                 }
             }
             else
             {
                 Main.Log("Creating new default Settings");
             }
-            //Main.Log(fastJSON.JSON.ToNiceJSON(this));
-            Main.Log(JsonUtility.ToJson(this, true));
+            //Main.Log(JsonUtility.ToJson(this, true));
+            Main.Log(JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 
         public bool GlobalEnabled
@@ -111,7 +120,7 @@ namespace NGUIndustriesInjector
             }
         }
 
-        public List<Vector2> PriorityBuildings
+        public List<PriorityMaterial> PriorityBuildings
         {
             get => _priorytyBuildings;
             set
