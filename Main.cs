@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using static NGUIndustriesInjector.SavedSettings;
 
 namespace NGUIndustriesInjector
 {
@@ -81,6 +81,7 @@ namespace NGUIndustriesInjector
         {
             try
             {
+
                 _dir = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%/Desktop"), "NGUIndustriesInjector");
                 if (!Directory.Exists(_dir))
                 {
@@ -111,6 +112,7 @@ namespace NGUIndustriesInjector
                 {
                     File.Move(oldPath, newPath);
                 }
+                SetUpDDLLoading();
             }
             catch (Exception e)
             {
@@ -126,6 +128,7 @@ namespace NGUIndustriesInjector
                 LogLoot("Starting Loot Writer");
                 LogCombat("Starting Combat Writer");
 
+                SettingsForm = new SettingsForm();
                 Settings = new SavedSettings(_dir);
                 Settings.LoadSettings();
 
@@ -148,7 +151,6 @@ namespace NGUIndustriesInjector
                     SettingsForm.UpdateFromSettings(Settings);
                 };
 
-                SettingsForm = new SettingsForm();
                 SettingsForm.UpdateFromSettings(Settings);
                 SettingsForm.Show();
 
@@ -174,6 +176,22 @@ namespace NGUIndustriesInjector
                 Log(e.StackTrace);
                 Log(e.InnerException.ToString());
             }
+        }
+
+        private void SetUpDDLLoading()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
         }
 
         internal static void UpdateForm(SavedSettings newSettings)

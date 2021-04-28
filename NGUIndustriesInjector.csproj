@@ -7,17 +7,25 @@
 		<RootNamespace>NGUIndustriesInjector</RootNamespace>
 		<AssemblyName>NGUIndustriesInjector</AssemblyName>
 		<Version>0.0.1</Version>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<PublishTrimmed>true</PublishTrimmed>
+		<PublishReadyToRun>true</PublishReadyToRun>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
-		<TargetFramework>net472-windows</TargetFramework>
+		<TargetFramework>net46-windows</TargetFramework>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="1\System.Runtime.Serialization.dll" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<Reference Include="Assembly-CSharp">
 			<HintPath>libs\Assembly-CSharp.dll</HintPath>
 		</Reference>
-		<Reference Include="System.Data.DataSetExtensions" />
+		<!--<Reference Include="System.Data.DataSetExtensions" />-->
 		<Reference Include="Unity.TextMeshPro">
 			<HintPath>libs\Unity.TextMeshPro.dll</HintPath>
 		</Reference>
@@ -217,11 +225,48 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	
+
 	<ItemGroup>
+		<Reference Include="System.Runtime.Serialization">
+			<Private>true</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="1\System.Runtime.Serialization.dll" />
+		<EmbeddedResource Include="bin\Debug\net46-windows\Newtonsoft.Json.dll">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
 		<None Include="inject.bat">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <!--<PackageReference Include="Costura.Fody" Version="5.3.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Fody" Version="6.5.1">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>-->
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	</ItemGroup>
 	
 	<PropertyGroup>
@@ -233,5 +278,7 @@
 			copy inject.bat dist
 		</PostBuildEvent>
 		<AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+		<OutputType>Library</OutputType>
 	</PropertyGroup>
+	
 </Project>
