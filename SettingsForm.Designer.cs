@@ -296,7 +296,6 @@
             // 
             this.FactoriesPrioListColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.FactoriesPrioListColumnName.DataPropertyName = "Type";
-            this.FactoriesPrioListColumnName.DisplayStyleForCurrentCellOnly = true;
             this.FactoriesPrioListColumnName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.FactoriesPrioListColumnName.HeaderText = "Material";
             this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
@@ -305,6 +304,7 @@
             // FactoriesPrioListColumnWant
             // 
             this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
+            dataGridViewCellStyle1.Format = "N0";
             dataGridViewCellStyle1.NullValue = null;
             this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
             this.FactoriesPrioListColumnWant.HeaderText = "Number want";
