@@ -441,8 +441,34 @@ namespace NGUIndustriesInjector
         {
             if (Settings.ManageWorkOrders)
             {
+
                 var wo = player.workOrdersController;
+                int woNumMaterials = player.workOrders.curOrder.order.Count;
                 var buildings = wo.getValidBuildingsList();
+
+
+                for (int num = 0; num < woNumMaterials; num++)
+                {
+                    var myMaterialName = player.workOrders.curOrder.order[num].material.ToString();
+                    BuildingType myMaterialID = (BuildingType)Enum.Parse(typeof(BuildingType), myMaterialName);
+                    long myWant = player.workOrders.curOrder.order[num].requiredAmount - player.workOrders.curOrder.order[num].givenAmount;
+
+                    bool found = false;
+                    for (int pbnum = 0; pbnum < Main.Settings.PriorityBuildings.Count; pbnum++)
+                    {
+                        if (Main.Settings.PriorityBuildings[pbnum].Want == 0) { Main.Settings.PriorityBuildings.RemoveAt(pbnum); } // Trim List of any Material that has a want of 0
+                        if (Main.Settings.PriorityBuildings[pbnum].Type == myMaterialID)
+                        {
+                            Main.Settings.PriorityBuildings[pbnum].Want = myWant;
+                            found = true;
+                        }
+
+                    }
+                    if (!found) { Main.Settings.PriorityBuildings.Add(new PriorityMaterial { Type = myMaterialID, Want = myWant }); }
+
+                }
+
+
                 if (wo.getWorkOrderButton.interactable)
                 {
                     Log($"Getting new order");
