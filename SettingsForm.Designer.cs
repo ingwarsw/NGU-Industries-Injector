@@ -29,10 +29,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ManageWorkOrders = new System.Windows.Forms.CheckBox();
             this.UnloadSafety = new System.Windows.Forms.CheckBox();
             this.UnloadButton = new System.Windows.Forms.Button();
             this.VersionLabel = new System.Windows.Forms.Label();
@@ -43,20 +45,18 @@
             this.AutoPit = new System.Windows.Forms.CheckBox();
             this.AutoDailySpin = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.ProrityListColumnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ProrityListColumnNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FactoryPriorityMaterialsDataGridView = new System.Windows.Forms.DataGridView();
+            this.FactoryPriorityItemsLabelMain = new System.Windows.Forms.Label();
+            this.FactoryPriorityItemsSaveButton = new System.Windows.Forms.Button();
             this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
             this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
-            this.ManageWorkOrders = new System.Windows.Forms.CheckBox();
+            this.FactoriesPrioListColumnName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.FactoriesPrioListColumnWant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FactoryPriorityMaterialsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -108,6 +108,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // ManageWorkOrders
+            // 
+            this.ManageWorkOrders.AutoSize = true;
+            this.ManageWorkOrders.Location = new System.Drawing.Point(6, 52);
+            this.ManageWorkOrders.Name = "ManageWorkOrders";
+            this.ManageWorkOrders.Size = new System.Drawing.Size(128, 17);
+            this.ManageWorkOrders.TabIndex = 18;
+            this.ManageWorkOrders.Text = "Manage Work Orders";
+            this.ManageWorkOrders.UseVisualStyleBackColor = true;
+            this.ManageWorkOrders.CheckedChanged += new System.EventHandler(this.ManageWorkOrders_CheckedChanged);
             // 
             // UnloadSafety
             // 
@@ -212,11 +223,9 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.maskedTextBox1);
-            this.tabPage2.Controls.Add(this.comboBox1);
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.listView1);
+            this.tabPage2.Controls.Add(this.FactoryPriorityMaterialsDataGridView);
+            this.tabPage2.Controls.Add(this.FactoryPriorityItemsLabelMain);
+            this.tabPage2.Controls.Add(this.FactoryPriorityItemsSaveButton);
             this.tabPage2.Controls.Add(this.FactoryBuildStandard);
             this.tabPage2.Controls.Add(this.FactoryDontStarve);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -227,65 +236,39 @@
             this.tabPage2.Text = "Factories";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // FactoryPriorityMaterialsDataGridView
             // 
-            this.button2.Location = new System.Drawing.Point(489, 194);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 16;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
+            this.FactoryPriorityMaterialsDataGridView.AllowUserToResizeRows = false;
+            this.FactoryPriorityMaterialsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.FactoryPriorityMaterialsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FactoriesPrioListColumnName,
+            this.FactoriesPrioListColumnWant});
+            this.FactoryPriorityMaterialsDataGridView.Location = new System.Drawing.Point(6, 88);
+            this.FactoryPriorityMaterialsDataGridView.MultiSelect = false;
+            this.FactoryPriorityMaterialsDataGridView.Name = "FactoryPriorityMaterialsDataGridView";
+            this.FactoryPriorityMaterialsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(559, 158);
+            this.FactoryPriorityMaterialsDataGridView.TabIndex = 21;
             // 
-            // maskedTextBox1
+            // FactoryPriorityItemsLabelMain
             // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(346, 196);
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(100, 20);
-            this.maskedTextBox1.TabIndex = 15;
-            this.maskedTextBox1.Visible = false;
+            this.FactoryPriorityItemsLabelMain.AutoSize = true;
+            this.FactoryPriorityItemsLabelMain.Location = new System.Drawing.Point(6, 72);
+            this.FactoryPriorityItemsLabelMain.Name = "FactoryPriorityItemsLabelMain";
+            this.FactoryPriorityItemsLabelMain.Size = new System.Drawing.Size(53, 13);
+            this.FactoryPriorityItemsLabelMain.TabIndex = 20;
+            this.FactoryPriorityItemsLabelMain.Text = "Priority list";
             // 
-            // comboBox1
+            // FactoryPriorityItemsSaveButton
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(208, 196);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 14;
-            this.comboBox1.Visible = false;
-            // 
-            // button1
-            // 
-            this.button1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button1.Location = new System.Drawing.Point(489, 252);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(76, 20);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            // 
-            // listView1
-            // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ProrityListColumnName,
-            this.ProrityListColumnNumber});
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(7, 64);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(194, 153);
-            this.listView1.TabIndex = 2;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
-            this.listView1.Visible = false;
-            // 
-            // ProrityListColumnName
-            // 
-            this.ProrityListColumnName.Text = "Material Name";
-            // 
-            // ProrityListColumnNumber
-            // 
-            this.ProrityListColumnNumber.Text = "Number wanted";
+            this.FactoryPriorityItemsSaveButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.FactoryPriorityItemsSaveButton.Location = new System.Drawing.Point(489, 252);
+            this.FactoryPriorityItemsSaveButton.Name = "FactoryPriorityItemsSaveButton";
+            this.FactoryPriorityItemsSaveButton.Size = new System.Drawing.Size(76, 20);
+            this.FactoryPriorityItemsSaveButton.TabIndex = 13;
+            this.FactoryPriorityItemsSaveButton.Text = "Save";
+            this.FactoryPriorityItemsSaveButton.UseVisualStyleBackColor = true;
+            this.FactoryPriorityItemsSaveButton.Click += new System.EventHandler(this.FactoryPriorityItemsSaveButton_Click);
             // 
             // FactoryBuildStandard
             // 
@@ -309,16 +292,26 @@
             this.FactoryDontStarve.UseVisualStyleBackColor = true;
             this.FactoryDontStarve.CheckedChanged += new System.EventHandler(this.FactoryDontStarve_CheckedChanged);
             // 
-            // ManageWorkOrders
+            // FactoriesPrioListColumnName
             // 
-            this.ManageWorkOrders.AutoSize = true;
-            this.ManageWorkOrders.Location = new System.Drawing.Point(6, 52);
-            this.ManageWorkOrders.Name = "ManageWorkOrders";
-            this.ManageWorkOrders.Size = new System.Drawing.Size(128, 17);
-            this.ManageWorkOrders.TabIndex = 18;
-            this.ManageWorkOrders.Text = "Manage Work Orders";
-            this.ManageWorkOrders.UseVisualStyleBackColor = true;
-            this.ManageWorkOrders.CheckedChanged += new System.EventHandler(this.ManageWorkOrders_CheckedChanged);
+            this.FactoriesPrioListColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.FactoriesPrioListColumnName.DataPropertyName = "Type";
+            this.FactoriesPrioListColumnName.DisplayStyleForCurrentCellOnly = true;
+            this.FactoriesPrioListColumnName.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.FactoriesPrioListColumnName.HeaderText = "Material";
+            this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
+            this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // FactoriesPrioListColumnWant
+            // 
+            this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
+            dataGridViewCellStyle1.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
+            this.FactoriesPrioListColumnWant.HeaderText = "Number want";
+            this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
+            this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.FactoriesPrioListColumnWant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.FactoriesPrioListColumnWant.Width = 200;
             // 
             // SettingsForm
             // 
@@ -335,6 +328,7 @@
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.FactoryPriorityMaterialsDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -356,13 +350,11 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.CheckBox FactoryDontStarve;
         private System.Windows.Forms.CheckBox FactoryBuildStandard;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader ProrityListColumnName;
-        private System.Windows.Forms.ColumnHeader ProrityListColumnNumber;
+        private System.Windows.Forms.Button FactoryPriorityItemsSaveButton;
         private System.Windows.Forms.CheckBox ManageWorkOrders;
+        private System.Windows.Forms.Label FactoryPriorityItemsLabelMain;
+        private System.Windows.Forms.DataGridView FactoryPriorityMaterialsDataGridView;
+        private System.Windows.Forms.DataGridViewComboBoxColumn FactoriesPrioListColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FactoriesPrioListColumnWant;
     }
 }

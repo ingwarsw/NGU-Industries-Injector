@@ -137,10 +137,10 @@ namespace NGUIndustriesInjector
                 return;
             }
 
-            var prio = Main.Settings.PriorityBuildings.Find(b => (int)b.type == BuildingId);
-            if (prio != null && (int)prio.type == BuildingId)
+            var prio = Main.Settings.PriorityBuildings.Find(b => b.Type == BuildingType);
+            if (prio != null && prio.Type == BuildingType)
             {
-                var needed = prio.want;
+                var needed = prio.Want;
                 Main.Log($"{this}: Is on prio list with needed {needed}");
                 if (needed > Amount)
                 {

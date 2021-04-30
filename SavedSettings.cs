@@ -5,12 +5,6 @@ using Newtonsoft.Json;
 
 namespace NGUIndustriesInjector
 {
-    public class PriorityMaterial
-    {
-        public BuildingType type;
-        public long want;
-    }
-
     [JsonObject(MemberSerialization.OptIn)]
     public class SavedSettings
     {
@@ -62,15 +56,10 @@ namespace NGUIndustriesInjector
             {
                 try
                 {
+                    _priorytyBuildings.Clear();
                     var json = File.ReadAllText(savePath);
-                    //JsonUtility.FromJsonOverwrite(json, this);
-                    var jsonSettings = new JsonSerializerSettings
-                    {
-                        ObjectCreationHandling = ObjectCreationHandling.Replace
-                    };
-                    JsonConvert.PopulateObject(json, this, jsonSettings);
+                    JsonConvert.PopulateObject(json, this);
                     Main.Log("Loaded Settings");
-                    
                 }
                 catch (Exception e)
                 {

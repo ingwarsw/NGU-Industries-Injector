@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using UnityEngine;
 
 namespace NGUIndustriesInjector
@@ -116,6 +117,7 @@ namespace NGUIndustriesInjector
             }
             catch (Exception e)
             {
+                MessageBox.Show($"Loader intialization error: {e.Message}");
                 Log(e.Message);
                 Log(e.StackTrace);
                 Loader.Unload();
@@ -128,9 +130,8 @@ namespace NGUIndustriesInjector
                 LogLoot("Starting Loot Writer");
                 LogCombat("Starting Combat Writer");
 
-                SettingsForm = new SettingsForm();
                 Settings = new SavedSettings(_dir);
-                Settings.LoadSettings();
+                SettingsForm = new SettingsForm();
 
                 ConfigWatcher = new FileSystemWatcher
                 {
@@ -151,6 +152,7 @@ namespace NGUIndustriesInjector
                     SettingsForm.UpdateFromSettings(Settings);
                 };
 
+                Settings.LoadSettings();
                 SettingsForm.UpdateFromSettings(Settings);
                 SettingsForm.Show();
 
@@ -172,6 +174,7 @@ namespace NGUIndustriesInjector
             }
             catch (Exception e)
             {
+                MessageBox.Show($"Loader startup error: {e.Message}");
                 Log(e.ToString());
                 Log(e.StackTrace);
                 Log(e.InnerException.ToString());
@@ -335,6 +338,8 @@ namespace NGUIndustriesInjector
                 ManageFactories(player);
                 ManageWorkOrders(player);
                 ManageSpin(player);
+                ManageCombat(player);
+                ManageFarms(player);
             }
             catch (Exception e)
             {
@@ -345,6 +350,41 @@ namespace NGUIndustriesInjector
             {
                 _timeLeft = MAIN_DELAY;
             }
+        }
+
+        private void ManageFarms(Player player)
+        {
+            if (player.farm.unlocked)
+            {
+                var index = 0;
+                player.farm.plots.ForEach(plot => {
+                    Log($"Plot {index}: {plot.plotTimer} max? { player.farmController.maxGrowTime()}");
+                    if (plot.plotTimer > 86400)
+                    {
+                        Log($"Harvesting {index} plant: {plot.plantIndex}");
+                        //player.farmController.tryHarvestPlot()
+                        player.farmController.trySelectNewPlant(plot.plantIndex);
+                        //plot.harvestPlot();
+                        player.farmController.tryHarvestPlot(index);
+                        player.farmController.tryStartPlanting(index);
+                    }
+                    index++;
+                });
+            }
+        }
+
+        private void ManageCombat(Player player)
+        {
+            var offenseRating = player.combatController.playerOffenseRating();
+            var defenseRating = player.combatController.playerDefenseRating();
+            var level = player.combatController.getIsopodLevelFromRating(offenseRating + defenseRating);
+            var currentLevel = player.combat.selectedFloor;
+            if (level != currentLevel)
+            {
+                //player.combatController.setNewIsopodLevel(level);
+            }
+
+            Log($"Combat: rating {offenseRating}({player.combatController.playerOffense})/{defenseRating} level {level} current {currentLevel}");
         }
 
         private void ManageSpin(Player player)

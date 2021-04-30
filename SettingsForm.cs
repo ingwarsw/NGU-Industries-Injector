@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Linq;
+using System.ComponentModel;
 
 namespace NGUIndustriesInjector
 {
@@ -12,6 +14,8 @@ namespace NGUIndustriesInjector
             InitializeComponent();
             var version = typeof(Main).Assembly.GetName().Version.ToString();
             VersionLabel.Text = $"Version: {version}";
+
+            FactoriesPrioListColumnName.DataSource = Enum.GetValues(typeof(BuildingType));
         }
 
         internal void UpdateFromSettings(SavedSettings newSettings)
@@ -26,6 +30,8 @@ namespace NGUIndustriesInjector
             ManageWorkOrders.Checked = newSettings.ManageWorkOrders;
 
             PitThreshold.Text = $"{newSettings.PitThreshold:#.##E+00}";
+
+            FactoryPriorityMaterialsDataGridView.DataSource = new BindingSource(new BindingList<PriorityMaterial>(Main.Settings.PriorityBuildings), null);
 
             Refresh();
             _initializing = false;
@@ -105,6 +111,16 @@ namespace NGUIndustriesInjector
         {
             if (_initializing) return;
             Main.Settings.ManageWorkOrders = ManageWorkOrders.Checked;
+        }
+
+        private void FactoryPriorityItemsSaveButton_Click(object sender, EventArgs e)
+        {
+            Main.Settings.SaveSettings();
+        }
+
+        private void FactoryPriorityMaterialsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Main.Settings.SaveSettings();
         }
     }
 }
