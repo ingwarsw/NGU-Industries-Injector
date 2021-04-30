@@ -28,6 +28,8 @@ namespace NGUIndustriesInjector
             FactoryDontStarve.Checked = newSettings.FactoryDontStarve;
             FactoryBuildStandard.Checked = newSettings.FactoryBuildStandard;
             ManageWorkOrders.Checked = newSettings.ManageWorkOrders;
+            ManageFarmsCheckBox.Checked = newSettings.ManageFarms;
+
 
             PitThreshold.Text = $"{newSettings.PitThreshold:#.##E+00}";
 
@@ -112,15 +114,16 @@ namespace NGUIndustriesInjector
             if (_initializing) return;
             Main.Settings.ManageWorkOrders = ManageWorkOrders.Checked;
         }
+        private void ManageFarmsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.ManageFarms = ManageFarmsCheckBox.Checked;
+        }
 
         private void FactoryPriorityItemsSaveButton_Click(object sender, EventArgs e)
         {
             Main.Settings.SaveSettings();
         }
 
-        private void FactoryPriorityMaterialsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            Main.Settings.SaveSettings();
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace NGUIndustriesInjector
         [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
 
         [JsonProperty] private bool _manageWorkOrders = false;
-
+        [JsonProperty] private bool _manageFarms = false;
         [JsonProperty] private bool _autoSpin = false;
 
         [JsonProperty] private bool _autoPit = false;
@@ -126,6 +126,17 @@ namespace NGUIndustriesInjector
             {
                 if (value == _manageWorkOrders) return;
                 _manageWorkOrders = value;
+                SaveSettings();
+            }
+        }
+
+        public bool ManageFarms
+        {
+            get => _manageFarms;
+            set
+            {
+                if (value == _manageFarms) return;
+                _manageFarms = value;
                 SaveSettings();
             }
         }

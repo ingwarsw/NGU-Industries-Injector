@@ -354,22 +354,39 @@ namespace NGUIndustriesInjector
 
         private void ManageFarms(Player player)
         {
-            if (player.farm.unlocked)
+            if (Settings.ManageFarms && player.farm.unlocked)
             {
                 var index = 0;
                 player.farm.plots.ForEach(plot => {
-                    Log($"Plot {index}: {plot.plotTimer} max? { player.farmController.maxGrowTime()}");
-                    if (plot.plotTimer > 86400)
+                    Log($"Farm plot {index}: {plot.plotTimer} max? { player.farmController.maxGrowTime()}");
+                    if (plot.plotTimer >= player.farmController.maxGrowTime())
                     {
                         Log($"Harvesting {index} plant: {plot.plantIndex}");
-                        //player.farmController.tryHarvestPlot()
                         player.farmController.trySelectNewPlant(plot.plantIndex);
-                        //plot.harvestPlot();
                         player.farmController.tryHarvestPlot(index);
                         player.farmController.tryStartPlanting(index);
                     }
                     index++;
                 });
+
+                index = 0;
+                player.farm.breeds.ForEach(breed =>
+                {
+                    Log($"Farm breed {index}: {breed.breedTime} max? {player.farmController.maxBreedTime()}");
+                    if (breed.breedTime >= player.farmController.maxBreedTime())
+                    {
+                        var plantIndex1 = breed.plantIndex1;
+                        var plantIndex2 = breed.plantIndex2;
+                        Log($"Harvesting {index} breed: {plantIndex1}:{plantIndex2}");
+                        player.farmController.tryEndBreeding(index);
+                        //player.farmController.trySelectNewPlant(plantIndex1);
+                        player.farmController.setLeftBreed(plantIndex1);
+                        player.farmController.setRightBreed(plantIndex2);
+                        player.farmController.tryStartBreeding(index);
+                    }
+                    index++;
+                });
+               
             }
         }
 
