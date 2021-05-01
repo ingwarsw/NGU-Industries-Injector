@@ -24,14 +24,14 @@ namespace NGUIndustriesInjector
 
             MasterEnable.Checked = newSettings.GlobalEnabled;
             AutoDailySpin.Checked = newSettings.AutoSpin;
-            AutoPit.Checked = newSettings.AutoPit;
+            ManagePit.Checked = newSettings.ManagePit;
             FactoryDontStarve.Checked = newSettings.FactoryDontStarve;
             FactoryBuildStandard.Checked = newSettings.FactoryBuildStandard;
             ManageWorkOrders.Checked = newSettings.ManageWorkOrders;
             ManageFarmsCheckBox.Checked = newSettings.ManageFarms;
 
 
-            PitThreshold.Text = $"{newSettings.PitThreshold:#.##E+00}";
+            PitThreshold.Text = newSettings.PitThreshold.ToString();
 
             FactoryPriorityMaterialsDataGridView.DataSource = new BindingSource(new BindingList<PriorityMaterial>(Main.Settings.PriorityBuildings), null);
 
@@ -61,7 +61,7 @@ namespace NGUIndustriesInjector
         private void AutoMoneyPit_CheckedChanged(object sender, EventArgs e)
         {
             if (_initializing) return;
-            Main.Settings.AutoPit = AutoPit.Checked;
+            Main.Settings.ManagePit = ManagePit.Checked;
         }
 
         private void MoneyPitThresholdSave_Click(object sender, EventArgs e)
@@ -125,5 +125,9 @@ namespace NGUIndustriesInjector
             Main.Settings.SaveSettings();
         }
 
+        private void FactoryPriorityMaterialsDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            Main.Settings.SaveSettings();
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace NGUIndustriesInjector
         internal static StreamWriter PitSpinWriter;
         internal static Main Reference { get; set; }
         internal static bool IgnoreNextChange { get; set; }
-        internal static SettingsForm SettingsForm { get; set; }
+        internal static SettingsForm SettingsForm { get; private set; }
         internal static SavedSettings Settings { get; set; }
 
         private float _timeLeft = MAIN_DELAY;
@@ -56,12 +56,7 @@ namespace NGUIndustriesInjector
             {
                 Log("Unloading injector");
                 CancelInvoke("AutomationRoutine");
-                CancelInvoke("SnipeZone");
-                CancelInvoke("MonitorLog");
                 CancelInvoke("QuickStuff");
-                CancelInvoke("SetResnipe");
-                CancelInvoke("ShowBoostProgress");
-
 
                 LootWriter.Close();
                 CombatWriter.Close();
@@ -82,7 +77,6 @@ namespace NGUIndustriesInjector
         {
             try
             {
-
                 _dir = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%/Desktop"), "NGUIndustriesInjector");
                 if (!Directory.Exists(_dir))
                 {
@@ -156,7 +150,7 @@ namespace NGUIndustriesInjector
                 SettingsForm.UpdateFromSettings(Settings);
                 SettingsForm.Show();
 
-                InvokeRepeating("AutomationRoutine", 0.0f, MAIN_DELAY);
+                InvokeRepeating("AutomationRoutine", 1.0f, MAIN_DELAY);
                 InvokeRepeating("SnipeZone", 0.0f, .1f);
                 InvokeRepeating("MonitorLog", 0.0f, 1f);
                 InvokeRepeating("QuickStuff", 0.0f, .5f);
@@ -321,11 +315,6 @@ namespace NGUIndustriesInjector
                 return;
         }
 
-        String buildingName(BuildingType id)
-        {
-            return Enum.GetName(typeof(BuildingType), id);
-        }
-
         // Runs every MAIN_DELAY seconds, our main loop
         void AutomationRoutine()
         {
@@ -340,6 +329,7 @@ namespace NGUIndustriesInjector
                 ManageSpin(player);
                 ManageCombat(player);
                 ManageFarms(player);
+                ManagePit(player);
             }
             catch (Exception e)
             {
@@ -394,14 +384,16 @@ namespace NGUIndustriesInjector
         {
             var offenseRating = player.combatController.playerOffenseRating();
             var defenseRating = player.combatController.playerDefenseRating();
-            var level = player.combatController.getIsopodLevelFromRating(offenseRating + defenseRating);
+            //var level = player.combatController.getIsopodLevelFromRating(offenseRating + defenseRating);
+            var level = (int)(Math.Log(defenseRating / 20, player.combatController.ISOPOD_LEVEL_SCALE()));
             var currentLevel = player.combat.selectedFloor;
+            Log($"Combat: rating {offenseRating}({player.combatController.playerOffense})/{defenseRating} level {level} current {currentLevel}");
             if (level != currentLevel)
             {
-                //player.combatController.setNewIsopodLevel(level);
+                Log($"Combat: Setting new level {level} (old {currentLevel})");
+                player.combatController.setNewIsopodLevel(level);
+                player.combatController.updateMenu();
             }
-
-            Log($"Combat: rating {offenseRating}({player.combatController.playerOffense})/{defenseRating} level {level} current {currentLevel}");
         }
 
         private void ManageSpin(Player player)
@@ -427,13 +419,24 @@ namespace NGUIndustriesInjector
 
         private void ManagePit(Player player)
         {
-            var controller = player.pitController;
-            var pit = player.pit;
-            foreach (var buildingType in Enum.GetValues(typeof(BuildingType)).Cast<BuildingType>())
+            if (Settings.ManagePit)
             {
-                int building = (int)buildingType;
-                var yeeted = pit.items[building].amountYeeted;
-
+                var controller = player.pitController;
+                var pit = player.pit;
+                foreach (var state in materialState)
+                {
+                    var yeeted = pit.items[state.BuildingId].amountYeeted;
+                    Log($"PIT before: Will yeet {state} yeeted already {yeeted} (hard cap {controller.HARDCAP_YEETED()})");
+                    if (yeeted < state.PerSecond * Settings.PitThreshold && state.Amount > 0 && state.Gain > 0 && !player.invalidBuildingID(state.BuildingType))
+                    {
+                        Log($"PIT: Will yeet {state} yeeted already {yeeted}");
+                        controller.submitItems(state.BuildingType);
+                        player.confirmationBox.closeBox();
+                        controller.actuallySubmitItems();
+                        Log($"PIT: Yeeted {materialState[state.BuildingId]} yeeted already {pit.items[state.BuildingId].amountYeeted}");
+                        return;
+                    }
+                }
             }
         }
 
@@ -541,43 +544,7 @@ namespace NGUIndustriesInjector
         {
             GUI.Label(new Rect(10, 10, 200, 40), $"Automation - {(Settings.GlobalEnabled ? "Active" : "Inactive")}");
             GUI.Label(new Rect(10, 20, 200, 40), $"Next Loop - {_timeLeft:00.0}s");
-        }
-
-        public void MonitorLog()
-        {
-            //var bLog = Character.adventureController.log;
-            //var type = bLog.GetType().GetField("Eventlog",
-            //    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            //var val = type?.GetValue(bLog);
-            //if (val == null)
-            //    return;
-
-            //var log = (List<string>) val;
-            //for (var i = log.Count - 1; i >= 0; i--)
-            //{
-            //    var line = log[i];
-            //    if (!line.Contains("dropped")) continue;
-            //    if (line.Contains("gold")) continue;
-            //    if (line.ToLower().Contains("special boost")) continue;
-            //    if (line.ToLower().Contains("toughness boost")) continue;
-            //    if (line.ToLower().Contains("power boost")) continue;
-            //    if (line.Contains("EXP")) continue;
-            //    if (line.EndsWith("<b></b>")) continue;
-            //    var result = line;
-            //    if (result.Contains("\n"))
-            //    {
-            //        result = result.Split('\n').Last();
-            //    }
-
-            //    var sb = new StringBuilder(result);
-            //    sb.Replace("<color=blue>", "");
-            //    sb.Replace("<b>", "");
-            //    sb.Replace("</color>", "");
-            //    sb.Replace("</b>", "");
-
-            //    LogLoot(sb.ToString());
-            //    log[i] = $"{line}<b></b>";
-            //}
+            GUI.VerticalSlider(new Rect(10, 50, 20, 400), (int)Math.Floor(_timeLeft / MAIN_DELAY * 100), 100, 0);
         }
 
         public void OnApplicationQuit()

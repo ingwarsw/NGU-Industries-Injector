@@ -29,7 +29,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -42,7 +42,7 @@
             this.PitThreshold = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.MasterEnable = new System.Windows.Forms.CheckBox();
-            this.AutoPit = new System.Windows.Forms.CheckBox();
+            this.ManagePit = new System.Windows.Forms.CheckBox();
             this.AutoDailySpin = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.FactoryPriorityMaterialsDataGridView = new System.Windows.Forms.DataGridView();
@@ -101,7 +101,7 @@
             this.tabPage1.Controls.Add(this.PitThreshold);
             this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.MasterEnable);
-            this.tabPage1.Controls.Add(this.AutoPit);
+            this.tabPage1.Controls.Add(this.ManagePit);
             this.tabPage1.Controls.Add(this.AutoDailySpin);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -158,34 +158,31 @@
             // PitThresholdSave
             // 
             this.PitThresholdSave.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.PitThresholdSave.Location = new System.Drawing.Point(243, 147);
+            this.PitThresholdSave.Location = new System.Drawing.Point(268, 147);
             this.PitThresholdSave.Name = "PitThresholdSave";
             this.PitThresholdSave.Size = new System.Drawing.Size(76, 20);
             this.PitThresholdSave.TabIndex = 12;
             this.PitThresholdSave.Text = "Save";
             this.PitThresholdSave.UseVisualStyleBackColor = true;
-            this.PitThresholdSave.Visible = false;
             this.PitThresholdSave.Click += new System.EventHandler(this.MoneyPitThresholdSave_Click);
             // 
             // PitThreshold
             // 
-            this.PitThreshold.Location = new System.Drawing.Point(113, 147);
+            this.PitThreshold.Location = new System.Drawing.Point(138, 147);
             this.PitThreshold.Name = "PitThreshold";
             this.PitThreshold.Size = new System.Drawing.Size(124, 20);
             this.PitThreshold.TabIndex = 11;
-            this.PitThreshold.Visible = false;
             this.PitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(3, 150);
+            this.label7.Location = new System.Drawing.Point(6, 150);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(69, 13);
+            this.label7.Size = new System.Drawing.Size(129, 13);
             this.label7.TabIndex = 10;
-            this.label7.Text = "Pit Threshold";
-            this.label7.Visible = false;
+            this.label7.Text = "Pit Threshold (in seconds)";
             // 
             // MasterEnable
             // 
@@ -199,18 +196,17 @@
             this.MasterEnable.UseVisualStyleBackColor = true;
             this.MasterEnable.CheckedChanged += new System.EventHandler(this.MasterEnable_CheckedChanged);
             // 
-            // AutoPit
+            // ManagePit
             // 
-            this.AutoPit.AutoSize = true;
-            this.AutoPit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoPit.Location = new System.Drawing.Point(5, 130);
-            this.AutoPit.Name = "AutoPit";
-            this.AutoPit.Size = new System.Drawing.Size(63, 17);
-            this.AutoPit.TabIndex = 6;
-            this.AutoPit.Text = "Auto Pit";
-            this.AutoPit.UseVisualStyleBackColor = true;
-            this.AutoPit.Visible = false;
-            this.AutoPit.CheckedChanged += new System.EventHandler(this.AutoMoneyPit_CheckedChanged);
+            this.ManagePit.AutoSize = true;
+            this.ManagePit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.ManagePit.Location = new System.Drawing.Point(6, 130);
+            this.ManagePit.Name = "ManagePit";
+            this.ManagePit.Size = new System.Drawing.Size(80, 17);
+            this.ManagePit.TabIndex = 6;
+            this.ManagePit.Text = "Manage Pit";
+            this.ManagePit.UseVisualStyleBackColor = true;
+            this.ManagePit.CheckedChanged += new System.EventHandler(this.AutoMoneyPit_CheckedChanged);
             // 
             // AutoDailySpin
             // 
@@ -251,6 +247,7 @@
             this.FactoryPriorityMaterialsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(559, 158);
             this.FactoryPriorityMaterialsDataGridView.TabIndex = 21;
+            this.FactoryPriorityMaterialsDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.FactoryPriorityMaterialsDataGridView_CellValueChanged);
             // 
             // FactoriesPrioListColumnName
             // 
@@ -264,9 +261,9 @@
             // FactoriesPrioListColumnWant
             // 
             this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Format = "N0";
+            dataGridViewCellStyle7.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle7;
             this.FactoriesPrioListColumnWant.HeaderText = "Number want";
             this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
             this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -358,7 +355,7 @@
         private System.Windows.Forms.TextBox PitThreshold;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox MasterEnable;
-        private System.Windows.Forms.CheckBox AutoPit;
+        private System.Windows.Forms.CheckBox ManagePit;
         private System.Windows.Forms.CheckBox AutoDailySpin;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.CheckBox FactoryDontStarve;

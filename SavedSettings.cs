@@ -18,8 +18,8 @@ namespace NGUIndustriesInjector
         [JsonProperty] private bool _manageFarms = false;
         [JsonProperty] private bool _autoSpin = false;
 
-        [JsonProperty] private bool _autoPit = false;
-        [JsonProperty] private double _pitThreshold = 10000000000000;
+        [JsonProperty] private bool _managePit = false;
+        [JsonProperty] private double _pitThreshold = 3600;
 
         private bool _disableSave;
         private readonly string savePath;
@@ -152,13 +152,13 @@ namespace NGUIndustriesInjector
             }
         }
 
-        public bool AutoPit
+        public bool ManagePit
         {
-            get => _autoPit;
+            get => _managePit;
             set
             {
-                if (value == _autoPit) return;
-                _autoPit = value;
+                if (value == _managePit) return;
+                _managePit = value;
                 SaveSettings();
             }
         }
