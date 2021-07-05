@@ -14,12 +14,16 @@ namespace NGUIndustriesInjector
         [JsonProperty] private bool _factoryBuildStandard = true;
         [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
 
+        [JsonProperty] private bool _manageFactories = false;
         [JsonProperty] private bool _manageWorkOrders = false;
         [JsonProperty] private bool _manageFarms = false;
         [JsonProperty] private bool _autoSpin = false;
 
         [JsonProperty] private bool _managePit = false;
         [JsonProperty] private double _pitThreshold = 3600;
+        [JsonProperty] private bool _manageExperiments = false;
+        [JsonProperty] private bool _freezeExperiments = false;
+        [JsonProperty] private bool _weightedRewards = false;
 
         private bool _disableSave;
         private readonly string savePath;
@@ -163,6 +167,49 @@ namespace NGUIndustriesInjector
             }
         }
 
+        public bool FreezeExperiments
+        {
+            get => _freezeExperiments;
+            set
+            {
+                if (value == _freezeExperiments) return;
+                _freezeExperiments = value;
+                SaveSettings();
+            }
+        }
+
+        public bool WeightedRewards
+        {
+            get => _weightedRewards;
+            set
+            {
+                if (value == _weightedRewards) return;
+                _weightedRewards = value;
+                SaveSettings();
+            }
+        }
+
+        public bool ManageExperiments
+        {
+            get => _manageExperiments;
+            set
+            {
+                if (value == _manageExperiments) return;
+                _manageExperiments = value;
+                SaveSettings();
+            }
+        }
+
+        public bool ManageFactories
+        {
+            get => _manageFactories;
+            set
+            {
+                if (value == _manageFactories) return;
+                _manageFactories = value;
+                SaveSettings();
+            }
+        }
 
         public double PitThreshold
         {
@@ -173,7 +220,5 @@ namespace NGUIndustriesInjector
                 SaveSettings();
             }
         }
-
-
     }
 }

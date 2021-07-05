@@ -13,9 +13,11 @@ namespace NGUIndustriesInjector
         private const float MAIN_DELAY = 60;
 
         internal static StreamWriter OutputWriter;
+        internal static StreamWriter DebugWriter;
         internal static StreamWriter LootWriter;
         internal static StreamWriter CombatWriter;
         internal static StreamWriter PitSpinWriter;
+
         internal static Main Reference { get; set; }
         internal static bool IgnoreNextChange { get; set; }
         internal static SettingsForm SettingsForm { get; private set; }
@@ -29,6 +31,12 @@ namespace NGUIndustriesInjector
 
         private List<MaterialState> materialState;
 
+        internal static void Debug(string msg)
+        {
+#if DEBUG
+            DebugWriter.WriteLine($"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}");
+#endif
+        }
 
         internal static void Log(string msg)
         {
@@ -90,6 +98,7 @@ namespace NGUIndustriesInjector
                 }
 
                 OutputWriter = new StreamWriter(Path.Combine(logDir, "inject.log")) { AutoFlush = true };
+                DebugWriter = new StreamWriter(Path.Combine(logDir, "debug.log")) { AutoFlush = true };
                 LootWriter = new StreamWriter(Path.Combine(logDir, "loot.log")) { AutoFlush = true };
                 CombatWriter = new StreamWriter(Path.Combine(logDir, "combat.log")) { AutoFlush = true };
                 PitSpinWriter = new StreamWriter(Path.Combine(logDir, "pitspin.log"), true) { AutoFlush = true };
@@ -206,7 +215,6 @@ namespace NGUIndustriesInjector
             {
                 if (!SettingsForm.Visible)
                 {
-
                     SettingsForm.Show();
                 }
                 SettingsForm.BringToFront();
@@ -330,6 +338,7 @@ namespace NGUIndustriesInjector
                 ManageCombat(player);
                 ManageFarms(player);
                 ManagePit(player);
+                ManageExperiments(player);
             }
             catch (Exception e)
             {
@@ -339,6 +348,119 @@ namespace NGUIndustriesInjector
             finally
             {
                 _timeLeft = MAIN_DELAY;
+            }
+        }
+
+        private void ManageExperiments(Player player)
+        {
+            if (!Settings.ManageExperiments || !player.experiments.unlocked)
+            {
+                return;
+            }
+
+            var experimentsController = player.experimentsController;
+            var queueIndexToRewardFactor = ExperimentUtilities.GetQueueIndexToRewardFactor(Settings.WeightedRewards, player.experiments);
+
+            var orderedByRewards = queueIndexToRewardFactor.OrderByDescending(t => t.Value);
+
+            var queuedExperiments = player.experiments.queuedExperiments;
+            var activeCount = player.experimentsController.getActiveCount();
+            var maxActiveCount = player.experimentsController.maxActiveExperiments();
+
+            var frozenExperiments = queuedExperiments
+                .Where(exp => exp.isFrozen)
+                .OrderByDescending(exp => queueIndexToRewardFactor[queuedExperiments.IndexOf(exp)]).ToList();
+
+            if (Settings.FreezeExperiments)
+            {
+                var maxFrozenExperiments = experimentsController.maxFrozenExperiments();
+                for (int i = 0; i < maxFrozenExperiments; i++)
+                {
+                    KeyValuePair<int, double> entry;
+                    if (Settings.WeightedRewards)
+                    {
+                        var orderedCurrentRewards = ExperimentUtilities.GetQueueIndexToRewardFactor(
+                                                        true,
+                                                        player.experiments,
+                                                        frozenExperiments.Take(i))
+                                                    .OrderByDescending(t => t.Value);
+
+                        entry = orderedCurrentRewards.First();
+                    }
+                    else
+                    {
+                        entry = orderedByRewards.Skip(i).First();
+                    }
+
+                    if (frozenExperiments.Any(frozenExperiment => queuedExperiments.IndexOf(frozenExperiment) == entry.Key))
+                    {
+                        Debug($"Did not attempt to freeze Experiment {entry.Key} since it's already frozen");
+                    }
+                    else
+                    {
+                        var frozen = frozenExperiments.Skip(i).FirstOrDefault();
+                        if (frozen == null)
+                        {
+                            if (queuedExperiments[entry.Key].isFrozen)
+                            {
+                                Debug($"Prevented already frozen Experiment {entry.Key} from being unfrozen");
+                            }
+                            else
+                            {
+                                Debug($"Attempted to freeze Experiment {entry.Key}, Factor: {entry.Value}");
+                                experimentsController.tryToggleFreezeExperiment(entry.Key);
+
+                                frozenExperiments.Insert(0, queuedExperiments[entry.Key]);
+                            }
+                        }
+                        else
+                        {
+                            var indexOfFrozen = queuedExperiments.IndexOf(frozen);
+                            if (indexOfFrozen != entry.Key)
+                            {
+                                experimentsController.tryToggleFreezeExperiment(indexOfFrozen);
+                                Debug($"Attempted to Un-Freeze Experiment {indexOfFrozen} since its factor is lower than the higher factor of Experiment {entry.Key}");
+                                frozenExperiments.Remove(frozen);
+
+                                experimentsController.tryToggleFreezeExperiment(entry.Key);
+                                Debug($"Attempted to Freeze Experiment {entry.Key}, Factor: {entry.Value}");
+                                frozenExperiments.Insert(0, queuedExperiments[entry.Key]);
+                            }
+                            else
+                            {
+                                Debug($"Did not attempt to freeze Experiment {indexOfFrozen} since we're matching the highest factor index of {entry.Key} already");
+                            }
+                        }
+                    }
+                }
+
+                while (activeCount < maxActiveCount)
+                {
+                    var frozenExperiment = frozenExperiments[0];
+                    var index = queuedExperiments.IndexOf(frozenExperiment);
+                    experimentsController.tryStartExperiment(index);
+                    activeCount++;
+                }
+            }
+            else while (activeCount < maxActiveCount)
+            {
+                if (frozenExperiments.Any())
+                {
+                    var frozen = frozenExperiments.First();
+                    var indexOfFrozen = queuedExperiments.IndexOf(frozen);
+                    experimentsController.tryStartExperiment(indexOfFrozen);
+                    activeCount++;
+                    frozenExperiments.Remove(frozen);
+                }
+                else
+                {
+                    int activeIndex = activeCount;
+                    while (activeCount < maxActiveCount)
+                    {
+                        experimentsController.tryStartExperiment(orderedByRewards.Skip(activeIndex++).First().Key);
+                        activeCount++;
+                    }
+                }
             }
         }
 
@@ -459,17 +581,20 @@ namespace NGUIndustriesInjector
 
         private void ManageFactories(Player player)
         {
-            Log($"On map: {player.factoryController.mapNameText.text}");
-            var tracker = player.factoryController.tracker;
-
-            materialState.ForEach(state => state.CalculateState());
-
-            var sorted = from entry in materialState where entry.BuildNumber > 0 orderby entry.BuildPercent select entry;
-            foreach (var newBuilding in sorted)
+            if (Settings.ManageFactories)
             {
-                for (int i = 0; i < newBuilding.BuildNumber; i++)
+                Log($"On map: {player.factoryController.mapNameText.text}");
+                var tracker = player.factoryController.tracker;
+
+                materialState.ForEach(state => state.CalculateState());
+
+                var sorted = from entry in materialState where entry.BuildNumber > 0 orderby entry.BuildPercent select entry;
+                foreach (var newBuilding in sorted)
                 {
-                    SetOne(player, newBuilding);
+                    for (int i = 0; i < newBuilding.BuildNumber; i++)
+                    {
+                        SetOne(player, newBuilding);
+                    }
                 }
             }
         }
