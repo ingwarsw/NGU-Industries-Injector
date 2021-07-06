@@ -29,7 +29,12 @@ namespace NGUIndustriesInjector
             FactoryBuildStandard.Checked = newSettings.FactoryBuildStandard;
             ManageWorkOrders.Checked = newSettings.ManageWorkOrders;
             ManageFarmsCheckBox.Checked = newSettings.ManageFarms;
-
+            ManageExperimentsCheckbox.Checked = newSettings.ManageExperiments;
+            FreezeExperiments.Visible = Main.Settings.ManageExperiments;
+            WeightedRewards.Visible = Main.Settings.ManageExperiments;
+            FreezeExperiments.Checked = newSettings.FreezeExperiments;
+            WeightedRewards.Checked = newSettings.WeightedRewards;
+            ManageFactories.Checked = newSettings.ManageFactories;
 
             PitThreshold.Text = newSettings.PitThreshold.ToString();
 
@@ -128,6 +133,33 @@ namespace NGUIndustriesInjector
         private void FactoryPriorityMaterialsDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             Main.Settings.SaveSettings();
+        }
+
+        private void ManageExperimentsCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.ManageExperiments = ManageExperimentsCheckbox.Checked;
+
+            FreezeExperiments.Visible = Main.Settings.ManageExperiments;
+            WeightedRewards.Visible = Main.Settings.ManageExperiments;
+        }
+
+        private void FreezeExperiments_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.FreezeExperiments = FreezeExperiments.Checked;
+        }
+
+        private void WeightedRewards_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.WeightedRewards = WeightedRewards.Checked;
+        }
+
+        private void ManageFactories_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_initializing) return;
+            Main.Settings.ManageFactories = ManageFactories.Checked;
         }
     }
 }

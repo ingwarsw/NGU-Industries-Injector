@@ -29,11 +29,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.WeightedRewards = new System.Windows.Forms.CheckBox();
+            this.FreezeExperiments = new System.Windows.Forms.CheckBox();
+            this.ManageExperimentsCheckbox = new System.Windows.Forms.CheckBox();
+            this.ManageFarmsCheckBox = new System.Windows.Forms.CheckBox();
             this.ManageWorkOrders = new System.Windows.Forms.CheckBox();
             this.UnloadSafety = new System.Windows.Forms.CheckBox();
             this.UnloadButton = new System.Windows.Forms.Button();
@@ -52,7 +56,7 @@
             this.FactoryPriorityItemsSaveButton = new System.Windows.Forms.Button();
             this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
             this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
-            this.ManageFarmsCheckBox = new System.Windows.Forms.CheckBox();
+            this.ManageFactories = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -63,9 +67,10 @@
             // progressBar1
             // 
             this.progressBar1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.progressBar1.Location = new System.Drawing.Point(3, 3);
+            this.progressBar1.Location = new System.Drawing.Point(4, 5);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(598, 13);
+            this.progressBar1.Size = new System.Drawing.Size(897, 20);
             this.progressBar1.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -75,8 +80,9 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(605, 387);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(908, 595);
             this.flowLayoutPanel1.TabIndex = 2;
             this.flowLayoutPanel1.WrapContents = false;
             // 
@@ -84,14 +90,19 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(3, 22);
+            this.tabControl1.Location = new System.Drawing.Point(4, 35);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(598, 360);
+            this.tabControl1.Size = new System.Drawing.Size(897, 554);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.ManageFactories);
+            this.tabPage1.Controls.Add(this.WeightedRewards);
+            this.tabPage1.Controls.Add(this.FreezeExperiments);
+            this.tabPage1.Controls.Add(this.ManageExperimentsCheckbox);
             this.tabPage1.Controls.Add(this.ManageFarmsCheckBox);
             this.tabPage1.Controls.Add(this.ManageWorkOrders);
             this.tabPage1.Controls.Add(this.UnloadSafety);
@@ -103,20 +114,69 @@
             this.tabPage1.Controls.Add(this.MasterEnable);
             this.tabPage1.Controls.Add(this.ManagePit);
             this.tabPage1.Controls.Add(this.AutoDailySpin);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(590, 334);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPage1.Size = new System.Drawing.Size(889, 521);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // WeightedRewards
+            // 
+            this.WeightedRewards.AutoSize = true;
+            this.WeightedRewards.Location = new System.Drawing.Point(384, 148);
+            this.WeightedRewards.Name = "WeightedRewards";
+            this.WeightedRewards.Size = new System.Drawing.Size(170, 24);
+            this.WeightedRewards.TabIndex = 22;
+            this.WeightedRewards.Text = "Weighted Rewards";
+            this.WeightedRewards.UseVisualStyleBackColor = true;
+            this.WeightedRewards.Visible = false;
+            this.WeightedRewards.CheckedChanged += new System.EventHandler(this.WeightedRewards_CheckedChanged);
+            // 
+            // FreezeExperiments
+            // 
+            this.FreezeExperiments.AutoSize = true;
+            this.FreezeExperiments.Location = new System.Drawing.Point(200, 148);
+            this.FreezeExperiments.Name = "FreezeExperiments";
+            this.FreezeExperiments.Size = new System.Drawing.Size(177, 24);
+            this.FreezeExperiments.TabIndex = 21;
+            this.FreezeExperiments.Text = "Freeze Experiments";
+            this.FreezeExperiments.UseVisualStyleBackColor = true;
+            this.FreezeExperiments.Visible = false;
+            this.FreezeExperiments.CheckedChanged += new System.EventHandler(this.FreezeExperiments_CheckedChanged);
+            // 
+            // ManageExperimentsCheckbox
+            // 
+            this.ManageExperimentsCheckbox.AutoSize = true;
+            this.ManageExperimentsCheckbox.Location = new System.Drawing.Point(9, 148);
+            this.ManageExperimentsCheckbox.Name = "ManageExperimentsCheckbox";
+            this.ManageExperimentsCheckbox.Size = new System.Drawing.Size(185, 24);
+            this.ManageExperimentsCheckbox.TabIndex = 20;
+            this.ManageExperimentsCheckbox.Text = "Manage Experiments";
+            this.ManageExperimentsCheckbox.UseVisualStyleBackColor = true;
+            this.ManageExperimentsCheckbox.CheckedChanged += new System.EventHandler(this.ManageExperimentsCheckbox_CheckedChanged);
+            // 
+            // ManageFarmsCheckBox
+            // 
+            this.ManageFarmsCheckBox.AutoSize = true;
+            this.ManageFarmsCheckBox.Location = new System.Drawing.Point(9, 115);
+            this.ManageFarmsCheckBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ManageFarmsCheckBox.Name = "ManageFarmsCheckBox";
+            this.ManageFarmsCheckBox.Size = new System.Drawing.Size(142, 24);
+            this.ManageFarmsCheckBox.TabIndex = 19;
+            this.ManageFarmsCheckBox.Text = "Manage Farms";
+            this.ManageFarmsCheckBox.UseVisualStyleBackColor = true;
+            this.ManageFarmsCheckBox.CheckedChanged += new System.EventHandler(this.ManageFarmsCheckBox_CheckedChanged);
+            // 
             // ManageWorkOrders
             // 
             this.ManageWorkOrders.AutoSize = true;
-            this.ManageWorkOrders.Location = new System.Drawing.Point(6, 52);
+            this.ManageWorkOrders.Location = new System.Drawing.Point(9, 80);
+            this.ManageWorkOrders.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ManageWorkOrders.Name = "ManageWorkOrders";
-            this.ManageWorkOrders.Size = new System.Drawing.Size(128, 17);
+            this.ManageWorkOrders.Size = new System.Drawing.Size(186, 24);
             this.ManageWorkOrders.TabIndex = 18;
             this.ManageWorkOrders.Text = "Manage Work Orders";
             this.ManageWorkOrders.UseVisualStyleBackColor = true;
@@ -126,9 +186,10 @@
             // 
             this.UnloadSafety.AutoSize = true;
             this.UnloadSafety.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.UnloadSafety.Location = new System.Drawing.Point(396, 308);
+            this.UnloadSafety.Location = new System.Drawing.Point(594, 474);
+            this.UnloadSafety.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.UnloadSafety.Name = "UnloadSafety";
-            this.UnloadSafety.Size = new System.Drawing.Size(15, 14);
+            this.UnloadSafety.Size = new System.Drawing.Size(22, 21);
             this.UnloadSafety.TabIndex = 17;
             this.UnloadSafety.UseVisualStyleBackColor = true;
             this.UnloadSafety.CheckedChanged += new System.EventHandler(this.UnloadSafety_CheckedChanged);
@@ -137,9 +198,10 @@
             // 
             this.UnloadButton.Enabled = false;
             this.UnloadButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.UnloadButton.Location = new System.Drawing.Point(417, 303);
+            this.UnloadButton.Location = new System.Drawing.Point(626, 466);
+            this.UnloadButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.UnloadButton.Name = "UnloadButton";
-            this.UnloadButton.Size = new System.Drawing.Size(75, 23);
+            this.UnloadButton.Size = new System.Drawing.Size(112, 35);
             this.UnloadButton.TabIndex = 16;
             this.UnloadButton.Text = "Unload";
             this.UnloadButton.UseVisualStyleBackColor = true;
@@ -149,18 +211,20 @@
             // 
             this.VersionLabel.AutoSize = true;
             this.VersionLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.VersionLabel.Location = new System.Drawing.Point(498, 308);
+            this.VersionLabel.Location = new System.Drawing.Point(747, 474);
+            this.VersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(81, 13);
+            this.VersionLabel.Size = new System.Drawing.Size(119, 20);
             this.VersionLabel.TabIndex = 15;
             this.VersionLabel.Text = "Version: 2.2.0.0";
             // 
             // PitThresholdSave
             // 
             this.PitThresholdSave.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.PitThresholdSave.Location = new System.Drawing.Point(268, 147);
+            this.PitThresholdSave.Location = new System.Drawing.Point(402, 226);
+            this.PitThresholdSave.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PitThresholdSave.Name = "PitThresholdSave";
-            this.PitThresholdSave.Size = new System.Drawing.Size(76, 20);
+            this.PitThresholdSave.Size = new System.Drawing.Size(114, 31);
             this.PitThresholdSave.TabIndex = 12;
             this.PitThresholdSave.Text = "Save";
             this.PitThresholdSave.UseVisualStyleBackColor = true;
@@ -168,9 +232,10 @@
             // 
             // PitThreshold
             // 
-            this.PitThreshold.Location = new System.Drawing.Point(138, 147);
+            this.PitThreshold.Location = new System.Drawing.Point(207, 226);
+            this.PitThreshold.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PitThreshold.Name = "PitThreshold";
-            this.PitThreshold.Size = new System.Drawing.Size(124, 20);
+            this.PitThreshold.Size = new System.Drawing.Size(184, 26);
             this.PitThreshold.TabIndex = 11;
             this.PitThreshold.TextChanged += new System.EventHandler(this.MoneyPitThreshold_TextChanged_1);
             // 
@@ -178,9 +243,10 @@
             // 
             this.label7.AutoSize = true;
             this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label7.Location = new System.Drawing.Point(6, 150);
+            this.label7.Location = new System.Drawing.Point(9, 231);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(129, 13);
+            this.label7.Size = new System.Drawing.Size(191, 20);
             this.label7.TabIndex = 10;
             this.label7.Text = "Pit Threshold (in seconds)";
             // 
@@ -188,9 +254,10 @@
             // 
             this.MasterEnable.AutoSize = true;
             this.MasterEnable.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.MasterEnable.Location = new System.Drawing.Point(6, 6);
+            this.MasterEnable.Location = new System.Drawing.Point(9, 9);
+            this.MasterEnable.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MasterEnable.Name = "MasterEnable";
-            this.MasterEnable.Size = new System.Drawing.Size(93, 17);
+            this.MasterEnable.Size = new System.Drawing.Size(135, 24);
             this.MasterEnable.TabIndex = 4;
             this.MasterEnable.Text = "Master Switch";
             this.MasterEnable.UseVisualStyleBackColor = true;
@@ -200,9 +267,10 @@
             // 
             this.ManagePit.AutoSize = true;
             this.ManagePit.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.ManagePit.Location = new System.Drawing.Point(6, 130);
+            this.ManagePit.Location = new System.Drawing.Point(9, 200);
+            this.ManagePit.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ManagePit.Name = "ManagePit";
-            this.ManagePit.Size = new System.Drawing.Size(80, 17);
+            this.ManagePit.Size = new System.Drawing.Size(115, 24);
             this.ManagePit.TabIndex = 6;
             this.ManagePit.Text = "Manage Pit";
             this.ManagePit.UseVisualStyleBackColor = true;
@@ -211,9 +279,10 @@
             // AutoDailySpin
             // 
             this.AutoDailySpin.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.AutoDailySpin.Location = new System.Drawing.Point(6, 29);
+            this.AutoDailySpin.Location = new System.Drawing.Point(9, 45);
+            this.AutoDailySpin.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AutoDailySpin.Name = "AutoDailySpin";
-            this.AutoDailySpin.Size = new System.Drawing.Size(98, 17);
+            this.AutoDailySpin.Size = new System.Drawing.Size(147, 26);
             this.AutoDailySpin.TabIndex = 5;
             this.AutoDailySpin.Text = "Auto Daily Spin";
             this.AutoDailySpin.UseVisualStyleBackColor = true;
@@ -226,10 +295,11 @@
             this.tabPage2.Controls.Add(this.FactoryPriorityItemsSaveButton);
             this.tabPage2.Controls.Add(this.FactoryBuildStandard);
             this.tabPage2.Controls.Add(this.FactoryDontStarve);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(590, 334);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tabPage2.Size = new System.Drawing.Size(889, 521);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Factories";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -241,11 +311,13 @@
             this.FactoryPriorityMaterialsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FactoriesPrioListColumnName,
             this.FactoriesPrioListColumnWant});
-            this.FactoryPriorityMaterialsDataGridView.Location = new System.Drawing.Point(6, 88);
+            this.FactoryPriorityMaterialsDataGridView.Location = new System.Drawing.Point(9, 135);
+            this.FactoryPriorityMaterialsDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FactoryPriorityMaterialsDataGridView.MultiSelect = false;
             this.FactoryPriorityMaterialsDataGridView.Name = "FactoryPriorityMaterialsDataGridView";
+            this.FactoryPriorityMaterialsDataGridView.RowHeadersWidth = 62;
             this.FactoryPriorityMaterialsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(559, 158);
+            this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(838, 243);
             this.FactoryPriorityMaterialsDataGridView.TabIndex = 21;
             this.FactoryPriorityMaterialsDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.FactoryPriorityMaterialsDataGridView_CellValueChanged);
             // 
@@ -255,16 +327,18 @@
             this.FactoriesPrioListColumnName.DataPropertyName = "Type";
             this.FactoriesPrioListColumnName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.FactoriesPrioListColumnName.HeaderText = "Material";
+            this.FactoriesPrioListColumnName.MinimumWidth = 8;
             this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
             this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // FactoriesPrioListColumnWant
             // 
             this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
-            dataGridViewCellStyle7.Format = "N0";
-            dataGridViewCellStyle7.NullValue = null;
-            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Format = "N0";
+            dataGridViewCellStyle3.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle3;
             this.FactoriesPrioListColumnWant.HeaderText = "Number want";
+            this.FactoriesPrioListColumnWant.MinimumWidth = 8;
             this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
             this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.FactoriesPrioListColumnWant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -273,18 +347,20 @@
             // FactoryPriorityItemsLabelMain
             // 
             this.FactoryPriorityItemsLabelMain.AutoSize = true;
-            this.FactoryPriorityItemsLabelMain.Location = new System.Drawing.Point(6, 72);
+            this.FactoryPriorityItemsLabelMain.Location = new System.Drawing.Point(9, 111);
+            this.FactoryPriorityItemsLabelMain.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FactoryPriorityItemsLabelMain.Name = "FactoryPriorityItemsLabelMain";
-            this.FactoryPriorityItemsLabelMain.Size = new System.Drawing.Size(53, 13);
+            this.FactoryPriorityItemsLabelMain.Size = new System.Drawing.Size(79, 20);
             this.FactoryPriorityItemsLabelMain.TabIndex = 20;
             this.FactoryPriorityItemsLabelMain.Text = "Priority list";
             // 
             // FactoryPriorityItemsSaveButton
             // 
             this.FactoryPriorityItemsSaveButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.FactoryPriorityItemsSaveButton.Location = new System.Drawing.Point(489, 252);
+            this.FactoryPriorityItemsSaveButton.Location = new System.Drawing.Point(734, 388);
+            this.FactoryPriorityItemsSaveButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FactoryPriorityItemsSaveButton.Name = "FactoryPriorityItemsSaveButton";
-            this.FactoryPriorityItemsSaveButton.Size = new System.Drawing.Size(76, 20);
+            this.FactoryPriorityItemsSaveButton.Size = new System.Drawing.Size(114, 31);
             this.FactoryPriorityItemsSaveButton.TabIndex = 13;
             this.FactoryPriorityItemsSaveButton.Text = "Save";
             this.FactoryPriorityItemsSaveButton.UseVisualStyleBackColor = true;
@@ -293,9 +369,10 @@
             // FactoryBuildStandard
             // 
             this.FactoryBuildStandard.AutoSize = true;
-            this.FactoryBuildStandard.Location = new System.Drawing.Point(7, 30);
+            this.FactoryBuildStandard.Location = new System.Drawing.Point(10, 46);
+            this.FactoryBuildStandard.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FactoryBuildStandard.Name = "FactoryBuildStandard";
-            this.FactoryBuildStandard.Size = new System.Drawing.Size(322, 17);
+            this.FactoryBuildStandard.Size = new System.Drawing.Size(477, 24);
             this.FactoryBuildStandard.TabIndex = 1;
             this.FactoryBuildStandard.Text = "Build \"standard\" number of all resources (with really low priority)";
             this.FactoryBuildStandard.UseVisualStyleBackColor = true;
@@ -304,31 +381,33 @@
             // FactoryDontStarve
             // 
             this.FactoryDontStarve.AutoSize = true;
-            this.FactoryDontStarve.Location = new System.Drawing.Point(7, 7);
+            this.FactoryDontStarve.Location = new System.Drawing.Point(10, 11);
+            this.FactoryDontStarve.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FactoryDontStarve.Name = "FactoryDontStarve";
-            this.FactoryDontStarve.Size = new System.Drawing.Size(300, 17);
+            this.FactoryDontStarve.Size = new System.Drawing.Size(442, 24);
             this.FactoryDontStarve.TabIndex = 0;
             this.FactoryDontStarve.Text = "Dont allow starving of factories (never see red color again)";
             this.FactoryDontStarve.UseVisualStyleBackColor = true;
             this.FactoryDontStarve.CheckedChanged += new System.EventHandler(this.FactoryDontStarve_CheckedChanged);
             // 
-            // ManageFarmsCheckBox
+            // ManageFactories
             // 
-            this.ManageFarmsCheckBox.AutoSize = true;
-            this.ManageFarmsCheckBox.Location = new System.Drawing.Point(6, 75);
-            this.ManageFarmsCheckBox.Name = "ManageFarmsCheckBox";
-            this.ManageFarmsCheckBox.Size = new System.Drawing.Size(96, 17);
-            this.ManageFarmsCheckBox.TabIndex = 19;
-            this.ManageFarmsCheckBox.Text = "Manage Farms";
-            this.ManageFarmsCheckBox.UseVisualStyleBackColor = true;
-            this.ManageFarmsCheckBox.CheckedChanged += new System.EventHandler(this.ManageFarmsCheckBox_CheckedChanged);
+            this.ManageFactories.AutoSize = true;
+            this.ManageFactories.Location = new System.Drawing.Point(200, 46);
+            this.ManageFactories.Name = "ManageFactories";
+            this.ManageFactories.Size = new System.Drawing.Size(163, 24);
+            this.ManageFactories.TabIndex = 23;
+            this.ManageFactories.Text = "Manage Factories";
+            this.ManageFactories.UseVisualStyleBackColor = true;
+            this.ManageFactories.CheckedChanged += new System.EventHandler(this.ManageFactories_CheckedChanged);
             // 
             // SettingsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 387);
+            this.ClientSize = new System.Drawing.Size(908, 595);
             this.Controls.Add(this.flowLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.Name = "SettingsForm";
             this.Text = "NGU INDUSTRIES Injector Settings";
@@ -367,5 +446,9 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn FactoriesPrioListColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FactoriesPrioListColumnWant;
         private System.Windows.Forms.CheckBox ManageFarmsCheckBox;
+        private System.Windows.Forms.CheckBox ManageExperimentsCheckbox;
+        private System.Windows.Forms.CheckBox WeightedRewards;
+        private System.Windows.Forms.CheckBox FreezeExperiments;
+        private System.Windows.Forms.CheckBox ManageFactories;
     }
 }
