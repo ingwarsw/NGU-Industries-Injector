@@ -130,11 +130,6 @@ namespace NGUIndustriesInjector
             Main.Settings.SaveSettings();
         }
 
-        private void FactoryPriorityMaterialsDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            Main.Settings.SaveSettings();
-        }
-
         private void ManageExperimentsCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (_initializing) return;

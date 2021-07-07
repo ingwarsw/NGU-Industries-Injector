@@ -35,18 +35,26 @@ namespace NGUIndustriesInjector
 
         internal void SaveSettings()
         {
-            if (savePath == null) return;
-            if (_disableSave) return;
-            Main.Log("Saving Settings");
-            Main.IgnoreNextChange = true;
-            //var serialized = JsonUtility.ToJson(this, true);
-            var serialized = JsonConvert.SerializeObject(this, Formatting.Indented);
-            using (var writer = new StreamWriter(savePath))
+            try
             {
-                writer.Write(serialized);
-                writer.Flush();
+                if (savePath == null) return;
+                if (_disableSave) return;
+                Main.Log("Saving Settings");
+                Main.IgnoreNextChange = true;
+                //var serialized = JsonUtility.ToJson(this, true);
+                var serialized = JsonConvert.SerializeObject(this, Formatting.Indented);
+                using (var writer = new StreamWriter(savePath))
+                {
+                    writer.Write(serialized);
+                    writer.Flush();
+                }
+                Main.UpdateForm(this);
             }
-            Main.UpdateForm(this);
+            catch (Exception ex)
+            {
+                Main.Debug(ex.StackTrace);
+                throw;
+            }
         }
 
         internal void SetSaveDisabled(bool disabled)

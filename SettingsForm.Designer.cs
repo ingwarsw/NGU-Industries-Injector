@@ -29,11 +29,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ManageFactories = new System.Windows.Forms.CheckBox();
             this.WeightedRewards = new System.Windows.Forms.CheckBox();
             this.FreezeExperiments = new System.Windows.Forms.CheckBox();
             this.ManageExperimentsCheckbox = new System.Windows.Forms.CheckBox();
@@ -56,7 +57,6 @@
             this.FactoryPriorityItemsSaveButton = new System.Windows.Forms.Button();
             this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
             this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
-            this.ManageFactories = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -122,6 +122,17 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Settings";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // ManageFactories
+            // 
+            this.ManageFactories.AutoSize = true;
+            this.ManageFactories.Location = new System.Drawing.Point(200, 46);
+            this.ManageFactories.Name = "ManageFactories";
+            this.ManageFactories.Size = new System.Drawing.Size(163, 24);
+            this.ManageFactories.TabIndex = 23;
+            this.ManageFactories.Text = "Manage Factories";
+            this.ManageFactories.UseVisualStyleBackColor = true;
+            this.ManageFactories.CheckedChanged += new System.EventHandler(this.ManageFactories_CheckedChanged);
             // 
             // WeightedRewards
             // 
@@ -306,7 +317,9 @@
             // 
             // FactoryPriorityMaterialsDataGridView
             // 
+            this.FactoryPriorityMaterialsDataGridView.AccessibleRole = System.Windows.Forms.AccessibleRole.Alert;
             this.FactoryPriorityMaterialsDataGridView.AllowUserToResizeRows = false;
+            this.FactoryPriorityMaterialsDataGridView.BackgroundColor = System.Drawing.Color.Aqua;
             this.FactoryPriorityMaterialsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.FactoryPriorityMaterialsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FactoriesPrioListColumnName,
@@ -319,7 +332,6 @@
             this.FactoryPriorityMaterialsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(838, 243);
             this.FactoryPriorityMaterialsDataGridView.TabIndex = 21;
-            this.FactoryPriorityMaterialsDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.FactoryPriorityMaterialsDataGridView_CellValueChanged);
             // 
             // FactoriesPrioListColumnName
             // 
@@ -327,16 +339,16 @@
             this.FactoriesPrioListColumnName.DataPropertyName = "Type";
             this.FactoriesPrioListColumnName.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.FactoriesPrioListColumnName.HeaderText = "Material";
-            this.FactoriesPrioListColumnName.MinimumWidth = 8;
+            this.FactoriesPrioListColumnName.MinimumWidth = 40;
             this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
             this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // FactoriesPrioListColumnWant
             // 
             this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
-            dataGridViewCellStyle3.Format = "N0";
-            dataGridViewCellStyle3.NullValue = null;
-            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
             this.FactoriesPrioListColumnWant.HeaderText = "Number want";
             this.FactoriesPrioListColumnWant.MinimumWidth = 8;
             this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
@@ -390,17 +402,6 @@
             this.FactoryDontStarve.UseVisualStyleBackColor = true;
             this.FactoryDontStarve.CheckedChanged += new System.EventHandler(this.FactoryDontStarve_CheckedChanged);
             // 
-            // ManageFactories
-            // 
-            this.ManageFactories.AutoSize = true;
-            this.ManageFactories.Location = new System.Drawing.Point(200, 46);
-            this.ManageFactories.Name = "ManageFactories";
-            this.ManageFactories.Size = new System.Drawing.Size(163, 24);
-            this.ManageFactories.TabIndex = 23;
-            this.ManageFactories.Text = "Manage Factories";
-            this.ManageFactories.UseVisualStyleBackColor = true;
-            this.ManageFactories.CheckedChanged += new System.EventHandler(this.ManageFactories_CheckedChanged);
-            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -443,12 +444,12 @@
         private System.Windows.Forms.CheckBox ManageWorkOrders;
         private System.Windows.Forms.Label FactoryPriorityItemsLabelMain;
         private System.Windows.Forms.DataGridView FactoryPriorityMaterialsDataGridView;
-        private System.Windows.Forms.DataGridViewComboBoxColumn FactoriesPrioListColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FactoriesPrioListColumnWant;
         private System.Windows.Forms.CheckBox ManageFarmsCheckBox;
         private System.Windows.Forms.CheckBox ManageExperimentsCheckbox;
         private System.Windows.Forms.CheckBox WeightedRewards;
         private System.Windows.Forms.CheckBox FreezeExperiments;
         private System.Windows.Forms.CheckBox ManageFactories;
+        private System.Windows.Forms.DataGridViewComboBoxColumn FactoriesPrioListColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FactoriesPrioListColumnWant;
     }
 }
