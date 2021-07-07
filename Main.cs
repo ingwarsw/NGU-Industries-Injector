@@ -360,12 +360,11 @@ namespace NGUIndustriesInjector
 
             var experimentsController = player.experimentsController;
             var queueIndexToRewardFactor = ExperimentUtilities.GetQueueIndexToRewardFactor(Settings.WeightedRewards, player.experiments);
-
             var orderedByRewards = queueIndexToRewardFactor.OrderByDescending(t => t.Value);
 
             var queuedExperiments = player.experiments.queuedExperiments;
-            var activeCount = player.experimentsController.getActiveCount();
-            var maxActiveCount = player.experimentsController.maxActiveExperiments();
+            var activeCount = experimentsController.getActiveCount();
+            var maxActiveCount = experimentsController.maxActiveExperiments();
 
             var frozenExperiments = queuedExperiments
                 .Where(exp => exp.isFrozen)
@@ -376,59 +375,59 @@ namespace NGUIndustriesInjector
                 var maxFrozenExperiments = experimentsController.maxFrozenExperiments();
                 for (int i = 0; i < maxFrozenExperiments; i++)
                 {
-                    KeyValuePair<int, double> entry;
+                    KeyValuePair<int, double> optimalExperiment;
                     if (Settings.WeightedRewards)
                     {
-                        var orderedCurrentRewards = ExperimentUtilities.GetQueueIndexToRewardFactor(
+                        var orderedWeightedRewards = ExperimentUtilities.GetQueueIndexToRewardFactor(
                                                         true,
                                                         player.experiments,
                                                         frozenExperiments.Take(i))
                                                     .OrderByDescending(t => t.Value);
 
-                        entry = orderedCurrentRewards.First();
+                        optimalExperiment = orderedWeightedRewards.First();
                     }
                     else
                     {
-                        entry = orderedByRewards.Skip(i).First();
+                        optimalExperiment = orderedByRewards.Skip(i).First();
                     }
 
-                    if (frozenExperiments.Any(frozenExperiment => queuedExperiments.IndexOf(frozenExperiment) == entry.Key))
+                    if (frozenExperiments.Any(frozenExperiment => queuedExperiments.IndexOf(frozenExperiment) == optimalExperiment.Key))
                     {
-                        Debug($"Did not attempt to freeze Experiment {entry.Key} since it's already frozen");
+                        Debug($"Did not attempt to freeze Experiment {optimalExperiment.Key} since it's already frozen");
                     }
                     else
                     {
                         var frozen = frozenExperiments.Skip(i).FirstOrDefault();
                         if (frozen == null)
                         {
-                            if (queuedExperiments[entry.Key].isFrozen)
+                            if (queuedExperiments[optimalExperiment.Key].isFrozen)
                             {
-                                Debug($"Prevented already frozen Experiment {entry.Key} from being unfrozen");
+                                Debug($"Prevented already frozen Experiment {optimalExperiment.Key} from being unfrozen");
                             }
                             else
                             {
-                                Debug($"Attempted to freeze Experiment {entry.Key}, Factor: {entry.Value}");
-                                experimentsController.tryToggleFreezeExperiment(entry.Key);
+                                Debug($"Attempted to freeze Experiment {optimalExperiment.Key}, Factor: {optimalExperiment.Value}");
+                                experimentsController.tryToggleFreezeExperiment(optimalExperiment.Key);
 
-                                frozenExperiments.Insert(0, queuedExperiments[entry.Key]);
+                                frozenExperiments.Insert(0, queuedExperiments[optimalExperiment.Key]);
                             }
                         }
                         else
                         {
                             var indexOfFrozen = queuedExperiments.IndexOf(frozen);
-                            if (indexOfFrozen != entry.Key)
+                            if (indexOfFrozen != optimalExperiment.Key)
                             {
                                 experimentsController.tryToggleFreezeExperiment(indexOfFrozen);
-                                Debug($"Attempted to Un-Freeze Experiment {indexOfFrozen} since its factor is lower than the higher factor of Experiment {entry.Key}");
+                                Debug($"Attempted to Un-Freeze Experiment {indexOfFrozen} since its factor is lower than the higher factor of Experiment {optimalExperiment.Key}");
                                 frozenExperiments.Remove(frozen);
 
-                                experimentsController.tryToggleFreezeExperiment(entry.Key);
-                                Debug($"Attempted to Freeze Experiment {entry.Key}, Factor: {entry.Value}");
-                                frozenExperiments.Insert(0, queuedExperiments[entry.Key]);
+                                experimentsController.tryToggleFreezeExperiment(optimalExperiment.Key);
+                                Debug($"Attempted to Freeze Experiment {optimalExperiment.Key}, Factor: {optimalExperiment.Value}");
+                                frozenExperiments.Insert(0, queuedExperiments[optimalExperiment.Key]);
                             }
                             else
                             {
-                                Debug($"Did not attempt to freeze Experiment {indexOfFrozen} since we're matching the highest factor index of {entry.Key} already");
+                                Debug($"Did not attempt to freeze Experiment {indexOfFrozen} since we're matching the highest factor index of {optimalExperiment.Key} already");
                             }
                         }
                     }
@@ -436,10 +435,18 @@ namespace NGUIndustriesInjector
 
                 while (activeCount < maxActiveCount)
                 {
-                    var frozenExperiment = frozenExperiments[0];
-                    var index = queuedExperiments.IndexOf(frozenExperiment);
-                    experimentsController.tryStartExperiment(index);
-                    activeCount++;
+                    if (frozenExperiments.Any())
+                    {
+                        var frozenExperiment = frozenExperiments.FirstOrDefault();
+                        var index = queuedExperiments.IndexOf(frozenExperiment);
+                        experimentsController.tryStartExperiment(index);
+                        activeCount++;
+                        frozenExperiments.Remove(frozenExperiment);
+                    }
+                    else
+                    {
+                        Debug("Encountered invalid state. Attempting to Start the first frozen experiment failed because there are none.");
+                    }
                 }
             }
             else while (activeCount < maxActiveCount)
@@ -455,9 +462,23 @@ namespace NGUIndustriesInjector
                 else
                 {
                     int activeIndex = activeCount;
+                    var activeExperiments = new List<Experiment>();
                     while (activeCount < maxActiveCount)
                     {
-                        experimentsController.tryStartExperiment(orderedByRewards.Skip(activeIndex++).First().Key);
+                        var index = orderedByRewards.Skip(activeIndex++).First().Key;
+                        if (Settings.WeightedRewards)
+                        {
+                                var orderedWeightedRewards = ExperimentUtilities.GetQueueIndexToRewardFactor(
+                                                               true,
+                                                               player.experiments,
+                                                               activeExperiments)
+                                                            .OrderByDescending(t => t.Value);
+
+                                index = orderedWeightedRewards.First().Key;
+                        }
+
+                        experimentsController.tryStartExperiment(index);
+                        activeExperiments.Add(queuedExperiments.ElementAt(index));
                         activeCount++;
                     }
                 }
@@ -664,7 +685,6 @@ namespace NGUIndustriesInjector
                 }
             }
         }
-
         public void OnGUI()
         {
             GUI.Label(new Rect(10, 10, 200, 40), $"Automation - {(Settings.GlobalEnabled ? "Active" : "Inactive")}");
