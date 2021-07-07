@@ -117,6 +117,12 @@ namespace NGUIndustriesInjector
         {
             BuildNumber = 0;
             BuildPercent = 0;
+            if (materialData.goneInfinite)
+            {
+                DeleteFunction = other => true;
+                return;
+            }
+
             DeleteFunction = other => other.HavePercent > BuildPercent && other.BuildNumber == 0;
 
             Main.Log($"{this}: Calculating");
