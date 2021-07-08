@@ -14,7 +14,7 @@ namespace NGUIndustriesInjector
         [JsonProperty] private bool _factoryDontStarve = true;
         [JsonProperty] private bool _factoryBuildStandard = true;
         [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
-        [JsonProperty] private List<GlobalBlueprint> _globalBlueprints = new List<GlobalBlueprint>();
+        [JsonProperty] private List<GlobalBlueprint> _globalBlueprints = new List<GlobalBlueprint>() { new GlobalBlueprint("Default") };
 
         [JsonProperty] private bool _manageFactories = false;
         [JsonProperty] private bool _manageWorkOrders = false;
@@ -76,12 +76,7 @@ namespace NGUIndustriesInjector
 
                     var json = File.ReadAllText(savePath);
                     JsonConvert.PopulateObject(json, this);
-
-                    if (!GlobalBlueprints.Any())
-                    {
-                        GlobalBlueprints.Add(new GlobalBlueprint("Default"));
-                    }
-
+                    
                     Main.Log("Loaded Settings");
                 }
                 catch (Exception e)
