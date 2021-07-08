@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
+using System.Linq;
 
 namespace NGUIndustriesInjector
 {
@@ -13,6 +14,7 @@ namespace NGUIndustriesInjector
         [JsonProperty] private bool _factoryDontStarve = true;
         [JsonProperty] private bool _factoryBuildStandard = true;
         [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
+        [JsonProperty] private List<GlobalBlueprint> _globalBlueprints = new List<GlobalBlueprint>();
 
         [JsonProperty] private bool _manageFactories = false;
         [JsonProperty] private bool _manageWorkOrders = false;
@@ -43,6 +45,7 @@ namespace NGUIndustriesInjector
                 Main.IgnoreNextChange = true;
                 //var serialized = JsonUtility.ToJson(this, true);
                 var serialized = JsonConvert.SerializeObject(this, Formatting.Indented);
+
                 using (var writer = new StreamWriter(savePath))
                 {
                     writer.Write(serialized);
@@ -69,8 +72,16 @@ namespace NGUIndustriesInjector
                 try
                 {
                     _priorytyBuildings.Clear();
+                    _globalBlueprints.Clear();
+
                     var json = File.ReadAllText(savePath);
                     JsonConvert.PopulateObject(json, this);
+
+                    if (!GlobalBlueprints.Any())
+                    {
+                        GlobalBlueprints.Add(new GlobalBlueprint("Default"));
+                    }
+
                     Main.Log("Loaded Settings");
                 }
                 catch (Exception e)
@@ -127,6 +138,16 @@ namespace NGUIndustriesInjector
             set
             {
                 _priorytyBuildings = value;
+                SaveSettings();
+            }
+        }
+
+        public List<GlobalBlueprint> GlobalBlueprints
+        {
+            get => _globalBlueprints;
+            set
+            {
+                _globalBlueprints = value;
                 SaveSettings();
             }
         }

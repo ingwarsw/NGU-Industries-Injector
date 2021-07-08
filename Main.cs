@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,10 +32,20 @@ namespace NGUIndustriesInjector
 
         private List<MaterialState> materialState;
 
-        internal static void Debug(string msg)
+        internal static void Debug(string msg, string group = null)
         {
 #if DEBUG
-            DebugWriter.WriteLine($"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}");
+            var message = $"{ DateTime.Now.ToShortDateString()}-{ DateTime.Now.ToShortTimeString()}: {msg}";
+            message = string.IsNullOrEmpty(group) ? message : $"({group}) {message}";
+            DebugWriter.WriteLine(message);
+#endif
+        }
+
+        internal static void Debug(object obj, string group = null)
+        {
+#if DEBUG
+            var message = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            Debug(message, group);
 #endif
         }
 

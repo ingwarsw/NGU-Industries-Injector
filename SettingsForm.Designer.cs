@@ -51,17 +51,26 @@
             this.AutoDailySpin = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.FactoryPriorityMaterialsDataGridView = new System.Windows.Forms.DataGridView();
-            this.FactoriesPrioListColumnName = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.FactoriesPrioListColumnWant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FactoryPriorityItemsLabelMain = new System.Windows.Forms.Label();
             this.FactoryPriorityItemsSaveButton = new System.Windows.Forms.Button();
             this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
             this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.GlobalBluePrintsDataView = new System.Windows.Forms.DataGridView();
+            this.blueprintName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.blueprintSave = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.blueprintLoad = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.FactoriesPrioListColumnName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.FactoriesPrioListColumnWant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FactoryPriorityMaterialsDataGridView)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GlobalBluePrintsDataView)).BeginInit();
             this.SuspendLayout();
             // 
             // progressBar1
@@ -90,6 +99,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(4, 35);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
@@ -319,7 +329,6 @@
             // 
             this.FactoryPriorityMaterialsDataGridView.AccessibleRole = System.Windows.Forms.AccessibleRole.Alert;
             this.FactoryPriorityMaterialsDataGridView.AllowUserToResizeRows = false;
-            this.FactoryPriorityMaterialsDataGridView.BackgroundColor = System.Drawing.Color.Aqua;
             this.FactoryPriorityMaterialsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.FactoryPriorityMaterialsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.FactoriesPrioListColumnName,
@@ -332,29 +341,6 @@
             this.FactoryPriorityMaterialsDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(838, 243);
             this.FactoryPriorityMaterialsDataGridView.TabIndex = 21;
-            // 
-            // FactoriesPrioListColumnName
-            // 
-            this.FactoriesPrioListColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FactoriesPrioListColumnName.DataPropertyName = "Type";
-            this.FactoriesPrioListColumnName.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.FactoriesPrioListColumnName.HeaderText = "Material";
-            this.FactoriesPrioListColumnName.MinimumWidth = 40;
-            this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
-            this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // FactoriesPrioListColumnWant
-            // 
-            this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
-            this.FactoriesPrioListColumnWant.HeaderText = "Number want";
-            this.FactoriesPrioListColumnWant.MinimumWidth = 8;
-            this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
-            this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.FactoriesPrioListColumnWant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.FactoriesPrioListColumnWant.Width = 200;
             // 
             // FactoryPriorityItemsLabelMain
             // 
@@ -402,6 +388,105 @@
             this.FactoryDontStarve.UseVisualStyleBackColor = true;
             this.FactoryDontStarve.CheckedChanged += new System.EventHandler(this.FactoryDontStarve_CheckedChanged);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Controls.Add(this.label2);
+            this.tabPage3.Controls.Add(this.GlobalBluePrintsDataView);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(889, 521);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Global Blueprints";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.button2.Location = new System.Drawing.Point(760, 339);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(114, 31);
+            this.button2.TabIndex = 14;
+            this.button2.Text = "Save";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(130, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Global Blueprints";
+            // 
+            // GlobalBluePrintsDataView
+            // 
+            this.GlobalBluePrintsDataView.ColumnHeadersHeight = 34;
+            this.GlobalBluePrintsDataView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.blueprintName,
+            this.blueprintSave,
+            this.blueprintLoad});
+            this.GlobalBluePrintsDataView.Location = new System.Drawing.Point(17, 45);
+            this.GlobalBluePrintsDataView.Name = "GlobalBluePrintsDataView";
+            this.GlobalBluePrintsDataView.RowHeadersWidth = 62;
+            this.GlobalBluePrintsDataView.RowTemplate.Height = 28;
+            this.GlobalBluePrintsDataView.Size = new System.Drawing.Size(857, 286);
+            this.GlobalBluePrintsDataView.TabIndex = 0;
+            this.GlobalBluePrintsDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GlobalBluePrintsDataView_CellContentClick);
+            this.GlobalBluePrintsDataView.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.GlobalBluePrintsDataView_RowValidating);
+            // 
+            // blueprintName
+            // 
+            this.blueprintName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.blueprintName.DataPropertyName = "Name";
+            this.blueprintName.HeaderText = "Name";
+            this.blueprintName.MinimumWidth = 8;
+            this.blueprintName.Name = "blueprintName";
+            this.blueprintName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // blueprintSave
+            // 
+            this.blueprintSave.HeaderText = "";
+            this.blueprintSave.MinimumWidth = 8;
+            this.blueprintSave.Name = "blueprintSave";
+            this.blueprintSave.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.blueprintSave.Text = "Save";
+            this.blueprintSave.UseColumnTextForButtonValue = true;
+            this.blueprintSave.Width = 150;
+            // 
+            // blueprintLoad
+            // 
+            this.blueprintLoad.HeaderText = "";
+            this.blueprintLoad.MinimumWidth = 8;
+            this.blueprintLoad.Name = "blueprintLoad";
+            this.blueprintLoad.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.blueprintLoad.Text = "Load";
+            this.blueprintLoad.UseColumnTextForButtonValue = true;
+            this.blueprintLoad.Width = 150;
+            // 
+            // FactoriesPrioListColumnName
+            // 
+            this.FactoriesPrioListColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.FactoriesPrioListColumnName.DataPropertyName = "Type";
+            this.FactoriesPrioListColumnName.HeaderText = "Material";
+            this.FactoriesPrioListColumnName.MinimumWidth = 80;
+            this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
+            this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // FactoriesPrioListColumnWant
+            // 
+            this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
+            this.FactoriesPrioListColumnWant.HeaderText = "Number want";
+            this.FactoriesPrioListColumnWant.MinimumWidth = 8;
+            this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
+            this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.FactoriesPrioListColumnWant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.FactoriesPrioListColumnWant.Width = 200;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -419,6 +504,9 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FactoryPriorityMaterialsDataGridView)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GlobalBluePrintsDataView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -449,6 +537,13 @@
         private System.Windows.Forms.CheckBox WeightedRewards;
         private System.Windows.Forms.CheckBox FreezeExperiments;
         private System.Windows.Forms.CheckBox ManageFactories;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.DataGridView GlobalBluePrintsDataView;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn blueprintName;
+        private System.Windows.Forms.DataGridViewButtonColumn blueprintSave;
+        private System.Windows.Forms.DataGridViewButtonColumn blueprintLoad;
         private System.Windows.Forms.DataGridViewComboBoxColumn FactoriesPrioListColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FactoriesPrioListColumnWant;
     }

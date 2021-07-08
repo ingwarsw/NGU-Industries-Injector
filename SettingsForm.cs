@@ -1,7 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Linq;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace NGUIndustriesInjector
 {
@@ -39,6 +41,7 @@ namespace NGUIndustriesInjector
             PitThreshold.Text = newSettings.PitThreshold.ToString();
 
             FactoryPriorityMaterialsDataGridView.DataSource = new BindingSource(new BindingList<PriorityMaterial>(Main.Settings.PriorityBuildings), null);
+            GlobalBluePrintsDataView.DataSource = new BindingSource(new BindingList<GlobalBlueprint>(Main.Settings.GlobalBlueprints), null);
 
             Refresh();
             _initializing = false;
@@ -155,6 +158,61 @@ namespace NGUIndustriesInjector
         {
             if (_initializing) return;
             Main.Settings.ManageFactories = ManageFactories.Checked;
+        }
+        private void btnSaveGlobalBlueprints_Click(object sender, EventArgs e)
+        {
+            Main.Settings.SaveSettings();
+        }
+
+        private void GlobalBluePrintsDataView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var dataItem = GlobalBluePrintsDataView.Rows[e.RowIndex].DataBoundItem;
+            if (!(dataItem is GlobalBlueprint blueprint) || blueprint?.Name == null)
+            {
+                return;
+            }
+
+            var senderGrid = (DataGridView)sender;
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn dgvbc && e.RowIndex >= 0)
+            {
+                var player = UnityEngine.Object.FindObjectOfType<Player>();
+                if (dgvbc.Name == "blueprintSave")
+                {
+                    var name = (GlobalBluePrintsDataView.CurrentRow.Cells[0] as DataGridViewTextBoxCell).Value.ToString();
+                    var newBlueprint = new GlobalBlueprint(name, player.factoryData.maps);
+
+                    Main.Settings.GlobalBlueprints[e.RowIndex] = newBlueprint;
+                    Main.Settings.SaveSettings();
+                }
+                else if (dgvbc.Name == "blueprintLoad")
+                {
+                    if (!blueprint.Maps?.Any() ?? true)
+                    {
+                        return;
+                    }
+
+                    var originalMapId = player.factoryController.curMapID;
+                    foreach (var map in blueprint.Maps)
+                    {
+                        player.factoryController.setNewMapID(map.MapIndex);
+
+                        map.BlueprintTiles?.ForEach(tile =>
+                            player.factoryController.doSetTile(tile.Index, tile.BuildingType, tile.TileDirection));
+                    }
+
+                    player.factoryController.setNewMapID(originalMapId);
+                }
+            }
+        }
+
+        private void GlobalBluePrintsDataView_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            var name = (GlobalBluePrintsDataView.CurrentRow.Cells[0] as DataGridViewTextBoxCell).Value.ToString();
+            if (string.IsNullOrEmpty(name))
+            {
+                e.Cancel = true;
+                return;
+            }
         }
     }
 }
