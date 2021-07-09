@@ -75,4 +75,25 @@ namespace NGUIndustriesInjector
         public BuildingType BuildingType { get; set; }
         public TileDirection TileDirection { get; set; }
     }
+
+    public class GlobalBlueprintTrigger
+    {
+        public GlobalBlueprintTrigger()
+        {
+
+        }
+
+        public GlobalBlueprintTrigger(string blueprintName, int? materialCount, BuildingType buildingType)
+        {
+            BlueprintName = blueprintName;
+            MaterialCount = materialCount;
+            BuildingType = buildingType;
+        }
+
+        public string BlueprintName { get; set; }
+
+        public int? MaterialCount { get; set; }
+
+        public BuildingType BuildingType { get; set; }
+    }
 }

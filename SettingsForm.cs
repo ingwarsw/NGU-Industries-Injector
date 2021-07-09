@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -9,6 +10,8 @@ namespace NGUIndustriesInjector
 {
     public partial class SettingsForm : Form
     {
+        //private BindingList<string> globalBluePrintNames = new BindingList<string>();
+        private List<string> globalBluePrintNames;
         private bool _initializing = true;
 
         public SettingsForm()
@@ -42,6 +45,10 @@ namespace NGUIndustriesInjector
 
             FactoryPriorityMaterialsDataGridView.DataSource = new BindingSource(new BindingList<PriorityMaterial>(Main.Settings.PriorityBuildings), null);
             GlobalBluePrintsDataView.DataSource = new BindingSource(new BindingList<GlobalBlueprint>(Main.Settings.GlobalBlueprints), null);
+            // globalBluePrintNames = new BindingList<string>((IList<string>)Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name));
+            //globalBluePrintNames = new BindingSource(new BindingList<string>(Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name).ToList()), null);
+            globalBluePrintNames = new List<string>(Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name));
+            GlobalBlueprintTriggersDataGridView.DataSource = new BindingSource(new BindingList<GlobalBlueprintTrigger>(Main.Settings.GlobalBlueprintTriggers), null);
 
             Refresh();
             _initializing = false;
@@ -213,6 +220,28 @@ namespace NGUIndustriesInjector
                 e.Cancel = true;
                 return;
             }
+        }
+
+        private void GlobalBlueprintTriggersDataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            Main.Debug("Hit GlobalBlueprintTriggersDataGridView_RowsAdded", "GlobalBlueprintTriggersDataGridView_RowsAdded");
+            DataGridViewComboBoxCell box = GlobalBlueprintTriggersDataGridView.Rows[e.RowIndex].Cells[0] as DataGridViewComboBoxCell;
+            
+            box.Items.Clear();
+            box.Items.AddRange(globalBluePrintNames);
+            // box.DataSource = globalBluePrintNames;
+        }
+
+        private void GlobalBlueprintTriggersDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+
+            Main.Debug("Hit GlobalBlueprintTriggersDataGridView_RowEnter", "GlobalBlueprintTriggersDataGridView_RowEnter");
+            DataGridViewComboBoxCell box = GlobalBlueprintTriggersDataGridView.Rows[e.RowIndex].Cells[0] as DataGridViewComboBoxCell;
+
+            box.Items.Clear();
+            box.Items.AddRange(globalBluePrintNames);
+
+            GlobalBlueprintTriggersDataGridView.Rows[e.RowIndex].Cells[0] = box;
         }
     }
 }

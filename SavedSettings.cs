@@ -15,6 +15,7 @@ namespace NGUIndustriesInjector
         [JsonProperty] private bool _factoryBuildStandard = true;
         [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
         [JsonProperty] private List<GlobalBlueprint> _globalBlueprints = new List<GlobalBlueprint>() { new GlobalBlueprint("Default") };
+        [JsonProperty] private List<GlobalBlueprintTrigger> _globalBlueprintTriggers = new List<GlobalBlueprintTrigger>();
 
         [JsonProperty] private bool _manageFactories = false;
         [JsonProperty] private bool _manageWorkOrders = false;
@@ -143,6 +144,16 @@ namespace NGUIndustriesInjector
             set
             {
                 _globalBlueprints = value;
+                SaveSettings();
+            }
+        }
+
+        public List<GlobalBlueprintTrigger> GlobalBlueprintTriggers
+        {
+            get => _globalBlueprintTriggers;
+            set
+            {
+                _globalBlueprintTriggers = value;
                 SaveSettings();
             }
         }

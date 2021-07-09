@@ -51,25 +51,29 @@
             this.AutoDailySpin = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.FactoryPriorityMaterialsDataGridView = new System.Windows.Forms.DataGridView();
+            this.FactoriesPrioListColumnName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.FactoriesPrioListColumnWant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FactoryPriorityItemsLabelMain = new System.Windows.Forms.Label();
             this.FactoryPriorityItemsSaveButton = new System.Windows.Forms.Button();
             this.FactoryBuildStandard = new System.Windows.Forms.CheckBox();
             this.FactoryDontStarve = new System.Windows.Forms.CheckBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
+            this.GlobalBlueprintTriggersDataGridView = new System.Windows.Forms.DataGridView();
+            this.triggerBlueprintName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.triggerBuildingType = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.triggerCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.GlobalBluePrintsDataView = new System.Windows.Forms.DataGridView();
             this.blueprintName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.blueprintSave = new System.Windows.Forms.DataGridViewButtonColumn();
             this.blueprintLoad = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.FactoriesPrioListColumnName = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.FactoriesPrioListColumnWant = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FactoryPriorityMaterialsDataGridView)).BeginInit();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GlobalBlueprintTriggersDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GlobalBluePrintsDataView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -342,6 +346,28 @@
             this.FactoryPriorityMaterialsDataGridView.Size = new System.Drawing.Size(838, 243);
             this.FactoryPriorityMaterialsDataGridView.TabIndex = 21;
             // 
+            // FactoriesPrioListColumnName
+            // 
+            this.FactoriesPrioListColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.FactoriesPrioListColumnName.DataPropertyName = "Type";
+            this.FactoriesPrioListColumnName.HeaderText = "Material";
+            this.FactoriesPrioListColumnName.MinimumWidth = 80;
+            this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
+            this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // FactoriesPrioListColumnWant
+            // 
+            this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
+            this.FactoriesPrioListColumnWant.HeaderText = "Number want";
+            this.FactoriesPrioListColumnWant.MinimumWidth = 8;
+            this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
+            this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.FactoriesPrioListColumnWant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.FactoriesPrioListColumnWant.Width = 200;
+            // 
             // FactoryPriorityItemsLabelMain
             // 
             this.FactoryPriorityItemsLabelMain.AutoSize = true;
@@ -390,7 +416,7 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Controls.Add(this.GlobalBlueprintTriggersDataGridView);
             this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.GlobalBluePrintsDataView);
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
@@ -400,16 +426,44 @@
             this.tabPage3.Text = "Global Blueprints";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // GlobalBlueprintTriggersDataGridView
             // 
-            this.button2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.button2.Location = new System.Drawing.Point(760, 339);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(114, 31);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Save";
-            this.button2.UseVisualStyleBackColor = true;
+            this.GlobalBlueprintTriggersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GlobalBlueprintTriggersDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.triggerBlueprintName,
+            this.triggerBuildingType,
+            this.triggerCount});
+            this.GlobalBlueprintTriggersDataGridView.Location = new System.Drawing.Point(17, 320);
+            this.GlobalBlueprintTriggersDataGridView.Name = "GlobalBlueprintTriggersDataGridView";
+            this.GlobalBlueprintTriggersDataGridView.RowHeadersWidth = 62;
+            this.GlobalBlueprintTriggersDataGridView.RowTemplate.Height = 28;
+            this.GlobalBlueprintTriggersDataGridView.Size = new System.Drawing.Size(857, 177);
+            this.GlobalBlueprintTriggersDataGridView.TabIndex = 2;
+            this.GlobalBlueprintTriggersDataGridView.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.GlobalBlueprintTriggersDataGridView_RowEnter);
+            this.GlobalBlueprintTriggersDataGridView.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.GlobalBlueprintTriggersDataGridView_RowsAdded);
+            // 
+            // triggerBlueprintName
+            // 
+            this.triggerBlueprintName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.triggerBlueprintName.HeaderText = "Blueprint Name";
+            this.triggerBlueprintName.MinimumWidth = 8;
+            this.triggerBlueprintName.Name = "triggerBlueprintName";
+            // 
+            // triggerBuildingType
+            // 
+            this.triggerBuildingType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.triggerBuildingType.DataPropertyName = "BuildingType";
+            this.triggerBuildingType.HeaderText = "Building Type";
+            this.triggerBuildingType.MinimumWidth = 8;
+            this.triggerBuildingType.Name = "triggerBuildingType";
+            // 
+            // triggerCount
+            // 
+            this.triggerCount.DataPropertyName = "MaterialCount";
+            this.triggerCount.HeaderText = "Count";
+            this.triggerCount.MinimumWidth = 8;
+            this.triggerCount.Name = "triggerCount";
+            this.triggerCount.Width = 150;
             // 
             // label2
             // 
@@ -431,7 +485,7 @@
             this.GlobalBluePrintsDataView.Name = "GlobalBluePrintsDataView";
             this.GlobalBluePrintsDataView.RowHeadersWidth = 62;
             this.GlobalBluePrintsDataView.RowTemplate.Height = 28;
-            this.GlobalBluePrintsDataView.Size = new System.Drawing.Size(857, 286);
+            this.GlobalBluePrintsDataView.Size = new System.Drawing.Size(857, 246);
             this.GlobalBluePrintsDataView.TabIndex = 0;
             this.GlobalBluePrintsDataView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GlobalBluePrintsDataView_CellContentClick);
             this.GlobalBluePrintsDataView.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.GlobalBluePrintsDataView_RowValidating);
@@ -465,28 +519,6 @@
             this.blueprintLoad.UseColumnTextForButtonValue = true;
             this.blueprintLoad.Width = 150;
             // 
-            // FactoriesPrioListColumnName
-            // 
-            this.FactoriesPrioListColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.FactoriesPrioListColumnName.DataPropertyName = "Type";
-            this.FactoriesPrioListColumnName.HeaderText = "Material";
-            this.FactoriesPrioListColumnName.MinimumWidth = 80;
-            this.FactoriesPrioListColumnName.Name = "FactoriesPrioListColumnName";
-            this.FactoriesPrioListColumnName.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // FactoriesPrioListColumnWant
-            // 
-            this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
-            this.FactoriesPrioListColumnWant.HeaderText = "Number want";
-            this.FactoriesPrioListColumnWant.MinimumWidth = 8;
-            this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
-            this.FactoriesPrioListColumnWant.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.FactoriesPrioListColumnWant.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.FactoriesPrioListColumnWant.Width = 200;
-            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -506,6 +538,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.FactoryPriorityMaterialsDataGridView)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GlobalBlueprintTriggersDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GlobalBluePrintsDataView)).EndInit();
             this.ResumeLayout(false);
 
@@ -540,11 +573,14 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView GlobalBluePrintsDataView;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridViewTextBoxColumn blueprintName;
         private System.Windows.Forms.DataGridViewButtonColumn blueprintSave;
         private System.Windows.Forms.DataGridViewButtonColumn blueprintLoad;
         private System.Windows.Forms.DataGridViewComboBoxColumn FactoriesPrioListColumnName;
         private System.Windows.Forms.DataGridViewTextBoxColumn FactoriesPrioListColumnWant;
+        private System.Windows.Forms.DataGridView GlobalBlueprintTriggersDataGridView;
+        private System.Windows.Forms.DataGridViewComboBoxColumn triggerBlueprintName;
+        private System.Windows.Forms.DataGridViewComboBoxColumn triggerBuildingType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn triggerCount;
     }
 }
