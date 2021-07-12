@@ -14,8 +14,15 @@ namespace NGUIndustriesInjector
         [JsonProperty] private bool _factoryDontStarve = true;
         [JsonProperty] private bool _factoryBuildStandard = true;
         [JsonProperty] private List<PriorityMaterial> _priorytyBuildings = new List<PriorityMaterial>();
-        [JsonProperty] private List<GlobalBlueprint> _globalBlueprints = new List<GlobalBlueprint>() { new GlobalBlueprint("Default") };
-        [JsonProperty] private List<GlobalBlueprintTrigger> _globalBlueprintTriggers = new List<GlobalBlueprintTrigger>();
+        [JsonProperty] private List<GlobalBlueprint> _globalBlueprints = new List<GlobalBlueprint>() 
+        { 
+            new GlobalBlueprint("Default") 
+        };
+
+        [JsonProperty] private List<GlobalBlueprintTrigger> _globalBlueprintTriggers = new List<GlobalBlueprintTrigger>()
+        {
+            new GlobalBlueprintTrigger("Default", BuildingType.None, 0)
+        };
 
         [JsonProperty] private bool _manageFactories = false;
         [JsonProperty] private bool _manageWorkOrders = false;
@@ -74,6 +81,7 @@ namespace NGUIndustriesInjector
                 {
                     _priorytyBuildings.Clear();
                     _globalBlueprints.Clear();
+                    _globalBlueprintTriggers.Clear();
 
                     var json = File.ReadAllText(savePath);
                     JsonConvert.PopulateObject(json, this);
@@ -91,7 +99,7 @@ namespace NGUIndustriesInjector
             {
                 Main.Log("Creating new default Settings");
             }
-            //Main.Log(JsonUtility.ToJson(this, true));
+
             Main.Log(JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 
@@ -144,6 +152,11 @@ namespace NGUIndustriesInjector
             set
             {
                 _globalBlueprints = value;
+                if (_globalBlueprints.Count == 0)
+                {
+                    _globalBlueprints.Add(new GlobalBlueprint("Default"));
+                }
+
                 SaveSettings();
             }
         }
@@ -154,6 +167,11 @@ namespace NGUIndustriesInjector
             set
             {
                 _globalBlueprintTriggers = value;
+                if (_globalBlueprints.Count == 0)
+                {
+                    _globalBlueprintTriggers.Add(new GlobalBlueprintTrigger("Default", BuildingType.None, 0));
+                }
+
                 SaveSettings();
             }
         }

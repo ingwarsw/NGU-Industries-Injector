@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NGUIndustriesInjector
@@ -27,6 +28,25 @@ namespace NGUIndustriesInjector
         public string Name { get; set; }
 
         public List<BlueprintMap> Maps { get; set; }
+
+        public void Load(Player player)
+        {
+            if (!Maps?.Any() ?? true)
+            {
+                return;
+            }
+
+            var originalMapId = player.factoryController.curMapID;
+            foreach (var map in Maps)
+            {
+                player.factoryController.setNewMapID(map.MapIndex);
+
+                map.BlueprintTiles?.ForEach(tile =>
+                    player.factoryController.doSetTile(tile.Index, tile.BuildingType, tile.TileDirection));
+            }
+
+            player.factoryController.setNewMapID(originalMapId);
+        }
     }
 
     public class BlueprintMap
@@ -83,17 +103,54 @@ namespace NGUIndustriesInjector
 
         }
 
-        public GlobalBlueprintTrigger(string blueprintName, int? materialCount, BuildingType buildingType)
+        public GlobalBlueprintTrigger(string blueprintName, BuildingType buildingType, int materialCount)
         {
             BlueprintName = blueprintName;
-            MaterialCount = materialCount;
             BuildingType = buildingType;
+            MaterialCount = materialCount;
         }
 
         public string BlueprintName { get; set; }
 
-        public int? MaterialCount { get; set; }
+        public int MaterialCount { get; set; }
 
         public BuildingType BuildingType { get; set; }
+
+        public void Trigger(Player player)
+        {
+            if (MaterialCount == 0 || BuildingType == BuildingType.None)
+            {
+                return;
+            }
+
+            if (player.materials.materials[(int)BuildingType].amount >= this.MaterialCount)
+            {
+                Main.Debug($"Successful global blueprint trigger of {this.BlueprintName}", "ManageGlobalBlueprintTriggers");
+
+                Main.Settings.GlobalBlueprintTriggers.Remove(this);
+                if (!Main.Settings.GlobalBlueprintTriggers.Any())
+                {
+                    var name = Main.Settings.GlobalBlueprints.FirstOrDefault()?.Name ?? "Default";
+                    Main.Settings.GlobalBlueprintTriggers.Add(new GlobalBlueprintTrigger(name, BuildingType.None, 0));
+                }
+
+                var blueprint = Main.Settings.GlobalBlueprints.FirstOrDefault(bp => bp.Name == this.BlueprintName);
+                if (blueprint == null)
+                {
+                    Main.Debug("Invalid state. Unable to find blueprint by name.", "ManageGlobalBlueprintTriggers");
+                    return;
+                }
+
+                blueprint.Load(player);
+                Main.Settings.SaveSettings();
+            }
+        }
+
+        internal void Deconstruct(out string blueprintName, out BuildingType buildingType, out int materialCount)
+        {
+            blueprintName = BlueprintName;
+            buildingType = BuildingType;
+            materialCount = MaterialCount;
+        }
     }
 }

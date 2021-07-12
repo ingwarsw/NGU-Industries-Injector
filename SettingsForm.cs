@@ -1,17 +1,12 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace NGUIndustriesInjector
 {
     public partial class SettingsForm : Form
     {
-        //private BindingList<string> globalBluePrintNames = new BindingList<string>();
-        private List<string> globalBluePrintNames;
         private bool _initializing = true;
 
         public SettingsForm()
@@ -21,6 +16,7 @@ namespace NGUIndustriesInjector
             VersionLabel.Text = $"Version: {version}";
 
             FactoriesPrioListColumnName.DataSource = Enum.GetValues(typeof(BuildingType));
+            TriggerBlueprintBuildingTypeColumn.DataSource = Enum.GetValues(typeof(BuildingType));
         }
 
         internal void UpdateFromSettings(SavedSettings newSettings)
@@ -45,9 +41,10 @@ namespace NGUIndustriesInjector
 
             FactoryPriorityMaterialsDataGridView.DataSource = new BindingSource(new BindingList<PriorityMaterial>(Main.Settings.PriorityBuildings), null);
             GlobalBluePrintsDataView.DataSource = new BindingSource(new BindingList<GlobalBlueprint>(Main.Settings.GlobalBlueprints), null);
-            // globalBluePrintNames = new BindingList<string>((IList<string>)Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name));
-            //globalBluePrintNames = new BindingSource(new BindingList<string>(Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name).ToList()), null);
-            globalBluePrintNames = new List<string>(Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name));
+            var blueprintNames = Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name).ToArray();
+            TriggerListBlueprintColumnName.DataSource = blueprintNames;
+
+            Main.Settings.GlobalBlueprintTriggers.RemoveAll(match => !blueprintNames.Contains(match.BlueprintName));
             GlobalBlueprintTriggersDataGridView.DataSource = new BindingSource(new BindingList<GlobalBlueprintTrigger>(Main.Settings.GlobalBlueprintTriggers), null);
 
             Refresh();
@@ -129,6 +126,7 @@ namespace NGUIndustriesInjector
             if (_initializing) return;
             Main.Settings.ManageWorkOrders = ManageWorkOrders.Checked;
         }
+
         private void ManageFarmsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (_initializing) return;
@@ -166,7 +164,13 @@ namespace NGUIndustriesInjector
             if (_initializing) return;
             Main.Settings.ManageFactories = ManageFactories.Checked;
         }
+
         private void btnSaveGlobalBlueprints_Click(object sender, EventArgs e)
+        {
+            Main.Settings.SaveSettings();
+        }
+
+        private void btnSaveTriggers_Click(object sender, EventArgs e)
         {
             Main.Settings.SaveSettings();
         }
@@ -193,21 +197,7 @@ namespace NGUIndustriesInjector
                 }
                 else if (dgvbc.Name == "blueprintLoad")
                 {
-                    if (!blueprint.Maps?.Any() ?? true)
-                    {
-                        return;
-                    }
-
-                    var originalMapId = player.factoryController.curMapID;
-                    foreach (var map in blueprint.Maps)
-                    {
-                        player.factoryController.setNewMapID(map.MapIndex);
-
-                        map.BlueprintTiles?.ForEach(tile =>
-                            player.factoryController.doSetTile(tile.Index, tile.BuildingType, tile.TileDirection));
-                    }
-
-                    player.factoryController.setNewMapID(originalMapId);
+                    blueprint.Load(player);
                 }
             }
         }
@@ -222,26 +212,9 @@ namespace NGUIndustriesInjector
             }
         }
 
-        private void GlobalBlueprintTriggersDataGridView_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        private void GlobalBluePrintsDataView_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
-            Main.Debug("Hit GlobalBlueprintTriggersDataGridView_RowsAdded", "GlobalBlueprintTriggersDataGridView_RowsAdded");
-            DataGridViewComboBoxCell box = GlobalBlueprintTriggersDataGridView.Rows[e.RowIndex].Cells[0] as DataGridViewComboBoxCell;
-            
-            box.Items.Clear();
-            box.Items.AddRange(globalBluePrintNames);
-            // box.DataSource = globalBluePrintNames;
-        }
-
-        private void GlobalBlueprintTriggersDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
-        {
-
-            Main.Debug("Hit GlobalBlueprintTriggersDataGridView_RowEnter", "GlobalBlueprintTriggersDataGridView_RowEnter");
-            DataGridViewComboBoxCell box = GlobalBlueprintTriggersDataGridView.Rows[e.RowIndex].Cells[0] as DataGridViewComboBoxCell;
-
-            box.Items.Clear();
-            box.Items.AddRange(globalBluePrintNames);
-
-            GlobalBlueprintTriggersDataGridView.Rows[e.RowIndex].Cells[0] = box;
+            Main.Settings.SaveSettings();
         }
     }
 }

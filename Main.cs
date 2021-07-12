@@ -635,15 +635,8 @@ namespace NGUIndustriesInjector
             }
         }
 
-        private void ManageGlobalBlueprintTriggers(Player player)
-        {
-            // Debug("Successful trigger of ManageGlobalBlueprintTriggers", "Main");
-
-            if (Settings.GlobalBlueprintTriggers?.Any() == true)
-            {
-                // Debug("Successful detected list of triggers", "Main");
-            }
-        }
+        private void ManageGlobalBlueprintTriggers(Player player) =>
+            Settings.GlobalBlueprintTriggers?.FirstOrDefault()?.Trigger(player);
 
         private static void SetOne(Player player, MaterialState newBuilding)
         {
