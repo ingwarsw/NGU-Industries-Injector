@@ -332,6 +332,10 @@ namespace NGUIndustriesInjector
         {
             if (!Settings.GlobalEnabled)
                 return;
+
+            var player = FindObjectOfType<Player>();
+
+            ManageGlobalBlueprintTriggers(player);
         }
 
         // Runs every MAIN_DELAY seconds, our main loop
@@ -630,6 +634,9 @@ namespace NGUIndustriesInjector
                 }
             }
         }
+
+        private void ManageGlobalBlueprintTriggers(Player player) =>
+            Settings.GlobalBlueprintTriggers?.FirstOrDefault()?.Trigger(player);
 
         private static void SetOne(Player player, MaterialState newBuilding)
         {
