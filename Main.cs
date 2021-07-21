@@ -540,6 +540,9 @@ namespace NGUIndustriesInjector
 
         private void ManageCombat(Player player)
         {
+            if (!Settings.ManageCombat)
+                return;
+
             var offenseRating = player.combatController.playerOffenseRating();
             var defenseRating = player.combatController.playerDefenseRating();
             //var level = player.combatController.getIsopodLevelFromRating(offenseRating + defenseRating);
@@ -636,7 +639,7 @@ namespace NGUIndustriesInjector
         }
 
         private void ManageGlobalBlueprintTriggers(Player player) =>
-            Settings.GlobalBlueprintTriggers?.FirstOrDefault()?.Trigger(player);
+            Settings.GlobalBlueprintTriggers?.FirstOrDefault()?.CheckTrigger(player);
 
         private static void SetOne(Player player, MaterialState newBuilding)
         {

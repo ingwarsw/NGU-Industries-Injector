@@ -21,12 +21,13 @@ namespace NGUIndustriesInjector
 
         [JsonProperty] private List<GlobalBlueprintTrigger> _globalBlueprintTriggers = new List<GlobalBlueprintTrigger>()
         {
-            new GlobalBlueprintTrigger("Default", BuildingType.None, 0)
+            new GlobalBlueprintTrigger("Default", ResourceType.None, 0)
         };
 
         [JsonProperty] private bool _manageFactories = false;
         [JsonProperty] private bool _manageWorkOrders = false;
         [JsonProperty] private bool _manageFarms = false;
+        [JsonProperty] private bool _manageCombat = false;
         [JsonProperty] private bool _autoSpin = false;
 
         [JsonProperty] private bool _managePit = false;
@@ -169,7 +170,7 @@ namespace NGUIndustriesInjector
                 _globalBlueprintTriggers = value;
                 if (_globalBlueprints.Count == 0)
                 {
-                    _globalBlueprintTriggers.Add(new GlobalBlueprintTrigger("Default", BuildingType.None, 0));
+                    _globalBlueprintTriggers.Add(new GlobalBlueprintTrigger("Default", ResourceType.None, 0));
                 }
 
                 SaveSettings();
@@ -260,6 +261,17 @@ namespace NGUIndustriesInjector
             {
                 if (value == _manageFactories) return;
                 _manageFactories = value;
+                SaveSettings();
+            }
+        }
+
+        public bool ManageCombat
+        {
+            get => _manageCombat;
+            set
+            {
+                if (value == _manageCombat) return;
+                _manageCombat = value;
                 SaveSettings();
             }
         }
