@@ -16,7 +16,7 @@ namespace NGUIndustriesInjector
             VersionLabel.Text = $"Version: {version}";
 
             FactoriesPrioListColumnName.DataSource = Enum.GetValues(typeof(BuildingType));
-            TriggerBlueprintBuildingTypeColumn.DataSource = Enum.GetValues(typeof(BuildingType));
+            TriggerBlueprintBuildingTypeColumn.DataSource = Enum.GetValues(typeof(ResourceType));
         }
 
         internal void UpdateFromSettings(SavedSettings newSettings)
@@ -36,17 +36,18 @@ namespace NGUIndustriesInjector
             FreezeExperiments.Checked = newSettings.FreezeExperiments;
             WeightedRewards.Checked = newSettings.WeightedRewards;
             ManageFactories.Checked = newSettings.ManageFactories;
+            ManageCombat.Checked = newSettings.ManageCombat;
 
             PitThreshold.Text = newSettings.PitThreshold.ToString();
 
             FactoryPriorityMaterialsDataGridView.DataSource = new BindingSource(new BindingList<PriorityMaterial>(Main.Settings.PriorityBuildings), null);
             GlobalBluePrintsDataView.DataSource = new BindingSource(new BindingList<GlobalBlueprint>(Main.Settings.GlobalBlueprints), null);
+
             var blueprintNames = Main.Settings.GlobalBlueprints?.Select(blueprint => blueprint.Name).ToArray();
-            TriggerListBlueprintColumnName.DataSource = blueprintNames;
-
             Main.Settings.GlobalBlueprintTriggers.RemoveAll(match => !blueprintNames.Contains(match.BlueprintName));
-            GlobalBlueprintTriggersDataGridView.DataSource = new BindingSource(new BindingList<GlobalBlueprintTrigger>(Main.Settings.GlobalBlueprintTriggers), null);
+            TriggerListBlueprintColumnName.DataSource = new BindingSource(new BindingList<string>(blueprintNames), null);
 
+            GlobalBlueprintTriggersDataGridView.DataSource = new BindingSource(new BindingList<GlobalBlueprintTrigger>(Main.Settings.GlobalBlueprintTriggers), null);
             Refresh();
             _initializing = false;
         }

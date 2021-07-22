@@ -29,9 +29,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -71,6 +71,7 @@
             this.TriggerListBlueprintColumnName = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.TriggerBlueprintBuildingTypeColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.triggerCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ManageCombat = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -117,6 +118,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.ManageCombat);
             this.tabPage1.Controls.Add(this.ManageFactories);
             this.tabPage1.Controls.Add(this.WeightedRewards);
             this.tabPage1.Controls.Add(this.FreezeExperiments);
@@ -362,9 +364,9 @@
             // FactoriesPrioListColumnWant
             // 
             this.FactoriesPrioListColumnWant.DataPropertyName = "Want";
-            dataGridViewCellStyle12.Format = "N0";
-            dataGridViewCellStyle12.NullValue = null;
-            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.FactoriesPrioListColumnWant.DefaultCellStyle = dataGridViewCellStyle1;
             this.FactoriesPrioListColumnWant.HeaderText = "Number want";
             this.FactoriesPrioListColumnWant.MinimumWidth = 8;
             this.FactoriesPrioListColumnWant.Name = "FactoriesPrioListColumnWant";
@@ -455,14 +457,14 @@
             // 
             this.GlobalBlueprintTriggersDataGridView.AllowUserToResizeColumns = false;
             this.GlobalBlueprintTriggersDataGridView.AllowUserToResizeRows = false;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.GlobalBlueprintTriggersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.GlobalBlueprintTriggersDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.GlobalBlueprintTriggersDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GlobalBlueprintTriggersDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.TriggerListBlueprintColumnName,
@@ -535,8 +537,8 @@
             // 
             this.TriggerListBlueprintColumnName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.TriggerListBlueprintColumnName.DataPropertyName = "BlueprintName";
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.TriggerListBlueprintColumnName.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.TriggerListBlueprintColumnName.DefaultCellStyle = dataGridViewCellStyle3;
             this.TriggerListBlueprintColumnName.HeaderText = "Blueprint Name";
             this.TriggerListBlueprintColumnName.MinimumWidth = 8;
             this.TriggerListBlueprintColumnName.Name = "TriggerListBlueprintColumnName";
@@ -545,9 +547,9 @@
             // TriggerBlueprintBuildingTypeColumn
             // 
             this.TriggerBlueprintBuildingTypeColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.TriggerBlueprintBuildingTypeColumn.DataPropertyName = "BuildingType";
+            this.TriggerBlueprintBuildingTypeColumn.DataPropertyName = "ResourceType";
             this.TriggerBlueprintBuildingTypeColumn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.TriggerBlueprintBuildingTypeColumn.HeaderText = "Building Type";
+            this.TriggerBlueprintBuildingTypeColumn.HeaderText = "Resource Type";
             this.TriggerBlueprintBuildingTypeColumn.MinimumWidth = 8;
             this.TriggerBlueprintBuildingTypeColumn.Name = "TriggerBlueprintBuildingTypeColumn";
             this.TriggerBlueprintBuildingTypeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -559,6 +561,16 @@
             this.triggerCount.MinimumWidth = 8;
             this.triggerCount.Name = "triggerCount";
             this.triggerCount.Width = 264;
+            // 
+            // ManageCombat
+            // 
+            this.ManageCombat.AutoSize = true;
+            this.ManageCombat.Location = new System.Drawing.Point(384, 47);
+            this.ManageCombat.Name = "ManageCombat";
+            this.ManageCombat.Size = new System.Drawing.Size(153, 24);
+            this.ManageCombat.TabIndex = 24;
+            this.ManageCombat.Text = "Manage Combat";
+            this.ManageCombat.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
@@ -625,5 +637,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn TriggerListBlueprintColumnName;
         private System.Windows.Forms.DataGridViewComboBoxColumn TriggerBlueprintBuildingTypeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn triggerCount;
+        private System.Windows.Forms.CheckBox ManageCombat;
     }
 }
